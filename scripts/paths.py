@@ -9,7 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent          # корень проекта dissertation-calculations
 SRC = ROOT / "src"                                     # расчётный код главы 7 (без изменений)
 RESULTS = ROOT / "results"                             # сюда пишут расчёты; make_figures.py читает именно ../results
-REFERENCE = ROOT / "reference_results"                 # результаты, по которым написан текст диссертации
+REFERENCE = ROOT / "reference_results"                 # результаты, по которым написан текст исследования
 
 # Контрольные суммы входных данных (те же, что проверяют расчётные скрипты)
 MD5 = {
