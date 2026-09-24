@@ -50,7 +50,7 @@
         "problemMatcher": []
       },
       {
-        "label": "4. Сверка с результатами диссертации",
+        "label": "4. Сверка с результатами исследования",
         "type": "shell",
         "command": "${command:python.interpreterPath} scripts/compare_results.py",
         "problemMatcher": []
@@ -164,7 +164,7 @@
         }
       },
       {
-        "name": "Сверка с результатами диссертации",
+        "name": "Сверка с результатами исследования",
         "type": "debugpy",
         "request": "launch",
         "program": "${workspaceFolder}/scripts/compare_results.py",
