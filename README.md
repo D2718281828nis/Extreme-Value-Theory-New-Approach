@@ -51,7 +51,7 @@ python src/brain_seeg_pipeline.py \
 
 Готовый CSV уже включён в репозиторий, поэтому команда генерации нужна только для проверки воспроизводимости или восстановления файла. Результаты появятся в `results_quick/brain_toy/`: основные показатели — в `results.json`, прогоны моделей — в `gnn_runs.csv`, локализация — в `localization_contacts.csv` и `localization_shafts.csv`. Это учебный smoke-test интерфейса, а не замена расчёта по исходной записи.
 
-Отдельное техническое задание для более общего учебного модуля GEV/GPD/AR находится в [`demo/evt-educational-demo/`](demo/evt-educational-demo/README.md).
+Отдельный автономный учебный модуль GEV/GPD/AR с CLI, тестами и ноутбуками находится в [`demo/evt-educational-demo/`](demo/evt-educational-demo/README.md).
 
 Для пошаговой отладки конкретного расчёта в меню Run and Debug есть конфигурации «Отладка: пример 1/2/3». Они запускают скрипт из `src/` напрямую, поэтому точки останова внутри расчёта срабатывают.
 
@@ -74,7 +74,7 @@ python src/brain_seeg_pipeline.py \
 | `scripts/block_e_commands.sh` | Команды повторного обучения ГНС блока E в репозитории автора |
 | `reference_results/` | Результаты, по которым написан текст главы 7: `results.json` + CSV |
 | `EVT_THEORY.md` | Краткая теория EVT: предельные типы, GEV, возвратные уровни, MLE, Block Maxima и POT |
-| `demo/evt-educational-demo/PROMPT.md` | Оптимизированное техническое задание на автономную учебную EVT-демонстрацию |
+| `demo/evt-educational-demo/` | Автономная учебная EVT-демонстрация: GEV, GPD/POT, AR baseline, CLI, тесты и ноутбуки |
 | `data/sEEG/brain_toy.csv` | Текстовое описание синтетического набора для автономной демонстрации примера мозга (не для научной сверки) |
 | `config/paths.json`, `.env.example` | Настройка путей к данным |
 | `dissertation-calculations.code-workspace` | Рабочая область VS Code: задачи, конфигурации запуска и настройки интерпретатора (вместо папки `.vscode/`, которую отсюда создать нельзя) |
