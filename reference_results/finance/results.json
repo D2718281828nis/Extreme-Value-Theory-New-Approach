@@ -1,0 +1,699 @@
+{
+ "dataset": "Kaggle S&P 500 stock data (camnugent/sandp500), all_stocks_5yr.csv",
+ "n_stocks": 470,
+ "n_days": 1258,
+ "period": [
+  "2013-02-11",
+  "2018-02-07"
+ ],
+ "corporate_action_fixes": [
+  [
+   "2014-08-07",
+   "DISCA"
+  ],
+  [
+   "2014-08-07",
+   "DISCK"
+  ],
+  [
+   "2015-07-01",
+   "BAX"
+  ],
+  [
+   "2015-07-02",
+   "NI"
+  ],
+  [
+   "2015-07-20",
+   "EBAY"
+  ],
+  [
+   "2016-05-19",
+   "LNT"
+  ],
+  [
+   "2016-05-20",
+   "LNT"
+  ]
+ ],
+ "sector_counts": {
+  "Consumer Discretionary": 77,
+  "Industrials": 64,
+  "Information Technology": 62,
+  "Financials": 62,
+  "Health Care": 57,
+  "Consumer Staples": 32,
+  "Real Estate": 32,
+  "Energy": 31,
+  "Utilities": 27,
+  "Materials": 23,
+  "Telecommunication Services": 3
+ },
+ "detection": {
+  "thr_pot": 0.02688690737466922,
+  "xi_pot": -0.19327752352422334,
+  "thr_gev_weekly": 0.030241867685830922,
+  "xi_gev": 0.027006785237340222,
+  "gpd_xi_top5pct": {
+   "baseline": 0.04465038828193381,
+   "full": 0.1636359454112815
+  },
+  "kurtosis": {
+   "baseline": 0.9512050444077196,
+   "full": 2.704882303102691
+  },
+  "extreme_days": {
+   "2015-08-21": 0.028574818386850134,
+   "2015-08-24": 0.04245115695999205,
+   "2015-09-01": 0.029003352101173052,
+   "2015-09-28": 0.028159411220408943,
+   "2016-06-24": 0.041475081725622004,
+   "2016-09-09": 0.02753066117183568,
+   "2018-02-05": 0.03751077824947905
+  },
+  "n_test_days": 758,
+  "expected_exceedances": 1.516,
+  "binom_p": 0.0009673135947102441,
+  "baseline_exceedances": 2,
+  "gev_extreme_weeks": [
+   "2015-08-19",
+   "2016-06-20"
+  ],
+  "n_test_weeks": 151,
+  "baseline_period": [
+   "2013-02-11",
+   "2015-02-04"
+  ]
+ },
+ "episodes": {
+  "2015-08": [
+   "2015-08-20",
+   "2015-08-24"
+  ],
+  "2016-06": [
+   "2016-06-23",
+   "2016-06-24"
+  ],
+  "2016-09": [
+   "2016-09-08",
+   "2016-09-09"
+  ],
+  "2018-02": [
+   "2018-02-01",
+   "2018-02-05"
+  ]
+ },
+ "H2_noise": {
+  "windows": [
+   {
+    "ep": "2015-08-21",
+    "win": 1,
+    "vol": 0.00672,
+    "idio": 0.00821,
+    "corr": 0.33895,
+    "lam1": 0.39092,
+    "ac1": -0.07998
+   },
+   {
+    "ep": "2015-08-21",
+    "win": 2,
+    "vol": 0.00545,
+    "idio": 0.00743,
+    "corr": 0.32722,
+    "lam1": 0.38349,
+    "ac1": -0.02343
+   },
+   {
+    "ep": "2015-08-21",
+    "win": 3,
+    "vol": 0.00799,
+    "idio": 0.00824,
+    "corr": 0.40941,
+    "lam1": 0.44956,
+    "ac1": -0.12286
+   },
+   {
+    "ep": "2015-08-21",
+    "win": 4,
+    "vol": 0.00801,
+    "idio": 0.00961,
+    "corr": 0.29227,
+    "lam1": 0.35794,
+    "ac1": 0.16881
+   },
+   {
+    "ep": "2016-06-24",
+    "win": 1,
+    "vol": 0.00754,
+    "idio": 0.00959,
+    "corr": 0.24352,
+    "lam1": 0.31022,
+    "ac1": -0.02232
+   },
+   {
+    "ep": "2016-06-24",
+    "win": 2,
+    "vol": 0.00669,
+    "idio": 0.01008,
+    "corr": 0.24975,
+    "lam1": 0.29638,
+    "ac1": -0.2819
+   },
+   {
+    "ep": "2016-06-24",
+    "win": 3,
+    "vol": 0.00782,
+    "idio": 0.01068,
+    "corr": 0.29502,
+    "lam1": 0.34786,
+    "ac1": -0.18005
+   },
+   {
+    "ep": "2016-06-24",
+    "win": 4,
+    "vol": 0.00567,
+    "idio": 0.00789,
+    "corr": 0.23839,
+    "lam1": 0.3184,
+    "ac1": 0.30304
+   },
+   {
+    "ep": "2016-09-09",
+    "win": 1,
+    "vol": 0.00614,
+    "idio": 0.0094,
+    "corr": 0.25351,
+    "lam1": 0.30897,
+    "ac1": 0.26576
+   },
+   {
+    "ep": "2016-09-09",
+    "win": 2,
+    "vol": 0.01448,
+    "idio": 0.00874,
+    "corr": 0.51175,
+    "lam1": 0.60704,
+    "ac1": 0.13928
+   },
+   {
+    "ep": "2016-09-09",
+    "win": 3,
+    "vol": 0.00449,
+    "idio": 0.00945,
+    "corr": 0.11752,
+    "lam1": 0.19783,
+    "ac1": -0.38993
+   },
+   {
+    "ep": "2016-09-09",
+    "win": 4,
+    "vol": 0.00382,
+    "idio": 0.00806,
+    "corr": 0.14433,
+    "lam1": 0.18526,
+    "ac1": -0.30033
+   },
+   {
+    "ep": "2018-02-05",
+    "win": 1,
+    "vol": 0.00273,
+    "idio": 0.01084,
+    "corr": 0.04801,
+    "lam1": 0.12608,
+    "ac1": -0.27508
+   },
+   {
+    "ep": "2018-02-05",
+    "win": 2,
+    "vol": 0.00428,
+    "idio": 0.01051,
+    "corr": 0.11948,
+    "lam1": 0.20141,
+    "ac1": -0.06459
+   },
+   {
+    "ep": "2018-02-05",
+    "win": 3,
+    "vol": 0.00403,
+    "idio": 0.00877,
+    "corr": 0.13522,
+    "lam1": 0.20376,
+    "ac1": -0.10651
+   },
+   {
+    "ep": "2018-02-05",
+    "win": 4,
+    "vol": 0.0073,
+    "idio": 0.01099,
+    "corr": 0.25701,
+    "lam1": 0.31115,
+    "ac1": 0.07591
+   }
+  ],
+  "vol": {
+   "rm_corr": {
+    "r_rm": 0.042971515154868446,
+    "dof": 11,
+    "p": 0.8891443194276275,
+    "ci95": [
+     -0.520341859916577,
+     0.5802267126329197
+    ]
+   },
+   "mean_slope_obs": 0.012565793154749524,
+   "mean_slope_surrogate": -0.012056332924704363,
+   "p_surrogate_greater": 0.33615,
+   "n_surrogate_dates": 795
+  },
+  "idio": {
+   "rm_corr": {
+    "r_rm": -0.1442214544655035,
+    "dof": 11,
+    "p": 0.6383027147733981,
+    "ci95": [
+     -0.6440363130454965,
+     0.4418862934958649
+    ]
+   },
+   "mean_slope_obs": -0.01185514111641177,
+   "mean_slope_surrogate": -0.0006935288678215203,
+   "p_surrogate_greater": 0.62925,
+   "n_surrogate_dates": 795
+  },
+  "corr": {
+   "rm_corr": {
+    "r_rm": 0.1249730370907327,
+    "dof": 11,
+    "p": 0.6841581735065196,
+    "ci95": [
+     -0.4575250501161602,
+     0.6324183847219375
+    ]
+   },
+   "mean_slope_obs": 0.04695150941421418,
+   "mean_slope_surrogate": -0.021649691507026045,
+   "p_surrogate_greater": 0.1955,
+   "n_surrogate_dates": 795
+  },
+  "lam1": {
+   "rm_corr": {
+    "r_rm": 0.01914668913545068,
+    "dof": 11,
+    "p": 0.9504966675607956,
+    "ci95": [
+     -0.537517187396672,
+     0.564187911617206
+    ]
+   },
+   "mean_slope_obs": 0.0049674678686894985,
+   "mean_slope_surrogate": -0.01146895691876923,
+   "p_surrogate_greater": 0.3744,
+   "n_surrogate_dates": 795
+  },
+  "ac1": {
+   "rm_corr": {
+    "r_rm": 0.07217261365690951,
+    "dof": 11,
+    "p": 0.8147475300376861,
+    "ci95": [
+     -0.49865025599449453,
+     0.5993324214629753
+    ]
+   },
+   "mean_slope_obs": 0.012710628417842238,
+   "mean_slope_surrogate": 0.005457833419225565,
+   "p_surrogate_greater": 0.44465,
+   "n_surrogate_dates": 795
+  }
+ },
+ "graphs": {
+  "2015-08": {
+   "pos_frac": 0.6978723404255319,
+   "n_edges": {
+    "sector": 12384,
+    "functional": 1889,
+    "knn": 1694
+   },
+   "jaccard": {
+    "sector-functional": 0.07916225616210494,
+    "sector-knn": 0.03735907449708938,
+    "functional-knn": 0.0717918037690697
+   },
+   "within_sector_frac": {
+    "functional": 0.5542615140285866,
+    "knn": 0.29929161747343563
+   },
+   "label_homophily": {
+    "sector": 0.5931847545219638,
+    "functional": 0.6543144520910534,
+    "knn": 0.654073199527745
+   }
+  },
+  "2016-06": {
+   "pos_frac": 0.548936170212766,
+   "n_edges": {
+    "sector": 12384,
+    "functional": 1839,
+    "knn": 1673
+   },
+   "jaccard": {
+    "sector-functional": 0.08597388714972895,
+    "sector-knn": 0.03558273169294239,
+    "functional-knn": 0.06650470695414516
+   },
+   "within_sector_frac": {
+    "functional": 0.612289287656335,
+    "knn": 0.28870292887029286
+   },
+   "label_homophily": {
+    "sector": 0.6073158914728682,
+    "functional": 0.7025557368134856,
+    "knn": 0.6246264196054991
+   }
+  },
+  "2016-09": {
+   "pos_frac": 0.28936170212765955,
+   "n_edges": {
+    "sector": 12384,
+    "functional": 1960,
+    "knn": 1706
+   },
+   "jaccard": {
+    "sector-functional": 0.07898299984955619,
+    "sector-knn": 0.0357247868274037,
+    "functional-knn": 0.06015037593984962
+   },
+   "within_sector_frac": {
+    "functional": 0.5357142857142857,
+    "knn": 0.28487690504103164
+   },
+   "label_homophily": {
+    "sector": 0.7227874677002584,
+    "functional": 0.7153061224489796,
+    "knn": 0.67936694021102
+   }
+  },
+  "2018-02": {
+   "pos_frac": 0.5425531914893617,
+   "n_edges": {
+    "sector": 12384,
+    "functional": 1796,
+    "knn": 1715
+   },
+   "jaccard": {
+    "sector-functional": 0.08934470308058692,
+    "sector-knn": 0.034485288722576855,
+    "functional-knn": 0.06814724672954062
+   },
+   "within_sector_frac": {
+    "functional": 0.6475501113585747,
+    "knn": 0.27405247813411077
+   },
+   "label_homophily": {
+    "sector": 0.5629037467700259,
+    "functional": 0.5935412026726058,
+    "knn": 0.5737609329446064
+   }
+  },
+  "within_sector_frac_random_expectation": 0.11425079221367133
+ },
+ "gnn_summary": [
+  {
+   "split": "loeo",
+   "model": "gat",
+   "graph": "empty",
+   "auroc_mean": 0.5757,
+   "auroc_std": 0.1003,
+   "auprc_mean": 0.5905,
+   "auprc_std": 0.1992
+  },
+  {
+   "split": "loeo",
+   "model": "gat",
+   "graph": "functional",
+   "auroc_mean": 0.5001,
+   "auroc_std": 0.0887,
+   "auprc_mean": 0.5377,
+   "auprc_std": 0.1911
+  },
+  {
+   "split": "loeo",
+   "model": "gat",
+   "graph": "knn",
+   "auroc_mean": 0.5613,
+   "auroc_std": 0.0885,
+   "auprc_mean": 0.5719,
+   "auprc_std": 0.1933
+  },
+  {
+   "split": "loeo",
+   "model": "gat",
+   "graph": "sector",
+   "auroc_mean": 0.4899,
+   "auroc_std": 0.1172,
+   "auprc_mean": 0.5366,
+   "auprc_std": 0.197
+  },
+  {
+   "split": "loeo",
+   "model": "lr",
+   "graph": "-",
+   "auroc_mean": 0.5889,
+   "auroc_std": 0.093,
+   "auprc_mean": 0.5904,
+   "auprc_std": 0.2002
+  },
+  {
+   "split": "loeo",
+   "model": "mlp",
+   "graph": "-",
+   "auroc_mean": 0.5853,
+   "auroc_std": 0.0835,
+   "auprc_mean": 0.5863,
+   "auprc_std": 0.1934
+  },
+  {
+   "split": "random",
+   "model": "gat",
+   "graph": "empty",
+   "auroc_mean": 0.7616,
+   "auroc_std": 0.0317,
+   "auprc_mean": 0.7628,
+   "auprc_std": 0.0988
+  },
+  {
+   "split": "random",
+   "model": "gat",
+   "graph": "functional",
+   "auroc_mean": 0.7435,
+   "auroc_std": 0.0576,
+   "auprc_mean": 0.7586,
+   "auprc_std": 0.072
+  },
+  {
+   "split": "random",
+   "model": "gat",
+   "graph": "knn",
+   "auroc_mean": 0.7473,
+   "auroc_std": 0.0299,
+   "auprc_mean": 0.7468,
+   "auprc_std": 0.0976
+  },
+  {
+   "split": "random",
+   "model": "gat",
+   "graph": "sector",
+   "auroc_mean": 0.7337,
+   "auroc_std": 0.057,
+   "auprc_mean": 0.7499,
+   "auprc_std": 0.0629
+  },
+  {
+   "split": "random",
+   "model": "lr",
+   "graph": "-",
+   "auroc_mean": 0.7574,
+   "auroc_std": 0.0252,
+   "auprc_mean": 0.7415,
+   "auprc_std": 0.0938
+  },
+  {
+   "split": "random",
+   "model": "mlp",
+   "graph": "-",
+   "auroc_mean": 0.7566,
+   "auroc_std": 0.032,
+   "auprc_mean": 0.758,
+   "auprc_std": 0.098
+  },
+  {
+   "split": "sector",
+   "model": "gat",
+   "graph": "empty",
+   "auroc_mean": 0.7254,
+   "auroc_std": 0.0519,
+   "auprc_mean": 0.7072,
+   "auprc_std": 0.1671
+  },
+  {
+   "split": "sector",
+   "model": "gat",
+   "graph": "functional",
+   "auroc_mean": 0.6754,
+   "auroc_std": 0.0749,
+   "auprc_mean": 0.6863,
+   "auprc_std": 0.0984
+  },
+  {
+   "split": "sector",
+   "model": "gat",
+   "graph": "knn",
+   "auroc_mean": 0.7144,
+   "auroc_std": 0.0454,
+   "auprc_mean": 0.7031,
+   "auprc_std": 0.1666
+  },
+  {
+   "split": "sector",
+   "model": "gat",
+   "graph": "sector",
+   "auroc_mean": 0.6582,
+   "auroc_std": 0.087,
+   "auprc_mean": 0.6656,
+   "auprc_std": 0.0578
+  },
+  {
+   "split": "sector",
+   "model": "lr",
+   "graph": "-",
+   "auroc_mean": 0.7138,
+   "auroc_std": 0.0386,
+   "auprc_mean": 0.6793,
+   "auprc_std": 0.1544
+  },
+  {
+   "split": "sector",
+   "model": "mlp",
+   "graph": "-",
+   "auroc_mean": 0.7175,
+   "auroc_std": 0.0461,
+   "auprc_mean": 0.6991,
+   "auprc_std": 0.1743
+  }
+ ],
+ "localization": {
+  "2015-08": {
+   "footprint_top3": {
+    "Real Estate": 0.969,
+    "Financials": 0.919,
+    "Utilities": 0.889
+   },
+   "footprint_bottom2": {
+    "Consumer Discretionary": 0.558,
+    "Information Technology": 0.548
+   },
+   "residual_z_top3": {
+    "Real Estate": 3.31,
+    "Utilities": 2.29,
+    "Energy": 0.53
+   },
+   "residual_z_bottom2": {
+    "Information Technology": -0.82,
+    "Industrials": -0.95
+   },
+   "pre_onset_top3": {
+    "Financials": 0.532,
+    "Information Technology": 0.484,
+    "Consumer Discretionary": 0.481
+   },
+   "top1_agree_footprint_residual": true,
+   "spearman_footprint_vs_residual": 0.7939393939393938,
+   "spearman_footprint_vs_pre": -0.4424242424242424
+  },
+  "2016-06": {
+   "footprint_top3": {
+    "Financials": 0.903,
+    "Information Technology": 0.79,
+    "Materials": 0.739
+   },
+   "footprint_bottom2": {
+    "Real Estate": 0.219,
+    "Utilities": 0.037
+   },
+   "residual_z_top3": {
+    "Financials": 1.38,
+    "Information Technology": 0.66,
+    "Industrials": 0.28
+   },
+   "residual_z_bottom2": {
+    "Real Estate": -0.9,
+    "Utilities": -1.46
+   },
+   "pre_onset_top3": {
+    "Consumer Discretionary": 0.026,
+    "Information Technology": 0.016,
+    "Industrials": 0.016
+   },
+   "top1_agree_footprint_residual": true,
+   "spearman_footprint_vs_residual": 0.9515151515151514,
+   "spearman_footprint_vs_pre": 0.39520337841945463
+  },
+  "2016-09": {
+   "footprint_top3": {
+    "Utilities": 0.963,
+    "Real Estate": 0.812,
+    "Consumer Staples": 0.469
+   },
+   "footprint_bottom2": {
+    "Energy": 0.097,
+    "Financials": 0.065
+   },
+   "residual_z_top3": {
+    "Utilities": 3.71,
+    "Real Estate": 2.88,
+    "Consumer Staples": 1.97
+   },
+   "residual_z_bottom2": {
+    "Information Technology": -0.65,
+    "Financials": -2.79
+   },
+   "pre_onset_top3": {
+    "Real Estate": 0.062,
+    "Consumer Staples": 0.062,
+    "Consumer Discretionary": 0.039
+   },
+   "top1_agree_footprint_residual": true,
+   "spearman_footprint_vs_residual": 0.9483326481409007,
+   "spearman_footprint_vs_pre": 0.2611354376942463
+  },
+  "2018-02": {
+   "footprint_top3": {
+    "Financials": 0.871,
+    "Health Care": 0.667,
+    "Industrials": 0.609
+   },
+   "footprint_bottom2": {
+    "Energy": 0.226,
+    "Utilities": 0.185
+   },
+   "residual_z_top3": {
+    "Financials": 1.07,
+    "Consumer Staples": 0.97,
+    "Real Estate": 0.83
+   },
+   "residual_z_bottom2": {
+    "Consumer Discretionary": -0.77,
+    "Energy": -1.14
+   },
+   "pre_onset_top3": {
+    "Consumer Staples": 0.344,
+    "Real Estate": 0.312,
+    "Health Care": 0.175
+   },
+   "top1_agree_footprint_residual": true,
+   "spearman_footprint_vs_residual": 0.5592731001856595,
+   "spearman_footprint_vs_pre": -0.012158110873601293
+  }
+ },
+ "runtime_s": 53.2
+}

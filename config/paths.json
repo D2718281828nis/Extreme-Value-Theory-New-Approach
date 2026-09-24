@@ -1,0 +1,18 @@
+{
+  "_описание": "Пути к данным. Относительные пути отсчитываются от корня этой папки (dissertation-calculations). Любой путь можно переопределить переменной окружения, указанной в скобках, например в файле .env рядом с этим проектом.",
+
+  "data_dir": "data",
+  "_data_dir": "(DISSER_DATA_DIR) куда скачиваются C-MAPSS и S&P 500 и куда пишется производный набор стерео-ЭЭГ",
+
+  "seeg_edf": "../BioMedAI-sEEG-core-of-epilepsy/dataset/sEEG-HFOs-8.edf",
+  "_seeg_edf": "(DISSER_SEEG_EDF) исходная запись стерео-ЭЭГ, 743 МБ, MD5 c83e85316860502327f6b7ed7ccb15d2; нужна только если производного набора ещё нет",
+
+  "seeg_derived": [
+    "data/sEEG/sEEG-HFOs-8_cases_derived.npz",
+    "../BioMedAI-sEEG-core-of-epilepsy/dataset/sEEG-HFOs-8_cases_derived.npz"
+  ],
+  "_seeg_derived": "(DISSER_SEEG_DERIVED) производный набор примера 1; берётся первый существующий файл из списка",
+
+  "biomedai_repo": "../BioMedAI-sEEG-core-of-epilepsy",
+  "_biomedai_repo": "(DISSER_BIOMEDAI_REPO) репозиторий автора с результатами gnn_model — нужен только для сверки блока E § 3.11"
+}

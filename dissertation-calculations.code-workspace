@@ -1,0 +1,190 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+    "python.terminal.activateEnvironment": true,
+    "python.envFile": "${workspaceFolder}/.env",
+    "files.encoding": "utf8",
+    "files.exclude": {
+      "**/__pycache__": true
+    },
+    "search.exclude": {
+      "data/**": true,
+      "results/**": true,
+      "results_quick/**": true,
+      "reference_results/**": true
+    }
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "0. Создать окружение .venv и установить пакеты",
+        "type": "shell",
+        "command": "python3 -m venv .venv && .venv/bin/python -m pip install --upgrade pip && .venv/bin/python -m pip install -r requirements.txt",
+        "windows": {
+          "command": "py -3.11 -m venv .venv; .venv\\Scripts\\python -m pip install --upgrade pip; .venv\\Scripts\\python -m pip install -r requirements.txt"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "1. Скачать и проверить данные",
+        "type": "shell",
+        "command": "${command:python.interpreterPath} scripts/fetch_data.py",
+        "problemMatcher": []
+      },
+      {
+        "label": "2. Быстрая проверка окружения (~10 мин)",
+        "type": "shell",
+        "command": "${command:python.interpreterPath} scripts/run_all.py --quick",
+        "problemMatcher": []
+      },
+      {
+        "label": "3. Полный расчёт трёх примеров (~1 ч)",
+        "type": "shell",
+        "command": "${command:python.interpreterPath} scripts/run_all.py",
+        "problemMatcher": []
+      },
+      {
+        "label": "4. Сверка с результатами диссертации",
+        "type": "shell",
+        "command": "${command:python.interpreterPath} scripts/compare_results.py",
+        "problemMatcher": []
+      },
+      {
+        "label": "5. Сверка блока E § 3.11 (репозиторий автора)",
+        "type": "shell",
+        "command": "${command:python.interpreterPath} scripts/check_block_e.py",
+        "problemMatcher": []
+      }
+    ]
+  },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Данные: скачать и проверить",
+        "type": "debugpy",
+        "request": "launch",
+        "program": "${workspaceFolder}/scripts/fetch_data.py",
+        "cwd": "${workspaceFolder}",
+        "console": "integratedTerminal"
+      },
+      {
+        "name": "Весь расчёт (run_all.py)",
+        "type": "debugpy",
+        "request": "launch",
+        "program": "${workspaceFolder}/scripts/run_all.py",
+        "cwd": "${workspaceFolder}",
+        "console": "integratedTerminal"
+      },
+      {
+        "name": "Быстрая проверка (run_all.py --quick)",
+        "type": "debugpy",
+        "request": "launch",
+        "program": "${workspaceFolder}/scripts/run_all.py",
+        "args": [
+          "--quick"
+        ],
+        "cwd": "${workspaceFolder}",
+        "console": "integratedTerminal"
+      },
+      {
+        "name": "Отладка: пример 1 — мозг (src/brain_seeg_pipeline.py)",
+        "type": "debugpy",
+        "request": "launch",
+        "program": "${workspaceFolder}/src/brain_seeg_pipeline.py",
+        "cwd": "${workspaceFolder}/src",
+        "console": "integratedTerminal",
+        "args": [
+          "--data",
+          "${workspaceFolder}/../BioMedAI-sEEG-core-of-epilepsy/dataset/sEEG-HFOs-8_cases_derived.npz",
+          "--out",
+          "${workspaceFolder}/results/brain"
+        ],
+        "env": {
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        }
+      },
+      {
+        "name": "Отладка: пример 2 — двигатель, один процесс (src/aviation_cmapss_pipeline.py)",
+        "type": "debugpy",
+        "request": "launch",
+        "program": "${workspaceFolder}/src/aviation_cmapss_pipeline.py",
+        "cwd": "${workspaceFolder}/src",
+        "console": "integratedTerminal",
+        "args": [
+          "--data",
+          "${workspaceFolder}/data/CMAPSSData",
+          "--out",
+          "${workspaceFolder}/results/aviation"
+        ],
+        "env": {
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        }
+      },
+      {
+        "name": "Отладка: пример 3 — рынок (src/finance_sp500_pipeline.py)",
+        "type": "debugpy",
+        "request": "launch",
+        "program": "${workspaceFolder}/src/finance_sp500_pipeline.py",
+        "cwd": "${workspaceFolder}/src",
+        "console": "integratedTerminal",
+        "args": [
+          "--data",
+          "${workspaceFolder}/data",
+          "--out",
+          "${workspaceFolder}/results/finance"
+        ],
+        "env": {
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        }
+      },
+      {
+        "name": "Рисунки 57–62 (src/make_figures.py)",
+        "type": "debugpy",
+        "request": "launch",
+        "program": "${workspaceFolder}/src/make_figures.py",
+        "cwd": "${workspaceFolder}/src",
+        "console": "integratedTerminal",
+        "env": {
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        }
+      },
+      {
+        "name": "Сверка с результатами диссертации",
+        "type": "debugpy",
+        "request": "launch",
+        "program": "${workspaceFolder}/scripts/compare_results.py",
+        "cwd": "${workspaceFolder}",
+        "console": "integratedTerminal"
+      },
+      {
+        "name": "Сверка блока E § 3.11",
+        "type": "debugpy",
+        "request": "launch",
+        "program": "${workspaceFolder}/scripts/check_block_e.py",
+        "cwd": "${workspaceFolder}",
+        "console": "integratedTerminal"
+      }
+    ]
+  },
+  "extensions": {
+    "recommendations": [
+      "ms-python.python",
+      "ms-python.debugpy"
+    ]
+  }
+}
