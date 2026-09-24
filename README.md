@@ -54,6 +54,7 @@ python scripts/check_block_e.py       # блок E § 3.11
 | `scripts/block_e_commands.sh` | Команды повторного обучения ГНС блока E в репозитории автора |
 | `reference_results/` | Результаты, по которым написан текст главы 7: `results.json` + CSV |
 | `EVT_THEORY.md` | Краткая теория EVT: предельные типы, GEV, возвратные уровни, MLE, Block Maxima и POT |
+| `demo/evt-educational-demo/PROMPT.md` | Оптимизированное техническое задание на автономную учебную EVT-демонстрацию |
 | `data/sEEG/brain_toy.csv` | Текстовое описание синтетического набора для автономной демонстрации примера мозга (не для научной сверки) |
 | `config/paths.json`, `.env.example` | Настройка путей к данным |
 | `dissertation-calculations.code-workspace` | Рабочая область VS Code: задачи, конфигурации запуска и настройки интерпретатора (вместо папки `.vscode/`, которую отсюда создать нельзя) |
