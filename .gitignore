@@ -1,6 +1,10 @@
 .venv/
 __pycache__/
 .env
-data/
+data/*
+!data/README.md
+!data/sEEG/
+data/sEEG/*
+!data/sEEG/brain_toy.csv
 results/
 results_quick/
