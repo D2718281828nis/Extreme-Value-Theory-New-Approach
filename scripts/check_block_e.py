@@ -1,4 +1,4 @@
-"""Сверка чисел блока E § 3.11 диссертации (обучение ГНС на графе объекта) с результатами репозитория автора.
+"""Сверка чисел блока E § 3.11 исследования (обучение ГНС на графе объекта) с результатами репозитория автора.
 
     python scripts/check_block_e.py                                   # сохранённые результаты gnn_model_result/
     python scripts/check_block_e.py --results gnn_model_result_rerun  # результаты собственного повторного прогона
@@ -20,7 +20,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import paths as P  # noqa: E402
 
-# Числа из текста диссертации (§ 3.11, блок E): параметры, ошибка валидации, доля верных ответов, матрица ошибок
+# Числа из текста исследования (§ 3.11, блок E): параметры, ошибка валидации, доля верных ответов, матрица ошибок
 SINGLE = {
     "baseline_overfit": dict(params=226, val_loss=6.29, val_acc=0.933, cm=[[1, 1], [1, 27]], at="final"),
     "regularized":      dict(params=114, val_loss=0.66, val_acc=0.333, cm=[[1, 1], [19, 9]], at="best"),
