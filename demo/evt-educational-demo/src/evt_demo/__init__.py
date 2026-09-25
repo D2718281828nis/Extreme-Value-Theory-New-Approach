@@ -1,7 +1,19 @@
-"""Учебные инструменты для анализа экстремальных значений."""
-from .ar_model import AutoregressiveModel
-from .data_generator import generate_time_series_with_extreme_events, save_to_csv
-from .evt_analysis import EVTAnalyzer, GEVFit, GPDFit
+"""Two-component EVT detection and graph-attention localization."""
 
-__all__ = ["AutoregressiveModel", "EVTAnalyzer", "GEVFit", "GPDFit",
-           "generate_time_series_with_extreme_events", "save_to_csv"]
+from .data_generator import GraphTimeSeries, generate_graph_time_series
+from .detection import DetectionResult, EVTEventDetector
+from .graph_model import CrossValidationResult, GraphSample, cross_validate_gat
+from .pipeline import PipelineResult, prepare_sample, run_pipeline
+
+__all__ = [
+    "GraphTimeSeries",
+    "generate_graph_time_series",
+    "DetectionResult",
+    "EVTEventDetector",
+    "GraphSample",
+    "CrossValidationResult",
+    "cross_validate_gat",
+    "PipelineResult",
+    "prepare_sample",
+    "run_pipeline",
+]

@@ -192,6 +192,19 @@ def signal_wavelet_dfa(S):
 
 # ================================================================ G2: структура графа объекта + ГНС/GAT + утечка
 DOM_GRAPH_SPLIT = {"brain": ("structural", "shaft"), "aviation": ("physical", "group"), "finance": ("sector", "sector")}
+GRAPH_LEGEND = [Line2D([], [], marker="o", markerfacecolor="white", markeredgecolor=INK2,
+                       color="none", label="узел: канал / объект"),
+                Line2D([], [], color=GRID, lw=1.4, label="ребро: предметная связь"),
+                Line2D([], [], color=BLUE, lw=2.2, label="GAT: обучаемое внимание по ребру")]
+
+
+def _graph_explanation(axis, text):
+    """Apply the same legend and interpretation block to every domain graph."""
+    axis.legend(handles=GRAPH_LEGEND, fontsize=5.7, loc="upper center",
+                bbox_to_anchor=(0.5, -0.02), ncol=1, handletextpad=0.5)
+    axis.text(0.5, -0.29, text, transform=axis.transAxes, ha="center", va="top",
+              fontsize=6.2, color=INK2,
+              bbox=dict(facecolor="white", edgecolor=GRID, boxstyle="round,pad=0.25"))
 
 
 def _group_positions(nodes, group_of, group_order, col_gap=1.0, row_gap=0.8):
@@ -258,19 +271,12 @@ def object_structure_graphs(a_brain, a_aviation, a_finance, S):
     group_order = sorted(np.unique(shaft), key=lambda s: (s.rstrip("'"), s.endswith("'")))
     xy = _group_positions(node_ids, group_of, group_order, col_gap=0.85, row_gap=0.55)
     E = _brain_structural_edges(shaft, num)
-    node_color = {i: (BLUE if not shaft[i].endswith("'") else ORANGE) for i in node_ids}
-    _draw_group_graph(a_brain, xy, E, node_color=node_color, node_size=20, node_lw=0.35, edge_lw=0.6)
+    _draw_group_graph(a_brain, xy, E, node_color="white", node_size=20, node_lw=0.45, edge_lw=0.7)
     top = max(y for _, y in xy.values())
     for k, g in enumerate(group_order):
         a_brain.text(k * 0.85, top + 0.55, g, ha="center", fontsize=6.5, color=INK2, fontweight="bold")
     a_brain.set_xlim(-0.6, (len(group_order) - 1) * 0.85 + 0.6); a_brain.set_ylim(-top - 0.6, top + 1.15)
-    Jb = S["brain"]["R"]["graphs"]["jaccard"]
-    a_brain.text(0.5, -0.17, f"Жаккар: структ.–функц. {comma(Jb['structural-functional'])}; "
-                            f"структ.–kNN {comma(Jb['structural-knn'])}; функц.–kNN {comma(Jb['functional-knn'])}",
-                transform=a_brain.transAxes, ha="center", va="top", fontsize=6.3, color=INK2)
-    a_brain.legend(handles=[Line2D([], [], marker="o", color=BLUE, ls="", label="правое полушарие"),
-                            Line2D([], [], marker="o", color=ORANGE, ls="", label="левое полушарие")],
-                  fontsize=6.5, loc="upper center", bbox_to_anchor=(0.5, -0.03), ncol=2, handletextpad=0.3, columnspacing=1.2)
+    _graph_explanation(a_brain, "Контакты — узлы; соседство вдоль ствола — рёбра.\nGAT выделяет путь раннего распространения приступа.")
     a_brain.set_title("а) Мозг: граф контактов по стволам", fontsize=8.3)
 
     # --- авиадвигатель: тот же граф, что в src/make_figures.py (рис. 59а), пересчитан из results.json
@@ -279,54 +285,38 @@ def object_structure_graphs(a_brain, a_aviation, a_finance, S):
     xy = _group_positions(A.S, group_of, order, col_gap=1.0, row_gap=0.8)
     Ra = S["aviation"]["R"]
     Ep = [tuple(e) for e in Ra["graphs"]["physical"]["edges"]]
-    Ef = {tuple(e) for e in Ra["graphs"]["functional"]["edges"]}
     labels = {s: A.NAME[s] for s in A.S}
-    _draw_group_graph(a_aviation, xy, Ep, highlight=Ef, node_size=280, node_lw=0.9, labels=labels, fontsize=5.8)
+    _draw_group_graph(a_aviation, xy, Ep, node_size=280, node_lw=0.9, labels=labels, fontsize=5.8)
     for k, mname in enumerate(order):
         a_aviation.text(k, 2.55, mname, ha="center", fontsize=7, color=INK2, fontweight="bold")
     a_aviation.set_ylim(-3.9, 2.9); a_aviation.set_xlim(-0.6, 5.6)
-    Ja = Ra["jaccard"]
-    a_aviation.text(0.5, -0.17, f"Жаккар: структ.–функц. {comma(Ja['physical-functional'])}; "
-                                f"структ.–kNN {comma(Ja['physical-knn'])}; функц.–kNN {comma(Ja['functional-knn'])}",
-                    transform=a_aviation.transAxes, ha="center", va="top", fontsize=6.3, color=INK2)
-    a_aviation.legend(handles=[Line2D([], [], color=BLUE, lw=1.6, label="есть и в функц. графе"),
-                               Line2D([], [], color=GRID, lw=1.2, label="только в структурном")],
-                      fontsize=6.3, loc="upper center", bbox_to_anchor=(0.5, -0.03), ncol=2, handletextpad=0.3, columnspacing=1.2)
+    _graph_explanation(a_aviation, "Датчики — узлы; связь модулей тракта — рёбра.\nGAT взвешивает маршрут распространения деградации.")
     a_aviation.set_title("б) Авиадвигатель: граф датчиков по тракту", fontsize=8.3)
 
-    # --- рынок: секторный граф — полный граф внутри сектора, рёбер между секторами нет;
-    # каждый сектор показан глифом-«кликой» на min(n, 6) узлах, подпись даёт настоящее число акций
-    a_finance.grid(False); a_finance.set_xticks([]); a_finance.set_yticks([])
-    for s in ("left", "bottom"):
-        a_finance.spines[s].set_visible(False)
+    # --- рынок: та же схема «группа-столбец, узлы, рёбра»; показывается до 6 акций сектора
     sc = S["finance"]["R"]["sector_counts"]
     order_f = sorted(sc, key=lambda s: -sc[s])
-    ncols, col_w, row_h = 3, 1.9, 2.0
-    for i, sname in enumerate(order_f):
-        n = sc[sname]; row, col = divmod(i, ncols)
-        cx, cy = col * col_w, -row * row_h
-        k = min(n, 6)
-        ang = np.linspace(0, 2 * np.pi, k, endpoint=False)
-        pts = [(cx + 0.26 * np.cos(t), cy + 0.26 * np.sin(t)) for t in ang]
-        for p in range(k):
-            for q in range(p + 1, k):
-                a_finance.plot([pts[p][0], pts[q][0]], [pts[p][1], pts[q][1]], color=GRID, lw=0.5, zorder=1)
-        for px, py in pts:
-            a_finance.scatter([px], [py], s=24, color=AQUA, edgecolor=INK2, lw=0.4, zorder=2)
-        lab = SECT_RU[sname].replace(" ", "\n", 1) if len(SECT_RU[sname]) > 10 else SECT_RU[sname]
-        a_finance.text(cx, cy + 0.55, lab, ha="center", va="bottom", fontsize=5.8, color=INK, linespacing=1.1)
-        a_finance.text(cx, cy - 0.5, f"n = {n}", ha="center", fontsize=6.5, color=INK2)
-    nrows = -(-len(order_f) // ncols)
-    a_finance.set_xlim(-0.75, (ncols - 1) * col_w + 0.75); a_finance.set_ylim(-(nrows - 1) * row_h - 0.75, 1.15)
-    a_finance.text(0.02, -0.06, "рёбра — только внутри сектора (клика); между секторами рёбер нет",
-                  transform=a_finance.transAxes, ha="left", va="top", fontsize=6.5, color=INK2)
+    nodes_f = [(sector, index) for sector in order_f for index in range(min(sc[sector], 6))]
+    group_f = {node: node[0] for node in nodes_f}
+    xy_f = _group_positions(nodes_f, group_f, order_f, col_gap=0.8, row_gap=0.42)
+    edges_f = []
+    for sector in order_f:
+        ids = [node for node in nodes_f if node[0] == sector]
+        edges_f.extend((ids[p], ids[q]) for p in range(len(ids)) for q in range(p + 1, len(ids)))
+    _draw_group_graph(a_finance, xy_f, edges_f, node_color="white", node_size=22, node_lw=0.45, edge_lw=0.45)
+    top_f = max(y for _, y in xy_f.values())
+    for index, sector in enumerate(order_f):
+        a_finance.text(index * 0.8, top_f + 0.45, f"S{index + 1}\nn={sc[sector]}",
+                       ha="center", fontsize=5.5, color=INK2)
+    a_finance.set_xlim(-0.5, (len(order_f) - 1) * 0.8 + 0.5); a_finance.set_ylim(-top_f - 0.5, top_f + 1.0)
+    _graph_explanation(a_finance, "Акции — узлы; общий сектор GICS — рёбра.\nGAT выделяет секторное распространение рыночного шока.")
     a_finance.set_title("в) Рынок: секторный граф (клика GICS)", fontsize=8.3)
 
 
 def graph_gnn_leakage(S):
     doms = ["brain", "aviation", "finance"]
     RUNS = {d: pd.read_csv(f"{RES}/{d}/gnn_runs.csv") for d in doms}
-    fig, ax = plt.subplots(2, 3, figsize=(11.5, 7.6), gridspec_kw={"wspace": 0.55, "hspace": 0.5})
+    fig, ax = plt.subplots(2, 3, figsize=(11.5, 8.7), gridspec_kw={"wspace": 0.55, "hspace": 0.9})
 
     object_structure_graphs(ax[0, 0], ax[0, 1], ax[0, 2], S)
 

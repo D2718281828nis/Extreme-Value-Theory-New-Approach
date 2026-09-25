@@ -33,25 +33,7 @@ python scripts/run_all.py             # полный расчёт и сверк�
 python scripts/check_block_e.py       # блок E § 3.11
 ```
 
-### Автономный demo-пример без загрузки исходной ЭЭГ
-
-Для быстрой проверки примера мозга используется небольшой CSV с синтетическими параметрами. Из корня проекта выполните:
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate             # Windows PowerShell: .venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-python scripts/generate_brain_toy.py
-python src/brain_seeg_pipeline.py \
-  --data data/sEEG/brain_toy.csv \
-  --out results_quick/brain_toy \
-  --seeds 0 \
-  --epochs 2
-```
-
-Готовый CSV уже включён в репозиторий, поэтому команда генерации нужна только для проверки воспроизводимости или восстановления файла. Результаты появятся в `results_quick/brain_toy/`: основные показатели — в `results.json`, прогоны моделей — в `gnn_runs.csv`, локализация — в `localization_contacts.csv` и `localization_shafts.csv`. Это учебный smoke-test интерфейса, а не замена расчёта по исходной записи.
-
-Отдельный автономный учебный модуль GEV/GPD/AR с CLI, тестами и ноутбуками находится в [`demo/evt-educational-demo/`](demo/evt-educational-demo/README.md).
+Автономный учебный модуль двухкомпонентной детекции и графовой локализации находится в [`demo/evt-educational-demo/`](demo/evt-educational-demo/README.md).
 
 Для пошаговой отладки конкретного расчёта в меню Run and Debug есть конфигурации «Отладка: пример 1/2/3». Они запускают скрипт из `src/` напрямую, поэтому точки останова внутри расчёта срабатывают.
 
@@ -74,23 +56,22 @@ python src/brain_seeg_pipeline.py \
 | `scripts/block_e_commands.sh` | Команды повторного обучения ГНС блока E в репозитории автора |
 | `reference_results/` | Результаты, по которым написан текст главы 7: `results.json` + CSV |
 | `EVT_THEORY.md` | Краткая теория EVT: предельные типы, GEV, возвратные уровни, MLE, Block Maxima и POT |
-| `demo/evt-educational-demo/` | Автономная учебная EVT-демонстрация: GEV, GPD/POT, AR baseline, CLI, тесты и ноутбуки |
-| `data/sEEG/brain_toy.csv` | Текстовое описание синтетического набора для автономной демонстрации примера мозга (не для научной сверки) |
+| `demo/evt-educational-demo/` | Двухкомпонентный метод: EVT-детекция момента и GAT-локализация источника на графе многоканального ряда |
 | `config/paths.json`, `.env.example` | Настройка путей к данным |
 | `dissertation-calculations.code-workspace` | Рабочая область VS Code: задачи, конфигурации запуска и настройки интерпретатора (вместо папки `.vscode/`, которую отсюда создать нельзя) |
 
-Расчётные алгоритмы `src/` не изменены по сравнению с `disser-text/cases/code/`, которыми получены результаты версий 29–30 исследования. Единственное интерфейсное дополнение — `brain_seeg_pipeline.py` теперь явно распознаёт синтетический демонстрационный набор и помечает его результаты. Текущие контрольные суммы:
+Расчётные алгоритмы предметных примеров не изменены. Текущие контрольные суммы:
 
 | Файл | MD5 |
 |---|---|
 | `common.py` | `54353b6936d29aa723ffb779876cd39e` |
 | `brain_extract_edf.py` | `ac6282ba66d67dee5f49f7ac1972112d` |
-| `brain_seeg_pipeline.py` | `b40c89116b30e3dce89ec6ad2314fbbd` |
+| `brain_seeg_pipeline.py` | `1653d038ca8527e200da0314fdbd7762` |
 | `aviation_cmapss_pipeline.py` | `3709ddbf7672cee162e650ea39595129` |
 | `finance_sp500_pipeline.py` | `0e96a15109be7e46cd9ac3bd97461c09` |
 | `make_figures.py` | `da0d213710414f9ad603fb5f9d261ed7` |
 
-Новый код сосредоточен в обвязке `scripts/`; изменение загрузчика примера мозга не меняет вычисления для исходного набора Zenodo.
+Новый учебный код изолирован в `demo/evt-educational-demo/`.
 
 ## 3. Данные: откуда и как получить доступ
 
@@ -160,7 +141,7 @@ python src/brain_seeg_pipeline.py \
 |---|---|
 | `g0_task-overview-evt-detection_*.png` | Задача каждого примера одной строкой: представительный ряд + порог POT/GPD + детекция (как рис. а) на `ch7_7-2_seeg-evt-detection…`, но по всем трём примерам сразу) |
 | `g1_signal-wavelet-dfa_*.png` | Вейвлет-разложение (Морле, считается на месте — в `src/*.py` вейвлета нет) и кривая DFA (`F(n)` из `common.dfa_alpha`, не только показатель α) на представительном ряду каждого примера |
-| `g2_graph-gnn-gat-leakage_*.png` | ГНС GATv2 против MLP и логрегрессии, утечка через случайное разбиение, ценность графа — сведено по всем трём примерам |
+| `g2_graph-gnn-gat-leakage_*.png` | Единая схема «узлы–рёбра–внимание GAT» и краткая предметная интерпретация для мозга, двигателя и рынка; также показаны сравнение моделей, утечка и ценность графа |
 | `g3_accuracy-confusion-matrix_*.png` | Матрица ошибок и доля верных ответов — единственное место, где в этом проекте есть настоящая матрица ошибок: блок E § 3.11 (репозиторий автора), плюс macro-F1 примера 2 для масштаба |
 | `g4_cascade-localization_*.png` | Каскад вовлечения (контакты мозга / порядок детекции двигателей / след по секторам) и локализация источника — по всем трём примерам |
 
