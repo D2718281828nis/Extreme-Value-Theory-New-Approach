@@ -38,6 +38,17 @@ python demo/evt-educational-demo/scripts/run_demo.py --seed 42 --epochs 2 --scen
 - `results.json` — задержка детекции, источник и метрики CV;
 - `two_component_graph_method.png` — обе компоненты метода на одном рисунке.
 
+## Ноутбуки
+
+После установки dev-зависимостей (`python -m pip install -e 'demo/evt-educational-demo[dev]'`) последовательно откройте:
+
+1. `01_multichannel_graph_data.ipynb` — синтез ряда и графа;
+2. `02_evt_moment_detection.ipynb` — POT/GPD-детекция момента;
+3. `03_node_features.ipynb` — признаки узлов;
+4. `04_evt_vs_ar.ipynb` — отображение срабатываний и отдельный график precision/recall/F1;
+5. `05_gnn_gat_training.ipynb` — граф, кривая обучения GNN и веса внимания GAT;
+6. `06_evt_source_localization.ipynb` — визуальный поиск источника в синтезированном ряду.
+
 ## Проверка
 
 ```bash

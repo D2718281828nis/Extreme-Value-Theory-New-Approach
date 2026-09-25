@@ -20,6 +20,14 @@ class CrossValidationResult:
     targets: np.ndarray
 
 
+@dataclass(frozen=True)
+class TrainingTrace:
+    losses: np.ndarray
+    probabilities: np.ndarray
+    attention_edge_index: np.ndarray
+    attention_weights: np.ndarray
+
+
 def _torch_modules():
     import torch
     from torch_geometric.nn import GATv2Conv
@@ -42,6 +50,14 @@ class _GATFactory:
 
             def forward(self, x, edges):
                 return self.gat2(torch.relu(self.gat1(x, edges)), edges).squeeze(-1)
+
+            def explain(self, x, edges):
+                hidden, (_, alpha) = self.gat1(x, edges, return_attention_weights=True)
+                logits = self.gat2(torch.relu(hidden), edges).squeeze(-1)
+                _, (attention_edges, beta) = self.gat2(
+                    torch.relu(hidden), edges, return_attention_weights=True
+                )
+                return logits, attention_edges, beta.squeeze(-1)
 
         return SourceGAT()
 
@@ -105,4 +121,47 @@ def cross_validate_gat(
         np.asarray(mrr),
         probabilities,
         np.asarray([s.source_node for s in samples]),
+    )
+
+
+def train_gat_with_trace(
+    samples: list[GraphSample], epochs: int = 40, hidden: int = 8, seed: int = 42
+) -> TrainingTrace:
+    """Train on complete events and expose loss and final-layer attention for teaching."""
+    if not samples or epochs < 1:
+        raise ValueError("Need samples and at least one epoch")
+    torch, _ = _torch_modules()
+    features = np.concatenate([sample.features for sample in samples])
+    mean, std = features.mean(0), np.maximum(features.std(0), 1e-6)
+    torch.manual_seed(seed)
+    model = _GATFactory.build(samples[0].features.shape[1], hidden)
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=1e-4)
+    losses = []
+    for _ in range(epochs):
+        optimizer.zero_grad()
+        batch_losses = []
+        for sample in samples:
+            x = torch.tensor((sample.features - mean) / std, dtype=torch.float32)
+            edges = torch.tensor(sample.edge_index, dtype=torch.long)
+            logits = model(x, edges)
+            batch_losses.append(
+                torch.nn.functional.cross_entropy(
+                    logits[None, :], torch.tensor([sample.source_node])
+                )
+            )
+        loss = torch.stack(batch_losses).mean()
+        loss.backward()
+        optimizer.step()
+        losses.append(float(loss.detach()))
+    sample = samples[0]
+    x = torch.tensor((sample.features - mean) / std, dtype=torch.float32)
+    edges = torch.tensor(sample.edge_index, dtype=torch.long)
+    model.eval()
+    with torch.no_grad():
+        logits, attention_edges, attention = model.explain(x, edges)
+    return TrainingTrace(
+        np.asarray(losses),
+        torch.softmax(logits, dim=0).numpy(),
+        attention_edges.numpy(),
+        attention.numpy(),
     )
