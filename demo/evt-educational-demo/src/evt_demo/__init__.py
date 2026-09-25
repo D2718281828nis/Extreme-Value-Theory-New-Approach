@@ -9,6 +9,7 @@ from .data_generator import (
 from .detection import DetectionResult, EVTEventDetector
 from .graph_model import CrossValidationResult, GraphSample, cross_validate_gat
 from .graph_model import TrainingTrace, train_gat_with_trace
+from .legacy import AutoregressiveModel, EVTAnalyzer, GEVFit, GPDFit
 from .pipeline import PipelineResult, prepare_sample, run_pipeline
 
 __all__ = [
@@ -26,4 +27,8 @@ __all__ = [
     "PipelineResult",
     "prepare_sample",
     "run_pipeline",
+    "EVTAnalyzer",
+    "GEVFit",
+    "GPDFit",
+    "AutoregressiveModel",
 ]

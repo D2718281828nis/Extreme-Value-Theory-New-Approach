@@ -5,12 +5,15 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+import sys
 import numpy as np
 import pandas as pd
-from evt_demo.pipeline import run_pipeline
-from evt_demo.visualization import plot_pipeline
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+
+from evt_demo.pipeline import run_pipeline  # noqa: E402
+from evt_demo.visualization import plot_pipeline  # noqa: E402
 
 
 def main() -> None:

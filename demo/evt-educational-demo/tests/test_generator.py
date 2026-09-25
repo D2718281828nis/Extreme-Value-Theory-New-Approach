@@ -1,5 +1,9 @@
 import numpy as np
-from evt_demo import generate_time_series_with_extreme_events
+from evt_demo import (
+    EVTAnalyzer,
+    AutoregressiveModel,
+    generate_time_series_with_extreme_events,
+)
 from evt_demo.data_generator import generate_graph_time_series
 from evt_demo.visualization import plot_time_series_with_extremes
 
@@ -21,3 +25,14 @@ def test_legacy_notebook_imports(tmp_path):
     )
     assert (tmp_path / "intro.png").exists()
     figure.clear()
+
+
+def test_legacy_analysis_imports():
+    series, _ = generate_time_series_with_extreme_events(seed=42)
+    analyzer = EVTAnalyzer()
+    gev = analyzer.fit_gev_block_maxima(series, block_size=100)
+    gpd = analyzer.fit_gpd_peaks_over_threshold(series, threshold_percentile=95)
+    assert gev.sigma > 0 and gpd.sigma_u > 0
+    assert analyzer.calculate_return_levels(gev, [10, 100]).shape == (2, 2)
+    ar = AutoregressiveModel(order=1).fit(series)
+    assert ar.detect_anomalies_via_residuals(series).shape == series.shape

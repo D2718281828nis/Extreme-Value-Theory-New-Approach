@@ -7,6 +7,8 @@ import numpy as np
 from .pipeline import PipelineResult
 from .evaluation import DetectionComparison
 from .graph_model import GraphSample, TrainingTrace
+from .legacy import GEVFit, GPDFit
+from scipy.stats import genextreme, genpareto
 
 
 def plot_time_series_with_extremes(
@@ -52,6 +54,83 @@ def plot_time_series_with_extremes(
         target.parent.mkdir(parents=True, exist_ok=True)
         fig.savefig(target, dpi=150, bbox_inches="tight")
     return fig, ax
+
+
+def plot_gev_distribution(fit: GEVFit, save_path: str | Path | None = None):
+    """Compatibility histogram and fitted GEV density."""
+    fig, ax = plt.subplots()
+    ax.hist(fit.block_maxima, bins="auto", density=True, alpha=0.5, label="максимумы")
+    grid = np.linspace(fit.block_maxima.min(), fit.block_maxima.max(), 300)
+    ax.plot(
+        grid, genextreme.pdf(grid, -fit.xi, loc=fit.mu, scale=fit.sigma), label="GEV"
+    )
+    ax.set(xlabel="максимум блока", ylabel="плотность", title="Подгонка GEV")
+    ax.legend()
+    return _save_compat(fig, ax, save_path)
+
+
+def plot_gpd_exceedances(fit: GPDFit, save_path: str | Path | None = None):
+    """Compatibility histogram and fitted GPD density."""
+    fig, ax = plt.subplots()
+    ax.hist(fit.exceedances, bins="auto", density=True, alpha=0.5, label="превышения")
+    grid = np.linspace(0, fit.exceedances.max(), 300)
+    ax.plot(grid, genpareto.pdf(grid, fit.xi, loc=0, scale=fit.sigma_u), label="GPD")
+    ax.set(xlabel="превышение", ylabel="плотность", title="Подгонка GPD")
+    ax.legend()
+    return _save_compat(fig, ax, save_path)
+
+
+def plot_return_levels(table, save_path: str | Path | None = None):
+    """Compatibility return-level plot; confidence columns are optional."""
+    fig, ax = plt.subplots()
+    ax.plot(table["return_period"], table["return_level"], marker="o")
+    if {"ci_lower", "ci_upper"}.issubset(table.columns):
+        ax.fill_between(
+            table["return_period"], table["ci_lower"], table["ci_upper"], alpha=0.25
+        )
+    ax.set_xscale("log")
+    ax.set(xlabel="период возврата", ylabel="уровень", title="Возвратные уровни")
+    return _save_compat(fig, ax, save_path)
+
+
+def plot_mean_excess(data, thresholds, save_path: str | Path | None = None):
+    """Compatibility mean-excess diagnostic."""
+    values, levels = np.asarray(data), np.asarray(thresholds)
+    excess = [
+        np.mean(values[values > level] - level) if np.any(values > level) else np.nan
+        for level in levels
+    ]
+    fig, ax = plt.subplots()
+    ax.plot(levels, excess)
+    ax.set(xlabel="порог", ylabel="среднее превышение", title="Mean Excess Plot")
+    return _save_compat(fig, ax, save_path)
+
+
+def plot_diagnostic_qq(empirical, theoretical, save_path: str | Path | None = None):
+    """Compatibility QQ plot."""
+    fig, ax = plt.subplots()
+    ax.scatter(theoretical, empirical)
+    low = min(np.min(empirical), np.min(theoretical))
+    high = max(np.max(empirical), np.max(theoretical))
+    ax.plot([low, high], [low, high], "--", color="0.5")
+    ax.set(
+        xlabel="теоретические квантили",
+        ylabel="эмпирические квантили",
+        title="QQ-диагностика",
+    )
+    return _save_compat(fig, ax, save_path)
+
+
+plot_diagnostic_qq_plot = plot_diagnostic_qq
+
+
+def _save_compat(fig, axes, save_path):
+    fig.tight_layout()
+    if save_path is not None:
+        target = Path(save_path)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        fig.savefig(target, dpi=150, bbox_inches="tight")
+    return fig, axes
 
 
 def plot_pipeline(result: PipelineResult, save_path: str | Path | None = None):

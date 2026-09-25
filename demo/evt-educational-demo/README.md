@@ -49,7 +49,7 @@ python demo/evt-educational-demo/scripts/run_demo.py --seed 42 --epochs 2 --scen
 5. `05_gnn_gat_training.ipynb` — граф, кривая обучения GNN и веса внимания GAT;
 6. `06_evt_source_localization.ipynb` — визуальный поиск источника в синтезированном ряду.
 
-Если Jupyter был открыт до установки пакета, один раз перезапустите kernel. Для совместимости со скачанными ранее вводными ноутбуками пакет также экспортирует прежние имена `generate_time_series_with_extreme_events` и `plot_time_series_with_extremes`; актуальные ноутбуки используют графовый API `generate_graph_time_series`.
+Каждый актуальный ноутбук первой ячейкой автоматически добавляет локальный `src/` в путь импорта, поэтому `ModuleNotFoundError: No module named 'evt_demo'` не возникает даже без editable-установки. Если Jupyter уже держит старый модуль в памяти, выполните **Kernel → Restart Kernel → Run All**. Для совместимости со скачанными ранее ноутбуками пакет экспортирует прежние `EVTAnalyzer`, `AutoregressiveModel`, `generate_time_series_with_extreme_events` и функции базовой визуализации; актуальные ноутбуки используют графовый API `generate_graph_time_series`.
 
 ## Проверка
 
