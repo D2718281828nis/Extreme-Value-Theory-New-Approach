@@ -9,6 +9,7 @@
 """
 from __future__ import annotations
 import argparse, json, os, re, time, warnings
+from pathlib import Path
 import numpy as np, pandas as pd
 from scipy import signal, stats
 from sklearn.covariance import LedoitWolf
@@ -30,8 +31,16 @@ MAD_THR = 6.0                                          # порог вовлеч
 
 
 def load(path):
-    d = np.load(path)
-    assert str(d["edf_md5"]) == EDF_MD5, "MD5 исходного EDF не совпадает с Zenodo"
+    if str(path).lower().endswith(".csv"):
+        import sys
+        sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "scripts"))
+        from generate_brain_toy import build_dataset
+        d = build_dataset(Path(path))
+    else:
+        d = np.load(path)
+    keys = d.files if hasattr(d, "files") else d.keys()
+    kind = str(d["dataset_kind"]) if "dataset_kind" in keys else "zenodo_derived"
+    assert kind == "synthetic_toy" or str(d["edf_md5"]) == EDF_MD5, "MD5 исходного EDF не совпадает с Zenodo"
     names = [n.replace("EEG ", "") for n in d["names"]]
     shaft = [re.match(r"([A-Za-z]+'?)", n).group(1) for n in names]
     num = [int(re.search(r"(\d+)$", n).group(1)) for n in names]
@@ -277,7 +286,10 @@ def main():
     ap.add_argument("--seeds", type=int, nargs="+", default=[0, 1, 2]); ap.add_argument("--epochs", type=int, default=200)
     a = ap.parse_args(); os.makedirs(a.out, exist_ok=True); t0 = time.time()
     d, names, shaft, num = load(a.data)
-    R = {"dataset": "sEEG-HFOs-8.edf, Zenodo DOI 10.5281/zenodo.21967993", "edf_md5": EDF_MD5, "n_contacts": len(names),
+    keys = d.files if hasattr(d, "files") else d.keys()
+    toy = "dataset_kind" in keys and str(d["dataset_kind"]) == "synthetic_toy"
+    R = {"dataset": "synthetic brain toy dataset" if toy else "sEEG-HFOs-8.edf, Zenodo DOI 10.5281/zenodo.21967993",
+         "synthetic": toy, "edf_md5": str(d["edf_md5"]), "n_contacts": len(names),
          "n_shafts": int(len(np.unique(shaft))), "fs": int(d["fs"]), "crop_s": int(d["crop"]),
          "annotations": list(zip(d["ann_onset"].tolist(), [str(x) for x in d["ann_text"]])), "onset": ONSET}
     ll = d["linelen"]; flat = np.argwhere(ll <= 1e-6)
