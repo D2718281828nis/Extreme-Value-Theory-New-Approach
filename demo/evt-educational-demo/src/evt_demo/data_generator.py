@@ -75,3 +75,54 @@ def generate_graph_time_series(
         pulse = np.sin(np.linspace(0, np.pi, stop - start))
         values[start:stop, node] += magnitude * np.exp(-0.22 * distances[node]) * pulse
     return GraphTimeSeries(values, adjacency, groups, source, event_onset, arrival)
+
+
+def generate_time_series_with_extreme_events(
+    n_points: int = 2_000,
+    phi: float = 0.8,
+    sigma: float = 1.0,
+    n_extreme_events: int = 3,
+    extreme_magnitude: float = 8.0,
+    extreme_duration: int = 3,
+    seed: int = 42,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Generate the one-channel series used by early versions of the notebooks.
+
+    This compatibility API remains intentionally independent of the graph generator:
+    it lets previously downloaded notebooks run while the current notebooks use
+    :func:`generate_graph_time_series` for the two-component graph method.
+    """
+    if n_points < 100 or not -1 < phi < 1 or sigma <= 0:
+        raise ValueError("Require n_points>=100, abs(phi)<1 and sigma>0")
+    if n_extreme_events < 0 or extreme_duration < 1 or extreme_magnitude <= 0:
+        raise ValueError("Invalid extreme-event parameters")
+    warmup = max(20, extreme_duration)
+    if n_extreme_events * extreme_duration > n_points - warmup:
+        raise ValueError("Too many non-overlapping event points")
+    rng = np.random.default_rng(seed)
+    stationary_std = sigma / np.sqrt(1 - phi**2)
+    values = np.empty(n_points, dtype=float)
+    values[0] = rng.normal(0, stationary_std)
+    innovations = rng.normal(0, sigma, n_points - 1)
+    for time in range(1, n_points):
+        values[time] = phi * values[time - 1] + innovations[time - 1]
+    mask = np.zeros(n_points, dtype=bool)
+    candidates = np.arange(warmup, n_points - extreme_duration + 1)
+    starts: list[int] = []
+    while len(starts) < n_extreme_events:
+        if not len(candidates):
+            raise ValueError("Cannot place non-overlapping events")
+        start = int(rng.choice(candidates))
+        starts.append(start)
+        candidates = candidates[np.abs(candidates - start) >= extreme_duration]
+    pulse = np.sin(np.linspace(0, np.pi, extreme_duration + 2)[1:-1])
+    for start in starts:
+        values[start : start + extreme_duration] += (
+            extreme_magnitude * stationary_std * pulse
+        )
+        mask[start : start + extreme_duration] = True
+    return values, mask
+
+
+# The original task used the singular spelling; keep both public spellings.
+generate_time_series_with_extreme_event = generate_time_series_with_extreme_events

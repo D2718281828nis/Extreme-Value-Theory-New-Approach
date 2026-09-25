@@ -9,6 +9,51 @@ from .evaluation import DetectionComparison
 from .graph_model import GraphSample, TrainingTrace
 
 
+def plot_time_series_with_extremes(
+    time_series: np.ndarray,
+    extreme_mask: np.ndarray,
+    detected_extremes: np.ndarray | None = None,
+    title: str = "Временной ряд с экстремальными событиями",
+    save_path: str | Path | None = None,
+):
+    """Compatibility plot for the introductory one-channel notebook API."""
+    values = np.asarray(time_series, dtype=float)
+    truth = np.asarray(extreme_mask, dtype=bool)
+    if values.ndim != 1 or truth.shape != values.shape:
+        raise ValueError("time_series and extreme_mask must be aligned 1-D arrays")
+    fig, ax = plt.subplots(figsize=(12, 4))
+    ax.plot(values, color="#52514e", lw=0.8, label="временной ряд")
+    ax.scatter(
+        np.flatnonzero(truth),
+        values[truth],
+        color="#eb6834",
+        s=28,
+        label="истинные экстремумы",
+        zorder=3,
+    )
+    if detected_extremes is not None:
+        detected = np.asarray(detected_extremes, dtype=bool)
+        if detected.shape != values.shape:
+            raise ValueError("detected_extremes must have the same shape")
+        ax.scatter(
+            np.flatnonzero(detected),
+            values[detected],
+            facecolors="none",
+            edgecolors="#1baf7a",
+            s=50,
+            label="обнаруженные",
+            zorder=4,
+        )
+    ax.set(xlabel="время", ylabel="значение", title=title)
+    ax.legend()
+    fig.tight_layout()
+    if save_path is not None:
+        target = Path(save_path)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        fig.savefig(target, dpi=150, bbox_inches="tight")
+    return fig, ax
+
+
 def plot_pipeline(result: PipelineResult, save_path: str | Path | None = None):
     """Show signal/EVT moment and the graph/GAT source ranking in one figure."""
     series, det, cv = result.example, result.detection, result.cv
