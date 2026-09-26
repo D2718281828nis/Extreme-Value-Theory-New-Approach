@@ -255,15 +255,15 @@ amplitude, energy, slope, latency, degree, and neighbor consistency.
    logit $\ell_j$ for every candidate source.
 4. Преобразовать логиты в ранжирование
 
-   $$P(y=j \mid \mathbf{F}, E) = \operatorname{softmax}(\ell)_j$$.
+   $$P(y=j \mid \mathbf{F}, E) = \operatorname{softmax}(\ell)_j = \frac{e^{\ell_j}}{\sum_{k} e^{\ell_k}}$$
 
    и ранжировать все узлы-кандидаты по этой вероятности. / Rank all candidate
    nodes by this probability.
-6. Обучать по cross-entropy, а валидацию выполнять по целым эпизодам (при
+7. Обучать по cross-entropy, а валидацию выполнять по целым эпизодам (при
    необходимости также по пациентам, объектам или электродным стволам). /
    Optimize cross-entropy and validate by complete episodes, additionally
    grouping by patient, object, or electrode shaft when required.
-7. Сообщать Top-1 accuracy, mean reciprocal rank, Top-$k$, калибровку
+8. Сообщать Top-1 accuracy, mean reciprocal rank, Top-$k$, калибровку
    вероятностей и устойчивость результата к выбору графа. / Report Top-1
    accuracy, mean reciprocal rank, Top-$k$, probability calibration, and
    sensitivity to graph choice.
