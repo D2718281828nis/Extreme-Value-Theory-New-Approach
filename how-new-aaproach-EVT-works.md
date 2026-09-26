@@ -257,7 +257,7 @@ amplitude, energy, slope, latency, degree, and neighbor consistency.
 
 
 ```math
-P(y=j \(\mid \mathbf{F}, E\)) \(= {softmax}(\ell)_j = \frac{e^{\ell_j}}\){\(\sum_\){k} \(e^{\ell_k}\)}
+P(y=j \mid \mathbf{F}, E) = \text{softmax}(\ell)_j = \frac{e^{\ell_j}}{\sum_{k} e^{\ell_k}}
 ```
 
 
