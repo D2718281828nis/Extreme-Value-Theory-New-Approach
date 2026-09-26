@@ -255,9 +255,7 @@ amplitude, energy, slope, latency, degree, and neighbor consistency.
    logit $\ell_j$ for every candidate source.
 4. Преобразовать логиты в ранжирование
 
-   $$
-   P(y=j\mid {\bf F},E)=\operatorname{softmax}(\ell)_j,
-   $$
+   $$P(y=j \mid \mathbf{F}, E) = \operatorname{softmax}(\ell)_j$$.
 
    и ранжировать все узлы-кандидаты по этой вероятности. / Rank all candidate
    nodes by this probability.
