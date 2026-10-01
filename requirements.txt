@@ -12,3 +12,7 @@ torch_geometric==2.8.0.post1
 matplotlib==3.10.9
 certifi            # корневые сертификаты для скачивания данных (особенно на macOS)
 tqdm==4.70.1        # индикатор прогресса run_all.py (уже тянется как зависимость torch_geometric)
+
+# Reusable Graph-EVT implementation used by this application showcase.
+# Installed from the canonical repository until a PyPI release is published.
+graph-evt-agent @ git+https://github.com/D2718281828nis/Graph-EVT-agent.git
