@@ -1,189 +1,169 @@
-# Расчёты исследования: воспроизводимый проект для VS Code
+# Graph-EVT-agent: three real-world applications
 
-В этой папке собран Python-код, которым рассчитаны три равноправных примера главы 7 исследования. Примеры относятся к трём разным системам:
+This repository is an **application showcase** for
+[`Graph-EVT-agent`](https://github.com/D2718281828nis/Graph-EVT-agent). It applies the same graph-aware
+extreme-value workflow to three very different systems:
 
-- головной мозг, стерео-ЭЭГ, § 7.2;
-- авиационный двигатель, NASA C-MAPSS, § 7.3;
-- фондовый рынок, S&P 500, § 7.4.
+| Example | Graph nodes | Signal | Extreme event | Question answered |
+|---|---|---|---|---|
+| 🧠 **Brain** | sEEG contacts | band power | epileptic seizure | When does the seizure start and which contacts are recruited first? |
+| ✈️ **Aviation** | engine sensors | C-MAPSS telemetry | engine degradation | Can the event be detected without leakage and can its source be localized? |
+| 📈 **Finance** | S&P 500 companies | market returns | market stress | When does systemic stress begin and through which sectors does it spread? |
 
-Кроме того, в папке есть сверка чисел блока E § 3.11 (обучение ГНС на графе объекта) с результатами репозитория автора. Проект открывается в VS Code через файл рабочей области `dissertation-calculations.code-workspace`: окружение, данные, запуск и сверка с результатами исследования выполняются задачами и конфигурациями запуска.
+The former synthetic tutorial under `demo/evt-educational-demo` has deliberately been removed. The three
+examples here are the demonstration: they use real domain data, a common pipeline, leakage-safe evaluation,
+and checked reference outputs.
 
-## 1. Быстрый старт в VS Code
+## The shared Graph-EVT-agent workflow
 
-1. **Откройте рабочую область.** Выберите File → Open Workspace from File… и укажите `dissertation-calculations.code-workspace`. В этом файле записаны настройки интерпретатора, задачи (Terminal → Run Task) и конфигурации запуска (Run and Debug). VS Code предложит расширения Python и Python Debugger — установите их.
-2. **Создайте окружение.** Выберите Terminal → Run Task → «0. Создать окружение .venv и установить пакеты». Нужен Python 3.11 или новее; результаты главы 7 получены на 3.11. Затем выберите интерпретатор `.venv` через Command Palette → Python: Select Interpreter.
-3. **Скачайте и проверьте данные** задачей «1. Скачать и проверить данные» (подробнее — раздел 3).
-4. **Убедитесь, что окружение работает**, задачей «2. Быстрая проверка окружения». Это одна затравка и мало эпох, около 10 минут; числа при этом не сравниваются.
-5. **Запустите полный расчёт** задачей «3. Полный расчёт трёх примеров». Она выполняет пять шагов:
-   1. пример 1 (мозг);
-   2. пример 2 (двигатель);
-   3. пример 3 (рынок);
-   4. рисунки 57–62;
-   5. автоматическую сверку с эталоном.
-6. **Сверьте блок E § 3.11** задачей «5. Сверка блока E».
+Every example follows the same six stages. Only the domain adapter—nodes, features, graph construction, and
+the interpretation of an event—changes.
 
-То же самое из терминала:
-
-```bash
-python3 -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-python scripts/fetch_data.py          # данные + MD5
-python scripts/run_all.py --quick     # проверка окружения
-python scripts/run_all.py             # полный расчёт и сверка
-python scripts/check_block_e.py       # блок E § 3.11
+```text
+multichannel time series
+        │
+        ▼
+  windowed node features ──► system graph
+        │                         │
+        ├──► EVT tail model       ├──► GATv2 / simple baselines
+        │    (GEV or POT/GPD)     │    (grouped, leakage-safe CV)
+        ▼                         ▼
+  event-time detection      node/source localization
+        └──────────────┬──────────┘
+                       ▼
+             interpretable event cascade
 ```
 
-Автономный учебный модуль двухкомпонентной детекции и графовой локализации находится в [`demo/evt-educational-demo/`](demo/evt-educational-demo/README.md).
+The reusable library owns the general Graph-EVT method. This repository keeps the domain adapters, dataset
+provenance, experiment protocols, figures, and frozen reference results needed to demonstrate that method.
+The common application building blocks are collected in [`src/common.py`](src/common.py); each example module
+then supplies its domain-specific graph and experiment.
 
-Для пошаговой отладки конкретного расчёта в меню Run and Debug есть конфигурации «Отладка: пример 1/2/3». Они запускают скрипт из `src/` напрямую, поэтому точки останова внутри расчёта срабатывают.
+## Quick start
 
-## 2. Состав папки
+Python 3.11 or newer is recommended.
 
-| Путь | Что это |
-|---|---|
-| `src/common.py` | Общие функции: DFA, корреляция повторных измерений, пороги GEV/POT, построение графов, модели GATv2/MLP |
-| `src/brain_extract_edf.py` | Построение компактного производного набора из записи стерео-ЭЭГ (EDF, 743 МБ) — только NumPy |
-| `src/brain_seeg_pipeline.py` | Пример 1, головной мозг (§ 7.2, Рис. 57–58) |
-| `src/aviation_cmapss_pipeline.py` | Пример 2, авиационный двигатель (§ 7.3, Рис. 59–60) |
-| `src/finance_sp500_pipeline.py` | Пример 3, фондовый рынок (§ 7.4, Рис. 61–62) |
-| `src/make_figures.py` | Рисунки 57–62 → `results/figures/` |
-| `src/make_generality_figures.py` | Новые сводные рисунки, не из текста исследования (раздел 4) → `results/figures/generality/` |
-| `scripts/paths.py` | Пути к данным (`config/paths.json`, `.env`) и контрольные суммы |
-| `scripts/fetch_data.py` | Скачивание данных с проверкой MD5; подготовка набора стерео-ЭЭГ |
-| `scripts/run_all.py` | Полный повтор расчёта, журналы и сведения об окружении |
-| `scripts/compare_results.py` | Сверка `results/*/results.json` с `reference_results/` |
-| `scripts/check_block_e.py` | Сверка чисел блока E § 3.11 с результатами репозитория автора |
-| `scripts/block_e_commands.sh` | Команды повторного обучения ГНС блока E в репозитории автора |
-| `reference_results/` | Результаты, по которым написан текст главы 7: `results.json` + CSV |
-| `EVT_THEORY.md` | Краткая теория EVT: предельные типы, GEV, возвратные уровни, MLE, Block Maxima и POT |
-| `demo/evt-educational-demo/` | Двухкомпонентный метод: EVT-детекция момента и GAT-локализация источника на графе многоканального ряда |
-| `config/paths.json`, `.env.example` | Настройка путей к данным |
-| `dissertation-calculations.code-workspace` | Рабочая область VS Code: задачи, конфигурации запуска и настройки интерпретатора (вместо папки `.vscode/`, которую отсюда создать нельзя) |
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
 
-Расчётные алгоритмы предметных примеров не изменены. Текущие контрольные суммы:
+# Download and checksum the public datasets.
+python scripts/fetch_data.py
 
-| Файл | MD5 |
-|---|---|
-| `common.py` | `54353b6936d29aa723ffb779876cd39e` |
-| `brain_extract_edf.py` | `ac6282ba66d67dee5f49f7ac1972112d` |
-| `brain_seeg_pipeline.py` | `1653d038ca8527e200da0314fdbd7762` |
-| `aviation_cmapss_pipeline.py` | `3709ddbf7672cee162e650ea39595129` |
-| `finance_sp500_pipeline.py` | `0e96a15109be7e46cd9ac3bd97461c09` |
-| `make_figures.py` | `da0d213710414f9ad603fb5f9d261ed7` |
+# Small end-to-end run of all three applications.
+python scripts/run_all.py --quick
+```
 
-Новый учебный код изолирован в `demo/evt-educational-demo/`.
+Run one application while developing:
 
-## 3. Данные: откуда и как получить доступ
+```bash
+python scripts/run_all.py --quick --only brain
+python scripts/run_all.py --quick --only aviation --jobs 1
+python scripts/run_all.py --quick --only finance
+```
 
-Данные в папку не кладутся. Каждый расчётный скрипт при запуске проверяет MD5 входных файлов и останавливается, если файл не тот.
+Run the publication-scale experiments and verify their outputs:
 
-| Пример | Первоисточник | Файлы | MD5 | Как получает `fetch_data.py` |
-|---|---|---|---|---|
-| 1. Мозг | Zenodo, DOI [10.5281/zenodo.21967993](https://doi.org/10.5281/zenodo.21967993), лицензия CC BY 4.0 | `sEEG-HFOs-8.edf` (743 МБ) | `c83e85316860502327f6b7ed7ccb15d2` | Ищет готовый производный набор; если его нет — строит из локального EDF; с флагом `--download-edf` скачивает EDF с Zenodo |
-| 2. Двигатель | NASA C-MAPSS: Zenodo, DOI [10.5281/zenodo.15346912](https://doi.org/10.5281/zenodo.15346912); Kaggle [behrad3d/nasa-cmaps](https://www.kaggle.com/datasets/behrad3d/nasa-cmaps) | `train_FD001.txt`, `train_FD003.txt` | `259f340bac32ce6fa8894815600fa757`, `81298e81977a53aa268ad500ac42b2d7` | Три побайтных GitHub-копии, закреплённые на коммитах |
-| 3. Рынок | Kaggle [camnugent/sandp500](https://www.kaggle.com/datasets/camnugent/sandp500) | `all_stocks_5yr.csv` | `6d2f3f2529cf6d8b443c8f4beee5638b` | Три побайтных GitHub-копии, закреплённые на коммитах |
-| 3. Рынок, секторы GICS | [datasets/s-and-p-500-companies-financials](https://github.com/datasets/s-and-p-500-companies-financials), коммит `c9f83a9` от 08.02.2018 | `constituents_financials_2018-02-08.csv` | `8e571d9a5791c6355cd5ef8455d56920` | Файл репозитория на этом коммите |
+```bash
+python scripts/run_all.py
+python scripts/compare_results.py
+```
 
-**Пример 1 (стерео-ЭЭГ).** Расчёт идёт не по EDF, а по компактному производному набору `sEEG-HFOs-8_cases_derived.npz` (182 МБ). Набор содержит:
+Results are written to `results/` (`results_quick/` for a smoke run). Each application produces a
+`results.json`; model runs and localization traces are CSV files; logs and environment metadata make a run
+auditable. Reference outputs live in `reference_results/{brain,aviation,finance}/`.
 
-- лог-спектры 1-секундных окон 1–67 Гц;
-- длину линии, стандартное отклонение после удаления тренда и автокорреляцию для каждой секунды и контакта;
-- исходный сигнал 10 000–10 550 с;
-- корреляцию фона 0–3600 с;
-- аннотации врача.
+> **Why is Graph-EVT-agent installed from GitHub?** The library and this showcase have separate release
+> cycles. `requirements.txt` installs the current library directly from its canonical repository, while this
+> project remains focused on applications and reproducibility.
 
-Для автономного знакомства с кодом в репозитории также есть синтетический
-`data/sEEG/brain_toy.csv`. Он не содержит данных пациента и не должен сравниваться с
-`reference_results/`; команда быстрого запуска и способ детерминированного пересоздания приведены в
-`data/README.md`. Реальные наборы авиации и финансов этим дополнением не изменяются.
+## Explore the examples
 
-Внутрь набора записан MD5 исходного EDF, и расчёт его проверяет. Путь к набору и к EDF задаётся в `config/paths.json`:
+### 1. Brain: sEEG seizure detection and recruitment
 
-- **Если папки лежат как на вашем компьютере** (`code_base/dissertation-calculations` рядом с `code_base/BioMedAI-sEEG-core-of-epilepsy`), ничего настраивать не нужно. Готовый набор (MD5 `6e768cf1cc3a664ac287fc836d19ed62`) и EDF уже лежат в `BioMedAI-sEEG-core-of-epilepsy/dataset/`.
-- **На другом компьютере** есть три варианта:
-  - укажите путь к EDF в `.env` (`DISSER_SEEG_EDF=…`) и запустите `python scripts/fetch_data.py --only seeg`: производный набор построится за 1–3 минуты;
-  - запустите `python scripts/fetch_data.py --only seeg --download-edf`: EDF скачается с Zenodo по стандартной ссылке `records/21967993/files/sEEG-HFOs-8.edf`. Эта ссылка отсюда не проверялась; если она не сработает, скачайте файл со страницы DOI вручную;
-  - скопируйте готовый `.npz` и укажите его в `DISSER_SEEG_DERIVED`.
+The brain adapter uses sEEG contacts as graph nodes, spectral/temporal measurements as node features, EVT for
+seizure-time detection, and graph models for contact-role prediction. A small deterministic synthetic sEEG
+file is included for code exploration; the checked research result uses the derived public Zenodo recording.
 
-Производный набор, построенный заново на другой версии NumPy, может побайтно отличаться от набора автора. Это допустимо: проверяется MD5 исходного EDF.
+```bash
+python scripts/generate_brain_toy.py
+python src/brain_seeg_pipeline.py \
+  --data data/sEEG/brain_toy.csv --out results_quick/brain --seeds 0 --epochs 5
+```
 
-**Примеры 2–3.** Kaggle требует учётной записи, поэтому по умолчанию используются открытые побайтные копии на GitHub, закреплённые на коммитах; их MD5 совпадают с приведёнными выше. Если скачаете файлы с Kaggle или Zenodo сами, положите их в `data/` (`data/CMAPSSData/` для C-MAPSS). Скрипт проверит MD5; при несовпадении расчёт не запустится.
+Entry point: [`src/brain_seeg_pipeline.py`](src/brain_seeg_pipeline.py). Data notes:
+[`data/README.md`](data/README.md).
 
-**Блок E § 3.11** использует данные и результаты репозитория автора `BioMedAI-sEEG-core-of-epilepsy`:
+### 2. Aviation: C-MAPSS engine degradation
 
-- `object_model_result/sEEG-HFOs-8/*.graphml`;
-- `gnn_model_result/*/sEEG-HFOs-8/*.json`.
+Sensors become graph nodes; their functional similarity supplies edges. The example contrasts GATv2 with
+non-graph baselines under grouped validation, runs EVT detection, and evaluates source localization without
+mixing measurements from the same engine across train and test folds.
 
-Путь к репозиторию задаётся в `config/paths.json → biomedai_repo`.
+```bash
+python scripts/fetch_data.py --only cmapss
+python scripts/run_all.py --quick --only aviation --jobs 1
+```
 
-## 4. Время счёта и результаты
+Entry point: [`src/aviation_cmapss_pipeline.py`](src/aviation_cmapss_pipeline.py).
 
-| Шаг | Время на 2 ядрах CPU | Где результат | Где в исследовании |
-|---|---|---|---|
-| Пример 1 | ≈ 2 мин | `results/brain/` | § 7.2, Рис. 57–58 |
-| Пример 2 | ≈ 45 мин: ГНС в двух процессах ≈ 30 мин, локализация ≈ 10 мин, сборка ≈ 1 мин | `results/aviation/` | § 7.3, Рис. 59–60 |
-| Пример 3 | ≈ 15 мин | `results/finance/` | § 7.4, Рис. 61–62 |
-| Рисунки | < 1 мин | `results/figures/ch7_*.png` (имена файлов — как в `disser-text/images/`) | Рис. 57–62 |
+### 3. Finance: systemic stress in the S&P 500
 
-- `results/*/results.json` содержит все числа текста главы 7.
-- `gnn_runs.csv` — каждый прогон ГНС, MLP и логистической регрессии: протокол × модель × граф × затравка.
-- `localization_*.csv` — локализация источника.
-- `results/logs/` — журналы.
-- `results/run_info.json` — версии Python и пакетов, платформа, время шагов.
+Companies are nodes and their relationships define the market graph. POT/GEV tail modelling detects periods
+of stress; graph learning and the detected cascade expose cross-company and cross-sector propagation.
 
-При запуске `run_all.py` без `--quick` в терминале виден индикатор прогресса полного расчёта (доля — по ожидаемому времени шагов из таблицы выше, а не по факту: заглянуть внутрь дочернего процесса нельзя). Он не влияет на сам расчёт и не пишется в журналы.
+```bash
+python scripts/fetch_data.py --only sp500
+python scripts/run_all.py --quick --only finance
+```
 
-### Рисунки, показывающие общность методологии
+Entry point: [`src/finance_sp500_pipeline.py`](src/finance_sp500_pipeline.py).
 
-`results/figures/ch7_*.png` (и их состав, Рис. 57–62) не менялись и остаются приложением: по ним видно устройство каждого набора данных так, как это дано в тексте исследования. Дополнительно `results/figures/generality/` содержит пять новых рисунков — не из текста исследования, а демонстрацию того, что один и тот же конвейер анализа применим ко всем трём примерам сразу:
+## Repository map
 
-| Файл | Что показывает |
-|---|---|
-| `g0_task-overview-evt-detection_*.png` | Задача каждого примера одной строкой: представительный ряд + порог POT/GPD + детекция (как рис. а) на `ch7_7-2_seeg-evt-detection…`, но по всем трём примерам сразу) |
-| `g1_signal-wavelet-dfa_*.png` | Вейвлет-разложение (Морле, считается на месте — в `src/*.py` вейвлета нет) и кривая DFA (`F(n)` из `common.dfa_alpha`, не только показатель α) на представительном ряду каждого примера |
-| `g2_graph-gnn-gat-leakage_*.png` | Единая схема «узлы–рёбра–внимание GAT» и краткая предметная интерпретация для мозга, двигателя и рынка; также показаны сравнение моделей, утечка и ценность графа |
-| `g3_accuracy-confusion-matrix_*.png` | Матрица ошибок и доля верных ответов — единственное место, где в этом проекте есть настоящая матрица ошибок: блок E § 3.11 (репозиторий автора), плюс macro-F1 примера 2 для масштаба |
-| `g4_cascade-localization_*.png` | Каскад вовлечения (контакты мозга / порядок детекции двигателей / след по секторам) и локализация источника — по всем трём примерам |
+```text
+src/common.py                    shared Graph-EVT application primitives
+src/brain_seeg_pipeline.py       brain adapter and experiment
+src/aviation_cmapss_pipeline.py  aviation adapter and experiment
+src/finance_sp500_pipeline.py    finance adapter and experiment
+src/make_figures.py              per-example figures
+src/make_generality_figures.py   cross-domain Graph-EVT figures
+scripts/fetch_data.py            download, provenance, and checksum checks
+scripts/run_all.py               one runner for the three applications
+scripts/compare_results.py       reference-output verification
+reference_results/               checked results for every application
+```
 
-Рисунки строит `src/make_generality_figures.py` (шаг `figures` в `run_all.py`, сразу после `make_figures.py`) по уже посчитанным `results/{brain,aviation,finance}/`; сами `results.json` он не меняет. Рисунок `g3` требует репозиторий `BioMedAI-sEEG-core-of-epilepsy` (как `check_block_e.py`, раздел 6) — если его нет, скрипт пропускает только этот рисунок с пояснением в журнале `results/logs/generality_figures.log`.
+Open `graph-evt-agent-examples.code-workspace` in VS Code to get tasks for setup, data retrieval, each of the
+three examples, the complete showcase, and result verification.
 
-## 5. Воспроизводимость и сверка
+## Data and reproducibility
 
-`scripts/compare_results.py` сравнивает каждое число в `results/*/results.json` с `reference_results/`. Числа делятся на две группы:
+Large datasets are not committed. `scripts/fetch_data.py` obtains public copies and checks their MD5 hashes:
 
-- **Детерминированные** — EVT-детекция, гипотеза о шумовом предвестнике, графы, каскад и локализация без ГНС. Они должны совпасть на любом компьютере.
-- **Зависящие от обучения ГНС** — ключи с `gnn` и `graph_gain`. PyTorch не гарантирует побитовой воспроизводимости между процессорами, ОС и библиотеками линейной алгебры (OpenBLAS / Apple Accelerate). Расхождения в этой группе выводятся на экран, но не считаются ошибкой. Выводы главы 7 (знак и порядок эффектов, «утечка завышает качество», «ГНС не лучше простых моделей») нужно сверять по сути.
+* **Brain:** sEEG recording on Zenodo, DOI `10.5281/zenodo.21967993` (the full EDF is optional when the derived
+  dataset is already available).
+* **Aviation:** NASA C-MAPSS `FD001` and `FD003`.
+* **Finance:** the five-year S&P 500 dataset and a pinned 2018 GICS constituent table.
 
-**Число потоков.** `run_all.py` запускает каждый расчётный процесс с `OMP_NUM_THREADS=1` (а также `MKL_NUM_THREADS` и `OPENBLAS_NUM_THREADS`). Так был выполнен исходный расчёт, и только так числа ГНС совпадают с исследованием побитово. Проверено на примере 3: при двух потоках средние AUROC/AUPRC ГНС расходятся с эталоном до 0,002, при одном — совпадают полностью. Кроме того, два параллельных процесса по два потока на двухъядерном процессоре замедляют обучение ГНС примерно в 15 раз. Изменить число потоков можно ключом `--threads N`. В конфигурациях отладки рабочей области VS Code те же переменные заданы в поле `env`.
+Paths can be overridden in `.env`; see [`.env.example`](.env.example) and [`config/paths.json`](config/paths.json).
+Exact data hashes, expected runtimes, numerical reproducibility notes, and the research-result protocol are
+preserved in [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md). Mathematical background is in
+[`EVT_THEORY.md`](EVT_THEORY.md), and the worked algorithm explanation is in
+[`how-new-aaproach-EVT-works.md`](how-new-aaproach-EVT-works.md).
 
-**Проверка перед передачей папки (23.09.2026).** В чистой папке данные скачаны `fetch_data.py`, три примера пересчитаны скриптами этой папки на Linux x86-64 в окружении из `requirements.txt`, и результат сверен с `reference_results/`. Итог — в `VERIFICATION.md`.
+## Verification
 
-**На macOS (Apple Silicon)** детерминированная часть должна совпасть. Числа ГНС могут отличаться в третьем-четвёртом знаке из-за другой реализации линейной алгебры, особенно в прогонах с группировкой по группе узлов. В репозитории автора показано, что результат таких прогонов зависит от затравки и от BLAS.
+```bash
+# Fast syntax and CLI checks (no dataset download).
+python -m compileall -q src scripts
+python scripts/run_all.py --help
 
-## 6. Блок E § 3.11: обучение ГНС на графе объекта
+# Full reference verification after fetching data.
+python scripts/run_all.py
+```
 
-Числа блока E получены не кодом этой папки, а пакетом `gnn_model` репозитория автора `BioMedAI-sEEG-core-of-epilepsy` (коммит `a283320`).
-
-`scripts/check_block_e.py` читает сохранённые JSON и граф объекта и сверяет с текстом исследования:
-
-- четыре конфигурации (параметры, ошибка валидации, доля верных ответов, матрица ошибок);
-- четыре кросс-валидации (macro-F1 ± ст. откл., матрица вне фолда, группировка по стволу);
-- статистику DFA по ролям узлов (1,22 ± 0,05 против 1,15 ± 0,10, p = 0,014).
-
-Скрипт также печатает число узлов и рёбер графа: сейчас 98 узлов (97 контактов + узел события) и 370 рёбер. Это к пометке `[проверить]` о числе узлов в § 3.11.
-
-Чтобы заново обучить модели, запустите `scripts/block_e_commands.sh` из корня репозитория автора в его окружении (`pip install -e .`). Результаты пишутся в `*_rerun/`, сохранённые файлы автора не перезаписываются. После этого выполните `python scripts/check_block_e.py --results gnn_model_result_rerun`. Шаг 4 скрипта считает таблицу по пяти затравкам, которая в репозитории хранится только в README.
-
-## 7. Что сюда не входит
-
-- **Сборка md → docx исследования.** Это не расчёт, скрипты лежат в `disser-text/pipeline/docx_build/`.
-- **История § 6.12 версии 28.** Файлы `fill_section.py`, `insert_into_dissertation.py` остались в `disser-text/cases/`.
-- **Расчёты глав 3–6 из репозиториев автора.** Это `extreme_event_agent`, `model/`, `object_model`, `healthcare_gnn` и другие; они запускаются в своих репозиториях.
-
-## 8. Если что-то не работает
-
-- **`SSL: CERTIFICATE_VERIFY_FAILED` при скачивании на macOS.** Пакет `certifi` есть в `requirements.txt`; если ошибка остаётся, запустите `Install Certificates.command` из папки Python в Applications.
-- **`torch_geometric` не импортируется.** Нужна версия, совместимая с установленным `torch` (здесь 2.8.0.post1 для torch 2.14.0). Дополнительные пакеты `torch_scatter`/`torch_sparse` не нужны.
-- **pip не находит `torch==2.14.0`.** Колёса этой версии для Mac с Apple Silicon рассчитаны на macOS 14 и новее. На более старой macOS уберите номера версий у `torch`, `numpy` и `scipy` в `requirements.txt`.
-- **«MD5 … не совпала».** Файл данных другой версии. Удалите его и запустите `python scripts/fetch_data.py` ещё раз.
-- **Пример 2 считается несколько часов вместо ~45 минут.** Скорее всего, процессы запущены не через `run_all.py` и не ограничены одним потоком: задайте `OMP_NUM_THREADS=1`. На машине с одним ядром используйте `python scripts/run_all.py --only aviation --jobs 1`.
+Deterministic EVT, graph, cascade, and localization values are expected to match. Neural-network values can
+vary slightly with CPU, operating system, and BLAS implementation; `compare_results.py` reports those
+differences separately rather than hiding them.

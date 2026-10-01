@@ -23,7 +23,7 @@
     "version": "2.0.0",
     "tasks": [
       {
-        "label": "0. Создать окружение .venv и установить пакеты",
+        "label": "0. Install Graph-EVT-agent showcase",
         "type": "shell",
         "command": "python3 -m venv .venv && .venv/bin/python -m pip install --upgrade pip && .venv/bin/python -m pip install -r requirements.txt",
         "windows": {
@@ -32,31 +32,49 @@
         "problemMatcher": []
       },
       {
-        "label": "1. Скачать и проверить данные",
+        "label": "1. Fetch and verify example data",
         "type": "shell",
         "command": "${command:python.interpreterPath} scripts/fetch_data.py",
         "problemMatcher": []
       },
       {
-        "label": "2. Быстрая проверка окружения (~10 мин)",
+        "label": "Example: brain (quick)",
+        "type": "shell",
+        "command": "${command:python.interpreterPath} scripts/run_all.py --quick --only brain",
+        "problemMatcher": []
+      },
+      {
+        "label": "Example: aviation (quick)",
+        "type": "shell",
+        "command": "${command:python.interpreterPath} scripts/run_all.py --quick --only aviation --jobs 1",
+        "problemMatcher": []
+      },
+      {
+        "label": "Example: finance (quick)",
+        "type": "shell",
+        "command": "${command:python.interpreterPath} scripts/run_all.py --quick --only finance",
+        "problemMatcher": []
+      },
+      {
+        "label": "2. Smoke test all three examples (~10 min)",
         "type": "shell",
         "command": "${command:python.interpreterPath} scripts/run_all.py --quick",
         "problemMatcher": []
       },
       {
-        "label": "3. Полный расчёт трёх примеров (~1 ч)",
+        "label": "3. Run all three Graph-EVT examples (~1 h)",
         "type": "shell",
         "command": "${command:python.interpreterPath} scripts/run_all.py",
         "problemMatcher": []
       },
       {
-        "label": "4. Сверка с результатами исследования",
+        "label": "4. Verify reference results",
         "type": "shell",
         "command": "${command:python.interpreterPath} scripts/compare_results.py",
         "problemMatcher": []
       },
       {
-        "label": "5. Сверка блока E § 3.11 (репозиторий автора)",
+        "label": "5. Verify optional research block E",
         "type": "shell",
         "command": "${command:python.interpreterPath} scripts/check_block_e.py",
         "problemMatcher": []
@@ -75,7 +93,7 @@
         "console": "integratedTerminal"
       },
       {
-        "name": "Весь расчёт (run_all.py)",
+        "name": "All three Graph-EVT examples (run_all.py)",
         "type": "debugpy",
         "request": "launch",
         "program": "${workspaceFolder}/scripts/run_all.py",
@@ -83,7 +101,7 @@
         "console": "integratedTerminal"
       },
       {
-        "name": "Быстрая проверка (run_all.py --quick)",
+        "name": "Graph-EVT smoke test (run_all.py --quick)",
         "type": "debugpy",
         "request": "launch",
         "program": "${workspaceFolder}/scripts/run_all.py",
@@ -94,7 +112,7 @@
         "console": "integratedTerminal"
       },
       {
-        "name": "Отладка: пример 1 — мозг (src/brain_seeg_pipeline.py)",
+        "name": "Example: brain (src/brain_seeg_pipeline.py)",
         "type": "debugpy",
         "request": "launch",
         "program": "${workspaceFolder}/src/brain_seeg_pipeline.py",
@@ -113,7 +131,7 @@
         }
       },
       {
-        "name": "Отладка: пример 2 — двигатель, один процесс (src/aviation_cmapss_pipeline.py)",
+        "name": "Example: aviation (src/aviation_cmapss_pipeline.py)",
         "type": "debugpy",
         "request": "launch",
         "program": "${workspaceFolder}/src/aviation_cmapss_pipeline.py",
@@ -132,7 +150,7 @@
         }
       },
       {
-        "name": "Отладка: пример 3 — рынок (src/finance_sp500_pipeline.py)",
+        "name": "Example: finance (src/finance_sp500_pipeline.py)",
         "type": "debugpy",
         "request": "launch",
         "program": "${workspaceFolder}/src/finance_sp500_pipeline.py",

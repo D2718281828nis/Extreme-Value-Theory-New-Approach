@@ -1,4 +1,4 @@
-"""Полный повтор расчётов главы 7 (три примера) и сверка с результатами, по которым написан текст исследования.
+"""Запуск трёх прикладных демонстраций Graph-EVT-agent и сверка с эталонными результатами.
 
     python scripts/run_all.py                      # проверка данных → мозг → двигатель → рынок → рисунки → сверка
     python scripts/run_all.py --only brain         # один шаг: brain | aviation | finance | figures | compare
@@ -7,7 +7,7 @@
 
 Время на двух ядрах CPU: пример 1 ≈ 2 мин, пример 2 ≈ 45 мин, пример 3 ≈ 15 мин.
 Каждый расчётный процесс получает OMP_NUM_THREADS=1 (как при исходном расчёте; см. --threads).
-Расчётные скрипты в src/ не изменены по сравнению с disser-text/cases/code (MD5 — в README.md).
+Подробности наборов данных и протокола воспроизводимости приведены в REPRODUCIBILITY.md.
 """
 from __future__ import annotations
 
@@ -196,13 +196,13 @@ def main() -> int:
         t0 = time.time()
         log(f"\n=== {s} ===")
         if s == "brain":
-            with pb.step("пример 1: мозг (§ 7.2)", e["brain"]):
+            with pb.step("Graph-EVT пример 1: мозг", e["brain"]):
                 run(["brain_seeg_pipeline.py", "--data", str(P.find_seeg_derived()), "--out", str(out_root / "brain"), *q["brain"]],
                     logs / "brain.log")
         elif s == "aviation":
             base = ["aviation_cmapss_pipeline.py", "--data", str(P.cmapss_dir()), "--out", str(out_root / "aviation")]
             if a.quick or a.jobs < 2:
-                with pb.step("пример 2: двигатель (§ 7.3)", e["aviation_serial"]):
+                with pb.step("Graph-EVT пример 2: авиация", e["aviation_serial"]):
                     run([*base, *q["aviation"]], logs / "aviation.log")
             else:
                 # как при исходном расчёте: ГНС затравки 0 и 1–2 в двух процессах → локализация → сборка results.json
@@ -214,7 +214,7 @@ def main() -> int:
                 with pb.step("пример 2: двигатель — сборка результатов", e["aviation_final"]):
                     run([*base, "--stage", "final"], logs / "aviation_final.log")
         elif s == "finance":
-            with pb.step("пример 3: рынок (§ 7.4)", e["finance"]):
+            with pb.step("Graph-EVT пример 3: финансы", e["finance"]):
                 run(["finance_sp500_pipeline.py", "--data", str(P.sp500_dir()), "--out", str(out_root / "finance"), *q["finance"]],
                     logs / "finance.log")
         elif s == "figures":
