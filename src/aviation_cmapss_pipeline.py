@@ -246,7 +246,8 @@ def run_gnn_occlusion(F, y, groups, E, seeds, epochs=40):
     from torch_geometric.loader import DataLoader
     GraphGAT, _, _ = C.make_models()
     ei = C.edge_index_from(E, len(S))
-    fan = [S.index(s) for s in S if MOD[s] == "Fan"]; hpc = [S.index(s) for s in S if MOD[s] == "HPC"]
+    mods = sorted(set(MOD.values()))
+    midx = {m: [S.index(s) for s in S if MOD[s] == m] for m in mods}  # узлы-датчики каждого модуля
     acc = {}
     for seed in seeds:
         for tr, te in GroupKFold(5).split(F, y, groups):
@@ -267,17 +268,22 @@ def run_gnn_occlusion(F, y, groups, E, seeds, epochs=40):
             crit = [i for i in te if y[i] == 1]
             with torch.no_grad():
                 for i in crit:
-                    xs = [Fs[i].copy() for _ in range(3)]
-                    xs[1][fan] = zero; xs[2][hpc] = zero
+                    xs = [Fs[i].copy() for _ in range(1 + len(mods))]
+                    for k, m in enumerate(mods):
+                        xs[k + 1][midx[m]] = zero
                     bt = Batch.from_data_list([Data(x=torch.tensor(x), edge_index=ei) for x in xs])
                     lg = net(bt.x, bt.edge_index, bt.batch).numpy()
-                    u = groups[i]
-                    a = acc.setdefault(u, [[], []])
-                    a[0].append((lg[0] - lg[1]) / len(fan)); a[1].append((lg[0] - lg[2]) / len(hpc))
+                    a = acc.setdefault(groups[i], {m: [] for m in mods})
+                    for k, m in enumerate(mods):
+                        a[m].append((lg[0] - lg[k + 1]) / len(midx[m]))
     rows = []
-    for u, (f, h) in acc.items():
-        f, h = float(np.mean(f)), float(np.mean(h))
-        rows.append(dict(unit=u, occl_fan_per_node=f, occl_hpc_per_node=h, gnn_source="Fan" if f > h else "HPC"))
+    for u, a in acc.items():
+        v = {m: float(np.mean(a[m])) for m in mods}
+        # gnn_source — как раньше, сравнение Fan и HPC (две моды деградации FD003); gnn_source_all — по всем модулям
+        tot = {m: v[m] * len(midx[m]) for m in mods}  # суммарная окклюзия модуля (без деления на число его датчиков)
+        rows.append(dict(unit=u, **{f"occl_{m.lower()}_per_node": v[m] for m in mods},
+                         **{f"occl_{m.lower()}_total": tot[m] for m in mods},
+                         gnn_source="Fan" if v["Fan"] > v["HPC"] else "HPC", gnn_source_all=max(tot, key=tot.get)))
     return pd.DataFrame(rows)
 
 

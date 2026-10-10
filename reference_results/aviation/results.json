@@ -787,8 +787,8 @@
    "1.0": 56
   },
   "cascade_vs_signature": 0.52,
-  "gnn_vs_signature": 0.89,
-  "gnn_vs_cascade": 0.47,
+  "gnn_vs_signature": 0.95,
+  "gnn_vs_cascade": 0.51,
   "median_by_source": {
    "z_Nf": {
     "Fan": 13.89,

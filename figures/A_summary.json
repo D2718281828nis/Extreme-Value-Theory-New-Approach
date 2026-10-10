@@ -8,7 +8,7 @@
  "cascade_source": "Fan",
  "gnn_source": "Fan",
  "agent_source": "Fan",
- "mean_rule_source": "Burner",
+ "mean_rule_source": "Fan",
  "earliest_sensors": [
   "BPR",
   "Nf",
@@ -31,13 +31,13 @@
    "LPC": 0.0,
    "LPT": 0.102
   },
-  "GNN occlusion (Fan vs HPC)": {
-   "Burner": NaN,
+  "GNN occlusion (all modules)": {
+   "Burner": 0.264,
    "Fan": 1.0,
-   "HPC": 0.0,
-   "HPT": NaN,
-   "LPC": NaN,
-   "LPT": NaN
+   "HPC": 0.239,
+   "HPT": 0.075,
+   "LPC": 0.0,
+   "LPT": 0.155
   }
  }
 }

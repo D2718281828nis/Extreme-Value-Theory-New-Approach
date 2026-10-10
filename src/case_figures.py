@@ -94,6 +94,14 @@ def p_graph(ax, c):
     G.add_edges_from(c.edges)
     pos = nx.spring_layout(G, seed=3, k=1.6 / np.sqrt(len(c.nodes)), iterations=150)
     nx.draw_networkx_edges(G, pos, ax=ax, width=0.4, alpha=0.25, edge_color=GREY)
+    # small disconnected components (e.g. airlines in C): emphasise edges and name the members
+    for comp in nx.connected_components(G):
+        if len(comp) < 10 < len(c.nodes):
+            nx.draw_networkx_edges(G.subgraph(comp), pos, ax=ax, width=1.0, alpha=0.8, edge_color=GREY)
+            pts = np.array([pos[i] for i in comp])
+            grp = ", ".join(sorted({str(c.groups[i]) for i in comp}))
+            ax.annotate(f"closed cluster, no links to the rest:\n{', '.join(c.nodes[i] for i in sorted(comp))} ({grp})",
+                        pts.mean(0), xytext=(14, -4), textcoords="offset points", fontsize=6.5, va="top", color=INK)
     resp = np.log1p(np.nan_to_num(c.node_peak))
     src = np.asarray(c.groups) == c.source
     sz = 14 + 6 * resp ** 2 if len(c.nodes) < 50 else 6 + 3 * resp ** 2
@@ -150,6 +158,13 @@ def p_where(ax, c):
         for yy, v in zip(y + (i - (len(cols) - 1) / 2) * h, ev[k]):
             if np.isnan(v):
                 ax.text(0.01, yy, "n/a", fontsize=6, va="center", color=GREY)
+    for yy, row in zip(y, ev[cols].values):  # min-max floor: lowest group on the line, not missing data
+        if (row == 0).all():
+            ax.text(0.01, yy, "lowest on all lines (0)", fontsize=7, va="center", color=GREY)
+        else:
+            for k, v in enumerate(row):
+                if v == 0:
+                    ax.text(0.01, yy + (k - (len(cols) - 1) / 2) * h, "0", fontsize=6, va="center", color=GREY)
     ax.set_yticks(y)
     ax.set_yticklabels([f"{g}  ◀ mean rule" if g == c.source_mean else str(g) for g in ev.index], fontsize=7.5)
     for lab, g in zip(ax.get_yticklabels(), ev.index):

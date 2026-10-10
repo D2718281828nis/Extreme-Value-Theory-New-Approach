@@ -115,8 +115,8 @@ def aviation(unit: int = 7) -> Case:
     end_z = pd.Series(np.abs(Z[-20:].mean(0)), index=mods).groupby(level=0).mean()
     ev["Event footprint (mean |z| at end)"] = _minmax(end_z.reindex(ev.index))
     L = pd.read_csv(REF / "aviation" / "localization_FD003.csv").set_index("unit").loc[unit]
-    gnn = pd.Series({"Fan": L.occl_fan_per_node, "HPC": L.occl_hpc_per_node}).reindex(ev.index)
-    ev["GNN occlusion (Fan vs HPC)"] = _minmax(gnn.dropna()).reindex(ev.index)
+    gnn = pd.Series({m: L[f"occl_{m.lower()}_total"] for m in ev.index})
+    ev["GNN occlusion (all modules)"] = _minmax(gnn)
 
     lo = max(0, det_t - 3 * A.BL * 10)
     c = Case("A", f"A · Aviation — turbofan engine (C-MAPSS FD003, unit {unit})", "cycle")
