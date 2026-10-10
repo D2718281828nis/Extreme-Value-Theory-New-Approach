@@ -1,0 +1,61 @@
+{
+ "episode": "2015-08",
+ "detected_day": "2015-08-21",
+ "peak_day": "2015-08-24",
+ "pot_threshold": 0.02688690737466922,
+ "n_stocks": 470,
+ "stocks_with_onset": 373,
+ "agent_source": "Real Estate",
+ "mean_rule_source": "Real Estate",
+ "top_by_evidence": {
+  "EVT cascade (pre-peak exceedances)": "Financials",
+  "Event footprint (share > EVT thr)": "Real Estate",
+  "Market-model residual z": "Real Estate"
+ },
+ "date_axis": {
+  "0": "2013-02-11",
+  "detected_index": 637,
+  "dates_view": [
+   "2015-07-17",
+   "2015-09-11"
+  ]
+ },
+ "evidence": {
+  "EVT cascade (pre-peak exceedances)": {
+   "Consumer Discretionary": 0.903,
+   "Industrials": 0.411,
+   "Information Technology": 0.909,
+   "Financials": 1.0,
+   "Health Care": 0.791,
+   "Consumer Staples": 0.646,
+   "Real Estate": 0.235,
+   "Energy": 0.545,
+   "Utilities": 0.0,
+   "Materials": 0.245
+  },
+  "Event footprint (share > EVT thr)": {
+   "Consumer Discretionary": 0.024,
+   "Industrials": 0.034,
+   "Information Technology": 0.0,
+   "Financials": 0.882,
+   "Health Care": 0.281,
+   "Consumer Staples": 0.331,
+   "Real Estate": 1.0,
+   "Energy": 0.46,
+   "Utilities": 0.81,
+   "Materials": 0.454
+  },
+  "Market-model residual z": {
+   "Consumer Discretionary": 0.084,
+   "Industrials": 0.0,
+   "Information Technology": 0.031,
+   "Financials": 0.325,
+   "Health Care": 0.165,
+   "Consumer Staples": 0.334,
+   "Real Estate": 1.0,
+   "Energy": 0.349,
+   "Utilities": 0.761,
+   "Materials": 0.033
+  }
+ }
+}

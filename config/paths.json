@@ -11,8 +11,5 @@
     "data/sEEG/sEEG-HFOs-8_cases_derived.npz",
     "../BioMedAI-sEEG-core-of-epilepsy/dataset/sEEG-HFOs-8_cases_derived.npz"
   ],
-  "_seeg_derived": "(DISSER_SEEG_DERIVED) производный набор примера 1; берётся первый существующий файл из списка",
-
-  "biomedai_repo": "../BioMedAI-sEEG-core-of-epilepsy",
-  "_biomedai_repo": "(DISSER_BIOMEDAI_REPO) репозиторий автора с результатами gnn_model — нужен только для сверки блока E § 3.11"
+  "_seeg_derived": "(DISSER_SEEG_DERIVED) производный набор примера 1; берётся первый существующий файл из списка"
 }

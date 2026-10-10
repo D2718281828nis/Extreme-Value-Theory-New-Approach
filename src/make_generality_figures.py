@@ -4,13 +4,12 @@
 В отличие от src/make_figures.py (рисунки 57–62 главы 7, которые остаются как были — приложение,
 показывающее устройство каждого набора данных), этот скрипт ничего не меняет в src/*.py и не влияет
 на results/*/results.json. Он только читает уже посчитанные results/{brain,aviation,finance}/ и рисует
-пять новых PNG в results/figures/generality/:
+четыре новых PNG в results/figures/generality/:
 
     g0_task-overview-evt-detection.png   короткое пояснение задачи по каждой области: ряд + EVT-детекция
     g1_signal-wavelet-dfa.png            вейвлет-разложение и DFA-масштабирование на представительном ряду
     g2_graph-gnn-gat-leakage.png         структурный граф объекта в каждой области; ГНС/GAT против MLP/
                                           логрегрессии, утечка, ценность графа
-    g3_accuracy-confusion-matrix.png     точность и матрица ошибок (блок E § 3.11 + доля верных, авиация)
     g4_cascade-localization.png          каскад вовлечения и локализация источника
 
 Вейвлет-разложение и кривая DFA считаются здесь на месте (функция dfa_alpha из common.py даёт только
@@ -367,55 +366,6 @@ def graph_gnn_leakage(S):
     f = f"{OUT}/g2_graph-gnn-gat-leakage_{DATE}.png"; fig.savefig(f, dpi=200, bbox_inches="tight"); plt.close(fig); return f
 
 
-# ================================================================ G3: точность и матрица ошибок
-def accuracy_confusion(S):
-    try:
-        repo = P.config()["biomedai_repo"]
-        single = json.loads((repo / "gnn_model_result" / "attention_deep" / "sEEG-HFOs-8" / "gnn_model_result.json").read_text())
-        cv_files = {"без DFA": "attention_deep_cv", "с DFA": "attention_deep_dfa_cv",
-                    "без DFA, по стволу": "attention_deep_cv_shaft", "с DFA, по стволу": "attention_deep_dfa_cv_shaft"}
-        cv = {lab: json.loads((repo / "gnn_model_result" / name / "sEEG-HFOs-8" / "gnn_cv_result.json").read_text()) for lab, name in cv_files.items()}
-    except (FileNotFoundError, KeyError) as e:
-        print(f"  блок E § 3.11 недоступен ({e}) — рисунок g3 пропущен; см. README.md, раздел 6")
-        return None
-
-    i = single["best_epoch"] - 1
-    cm = np.array(single["val_confusion_matrix"]); acc = single["history"]["val_accuracy"][i]
-    fig, ax = plt.subplots(1, 2, figsize=(8.6, 3.8), gridspec_kw={"width_ratios": [0.8, 1.3]})
-
-    a = ax[0]; a.grid(False)
-    im = a.imshow(cm, cmap="Blues", vmin=0)
-    for r in range(2):
-        for c in range(2):
-            a.text(c, r, str(cm[r, c]), ha="center", va="center", fontsize=13, color="white" if cm[r, c] > cm.max() / 2 else INK)
-    a.set_xticks([0, 1]); a.set_xticklabels(["не ранний", "ранний"]); a.set_yticks([0, 1]); a.set_yticklabels(["не ранний", "ранний"])
-    a.set_xlabel("предсказано"); a.set_ylabel("истина")
-    a.set_title(f"а) Матрица ошибок: блок E § 3.11\n(attention_deep, доля верных {comma(acc, 3)})")
-
-    a = ax[1]
-    Rav = json.load(open(f"{RES}/aviation/results.json"))
-    av_row = [g for g in Rav["gnn_summary"] if g["model"] == "gat" and g["graph"] == "physical" and g["split"] == "group"][0]
-    labs = list(cv.keys()) + ["авиадвигатель: ГНС GATv2\n(macro-F1, для сравнения масштаба)"]
-    means = [cv[k]["mean_val_macro_f1"] for k in cv] + [av_row["macro_f1_mean"]]
-    stds = [cv[k]["std_val_macro_f1"] for k in cv] + [av_row["macro_f1_std"]]
-    colors = [BLUE] * len(cv) + [ORANGE]
-    y = np.arange(len(labs))[::-1]
-    a.barh(y, means, xerr=stds, color=colors, alpha=0.85, capsize=3)
-    for yy, m, s in zip(y, means, stds):
-        a.text(m + s + 0.02, yy, comma(m), va="center", fontsize=7.5, color=INK)
-    a.set_yticks(y); a.set_yticklabels(labs, fontsize=7.5); a.set_xlabel("macro-F1 (кросс-валидация)"); a.set_xlim(0, 1.15)
-    a.axvline(0.5, color=INK2, lw=0.8, ls=":")
-    a.set_title("б) Доля верных ответов вне фолда")
-    comma_axes(fig); fig.tight_layout()
-    f = f"{OUT}/g3_accuracy-confusion-matrix_{DATE}.png"; fig.savefig(f, dpi=200, bbox_inches="tight"); plt.close(fig); return f
-
-
-SECT_RU = {"Consumer Discretionary": "Потреб. товары", "Consumer Staples": "Товары перв. необх.", "Energy": "Энергетика",
-          "Financials": "Финансы", "Health Care": "Здравоохранение", "Industrials": "Промышленность",
-          "Information Technology": "Инф. технологии", "Materials": "Сырьё и материалы", "Real Estate": "Недвижимость",
-          "Utilities": "Коммун. услуги", "Telecommunication Services": "Телеком"}
-
-
 # ================================================================ G4: каскад вовлечения + локализация
 def cascade_localization(S):
     fig, ax = plt.subplots(2, 3, figsize=(11.5, 6.8))
@@ -472,9 +422,9 @@ def cascade_localization(S):
 
 
 if __name__ == "__main__":
-    which = sys.argv[1:] or ["g0", "g1", "g2", "g3", "g4"]
+    which = sys.argv[1:] or ["g0", "g1", "g2", "g4"]
     S = load_domain_series()
     fn = {"g0": lambda: task_overview(S), "g1": lambda: signal_wavelet_dfa(S), "g2": lambda: graph_gnn_leakage(S),
-          "g3": lambda: accuracy_confusion(S), "g4": lambda: cascade_localization(S)}
+          "g4": lambda: cascade_localization(S)}
     for w in which:
         print(fn[w]())

@@ -52,7 +52,6 @@ def config() -> dict:
         "data_dir": _resolve(os.environ.get("DISSER_DATA_DIR", cfg["data_dir"])),
         "seeg_edf": _resolve(os.environ.get("DISSER_SEEG_EDF", cfg["seeg_edf"])),
         "seeg_derived": [_resolve(x) for x in derived],
-        "biomedai_repo": _resolve(os.environ.get("DISSER_BIOMEDAI_REPO", cfg["biomedai_repo"])),
     }
 
 

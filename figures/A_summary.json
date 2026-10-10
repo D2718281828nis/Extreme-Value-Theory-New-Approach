@@ -1,0 +1,43 @@
+{
+ "unit": 7,
+ "life_cycles": 424,
+ "detected_cycle": 228,
+ "lead_cycles": 196,
+ "gev_threshold": 4.317168717669939,
+ "signature_source": "Fan",
+ "cascade_source": "Fan",
+ "gnn_source": "Fan",
+ "agent_source": "Fan",
+ "mean_rule_source": "Burner",
+ "earliest_sensors": [
+  "BPR",
+  "Nf",
+  "NRc"
+ ],
+ "evidence": {
+  "EVT cascade (earliest onset)": {
+   "Burner": 0.763,
+   "Fan": 1.0,
+   "HPC": 0.78,
+   "HPT": 0.356,
+   "LPC": 0.0,
+   "LPT": 0.746
+  },
+  "Event footprint (mean |z| at end)": {
+   "Burner": 1.0,
+   "Fan": 0.383,
+   "HPC": 0.342,
+   "HPT": 0.058,
+   "LPC": 0.0,
+   "LPT": 0.102
+  },
+  "GNN occlusion (Fan vs HPC)": {
+   "Burner": NaN,
+   "Fan": 1.0,
+   "HPC": 0.0,
+   "HPT": NaN,
+   "LPC": NaN,
+   "LPT": NaN
+  }
+ }
+}

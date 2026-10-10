@@ -16,3 +16,4 @@ tqdm==4.70.1        # индикатор прогресса run_all.py (уже �
 # Reusable Graph-EVT implementation used by this application showcase.
 # Installed from the canonical repository until a PyPI release is published.
 graph-evt-agent @ git+https://github.com/D2718281828nis/Graph-EVT-agent.git
+networkx>=3.0      # system-graph panels in src/case_figures.py

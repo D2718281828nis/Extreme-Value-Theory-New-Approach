@@ -10,9 +10,27 @@ extreme-value workflow to three very different systems:
 | ✈️ **Aviation** | engine sensors | C-MAPSS telemetry | engine degradation | Can the event be detected without leakage and can its source be localized? |
 | 📈 **Finance** | S&P 500 companies | market returns | market stress | When does systemic stress begin and through which sectors does it spread? |
 
-The former synthetic tutorial under `demo/evt-educational-demo` has deliberately been removed. The three
-examples here are the demonstration: they use real domain data, a common pipeline, leakage-safe evaluation,
-and checked reference outputs.
+Start with the 30-second [`demo/quickstart.py`](demo/quickstart.py), then read the three worked cases. Each
+case has the same six-step structure, is written in Russian and English, and has the same six figure types,
+so the domains can be compared side by side.
+
+| Case | Document | Six-step figure |
+|---|---|---|
+| **A** Aviation — turbofan engine failure | [`examples/A_aviation`](examples/A_aviation/README.md) | [`figures/A_six_steps.png`](figures/A_six_steps.png) |
+| **B** Medicine — seizure in sEEG | [`examples/B_brain`](examples/B_brain/README.md) | [`figures/B_six_steps.png`](figures/B_six_steps.png) |
+| **C** Finance — S&P 500 stress | [`examples/C_finance`](examples/C_finance/README.md) | [`figures/C_six_steps.png`](figures/C_six_steps.png) |
+
+Steps: 1 task · 2 data · 3 Graph-EVT-agent application · 4 how the event point (WHEN) is found ·
+5 how the source (WHERE) is found · 6 demonstration. Cross-domain comparison per step:
+[`figures/step1_task.png` … `step6_result.png`](figures/), everything at once:
+[`figures/all_steps_grid.png`](figures/all_steps_grid.png).
+
+![all steps](figures/all_steps_grid.png)
+
+> **Honest reading.** In all three cases EVT locates the event point without leakage and the evidence lines
+> mostly agree on the source group. Under leakage-safe splits, however, the graph neural network does *not*
+> beat graph-free baselines at node/window classification; the graph's value shown here is localization and
+> interpretation. Source "ground truth" is a proxy (A) or absent (B, C). A plain mean of the evidence lines picks the wrong module in A (Burner instead of Fan), the same shaft in B, and is nearly tied/unstable in C. Details are in each case document.
 
 ## The shared Graph-EVT-agent workflow
 
@@ -50,6 +68,9 @@ python -m pip install -r requirements.txt
 
 # Download and checksum the public datasets.
 python scripts/fetch_data.py
+
+python demo/quickstart.py              # simplest demo (~2 s, no data)
+python src/case_figures.py             # regenerate figures/ for A, B, C (needs data/ for A and C)
 
 # Small end-to-end run of all three applications.
 python scripts/run_all.py --quick
@@ -127,16 +148,19 @@ src/common.py                    shared Graph-EVT application primitives
 src/brain_seeg_pipeline.py       brain adapter and experiment
 src/aviation_cmapss_pipeline.py  aviation adapter and experiment
 src/finance_sp500_pipeline.py    finance adapter and experiment
-src/make_figures.py              per-example figures
+src/case_data.py                 one illustrative case per domain in a common structure
+src/case_figures.py              the six-step figures (same panel types for A, B, C)
+src/make_figures.py              per-example research figures
 src/make_generality_figures.py   cross-domain Graph-EVT figures
 scripts/fetch_data.py            download, provenance, and checksum checks
 scripts/run_all.py               one runner for the three applications
 scripts/compare_results.py       reference-output verification
+examples/{A_aviation,B_brain,C_finance}/README.md   bilingual six-step case documents
+demo/quickstart.py               simplest end-to-end demo
+figures/                         generated step figures
 reference_results/               checked results for every application
 ```
 
-Open `graph-evt-agent-examples.code-workspace` in VS Code to get tasks for setup, data retrieval, each of the
-three examples, the complete showcase, and result verification.
 
 ## Data and reproducibility
 

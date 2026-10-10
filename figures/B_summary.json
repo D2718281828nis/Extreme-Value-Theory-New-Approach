@@ -1,0 +1,67 @@
+{
+ "detected_s": 10436.0,
+ "annotation_s": 10396.445,
+ "dt_detect_minus_annotation_s": 39.55500000000029,
+ "pot_threshold": 17.164420602701195,
+ "n_contacts": 100,
+ "n_involved": 54,
+ "agent_source": "SA'",
+ "mean_rule_source": "SA'",
+ "earliest_contacts": [
+  "CR'1 (+11.1s)",
+  "SA'8 (+12.8s)",
+  "SA'7 (+13.1s)",
+  "SA'6 (+14.3s)",
+  "SA'5 (+15.6s)"
+ ],
+ "leading_shaft_by_evidence": {
+  "cascade": "SA'",
+  "footprint": "SA'",
+  "gat": "SA'",
+  "residual_z": "SA'"
+ },
+ "evidence": {
+  "EVT cascade (earliest onset)": {
+   "CC": 0.716,
+   "CC'": 0.784,
+   "CR'": 1.0,
+   "FD": 0.0,
+   "FP": 0.0,
+   "PA": 0.568,
+   "PA'": 0.659,
+   "PM": 0.511,
+   "PM'": 0.727,
+   "R": 0.227,
+   "SA": 0.727,
+   "SA'": 0.92
+  },
+  "Event footprint (share > EVT thr)": {
+   "CC": 0.421,
+   "CC'": 0.391,
+   "CR'": 0.139,
+   "FD": 0.0,
+   "FP": 0.45,
+   "PA": 0.661,
+   "PA'": 0.846,
+   "PM": 0.509,
+   "PM'": 0.117,
+   "R": 0.538,
+   "SA": 0.958,
+   "SA'": 1.0
+  },
+  "GAT node score (grouped CV)": {
+   "CC": 0.345,
+   "CC'": 0.912,
+   "CR'": 0.853,
+   "FD": 0.0,
+   "FP": 0.059,
+   "PA": 0.378,
+   "PA'": 0.771,
+   "PM": 0.026,
+   "PM'": 0.852,
+   "R": 0.05,
+   "SA": 0.991,
+   "SA'": 1.0
+  }
+ }
+}
