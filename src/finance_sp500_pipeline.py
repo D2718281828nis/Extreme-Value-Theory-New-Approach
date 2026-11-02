@@ -19,7 +19,9 @@ import argparse, hashlib, json, os, time, warnings
 import numpy as np, pandas as pd
 from scipy import stats
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import KFold, GroupKFold
+from sklearn.model_selection import KFold
+from folds import stable_group_kfold
+import folds as FO
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import roc_auc_score, average_precision_score
 import common as C
@@ -28,6 +30,8 @@ warnings.filterwarnings("ignore")
 MD5 = {"all_stocks_5yr.csv": "6d2f3f2529cf6d8b443c8f4beee5638b",
        "constituents_financials_2018-02-08.csv": "8e571d9a5791c6355cd5ef8455d56920"}
 B = 500            # фоновый (обучающий) период: первые 500 торговых дней, 2013-02-11 ... 2015-02-04
+SPEC = C.load_spec("finance")    # спецификации детекторов (config/systems.json), общий детектор — common.detect
+assert SPEC["background"] == B
 WPRE = 60          # окно признаков перед событием (торговых дней)
 WH = 20            # длина окон T1..T4 при проверке гипотезы
 MIN_SECTOR = 10    # секторы меньше 10 акций не ранжируются при локализации
@@ -53,16 +57,25 @@ def load(path):
 
 
 # ------------------------------------------------------------------ 1. EVT-детекция
+def decluster(L, days, expected, gaps=(1, 5, 10, 20, 40)):
+    """Runs-декластеризация экстремальных дней: дни, между которыми не больше g торговых дней, — один кластер.
+    Биномиальный p выше считает дни независимыми; кластеры сравниваются с Пуассоном со средним = ожидаемому числу
+    превышений (верхняя граница ожидаемого числа кластеров), theta = кластеры / дни — оценка экстремального индекса."""
+    pos = sorted(L.index.get_loc(d) for d in days); out = {}
+    for g in gaps:
+        n = 0 if not pos else 1 + sum(1 for a, b in zip(pos, pos[1:]) if b - a > g)
+        out[f"gap_{g}"] = {"clusters": n, "poisson_p": float(stats.poisson.sf(n - 1, expected)) if n else 1.0,
+                           "theta": n / len(pos) if pos else float("nan")}
+    return out
+
+
 def detect_market(R):
     m = R.mean(1); L = -m
-    thr_pot, xi_pot = C.pot_threshold(L.iloc[:B].values, 0.9, 0.998)
-    bm = L.iloc[:B].values.reshape(-1, 5).max(1)
-    thr_gev, xi_gev = C.gev_threshold(bm, 0.99)
+    dp, dg = C.detect(L.values, SPEC["pot"], B), C.detect(L.values, SPEC["gev_weekly"], B)
+    thr_pot, xi_pot, thr_gev, xi_gev = dp["thr"], dp["xi"], dg["thr"], dg["xi"]
     test = L.iloc[B:]
-    ext = test[test > thr_pot]
-    wk = test.values[: len(test) // 5 * 5].reshape(-1, 5).max(1)
-    wk_dates = test.index[: len(test) // 5 * 5].values.reshape(-1, 5)
-    gev_weeks = [str(pd.Timestamp(wk_dates[k, 0]).date()) for k in np.where(wk > thr_gev)[0]]
+    ext = L.iloc[dp["exceedances"]]
+    gev_weeks = [str(L.index[i].date()) for i in dg["exceedances"]]
     base_exc = int((L.iloc[:B] > thr_pot).sum())
     # тяжёлый хвост: GPD-параметр формы верхних 5% потерь фона и всего ряда
     def xi_top(x):
@@ -73,7 +86,8 @@ def detect_market(R):
                 extreme_days={str(d.date()): float(v) for d, v in ext.items()},
                 n_test_days=int(len(test)), expected_exceedances=float(len(test) * 0.002),
                 binom_p=float(stats.binomtest(len(ext), len(test), 0.002, alternative="greater").pvalue),
-                baseline_exceedances=base_exc, gev_extreme_weeks=gev_weeks, n_test_weeks=int(len(wk)),
+                declustered=decluster(L, list(ext.index), len(test) * 0.002),
+                baseline_exceedances=base_exc, gev_extreme_weeks=gev_weeks, n_test_weeks=int(len(test) // SPEC["gev_weekly"]["block"]),
                 baseline_period=[str(L.index[0].date()), str(L.index[B - 1].date())]), m
 
 
@@ -184,7 +198,7 @@ def run_protocols(EPD, sec, seeds, epochs):
                     elif split == "random":
                         folds = [(a, b) for a, b in KFold(5, shuffle=True, random_state=seed).split(F)]
                     else:
-                        folds = [(a, b) for a, b in GroupKFold(5).split(F, groups=sg)]
+                        folds = [(a, b) for a, b in stable_group_kfold(sg)]
                     for tr, te in folds:
                         if split == "loeo":
                             train_eps = [x for x in eps if x != e]
@@ -263,7 +277,7 @@ def main():
     res = {"dataset": "Kaggle S&P 500 stock data (camnugent/sandp500), all_stocks_5yr.csv", "n_stocks": int(R.shape[1]),
            "n_days": int(R.shape[0]), "period": [str(R.index[0].date()), str(R.index[-1].date())],
            "corporate_action_fixes": fixes, "sector_counts": sec.value_counts().to_dict()}
-    det, m = detect_market(R); res["detection"] = det
+    det, m = detect_market(R); res["detection"] = det; res["detection_spec"] = SPEC
     np.save(f"{a.out}/market_losses.npy", (-m).values); pd.Series(-m.values, index=R.index).to_csv(f"{a.out}/market_losses.csv")
     # эпизоды: пик каждого кластера экстремальных дней; окно признаков заканчивается до первого экстремального дня кластера
     EPIS = {"2015-08": ("2015-08-20", "2015-08-24"), "2016-06": ("2016-06-23", "2016-06-24"),
@@ -291,6 +305,10 @@ def main():
     G = RUNS.groupby(["split", "model", "graph"])[["auroc", "auprc"]].agg(["mean", "std"]).round(4)
     G.columns = ["_".join(c) for c in G.columns]; res["gnn_summary"] = G.reset_index().to_dict("records")
     res["localization"], LT = localization(R, sec, thr, EPIS); LT.to_csv(f"{a.out}/localization_sectors.csv", index=False)
+    tick = R.columns.values; n = len(tick); ep = list(EPIS)
+    res["folds_md5"] = FO.save_fold_map(f"{a.out}/folds.csv", [FO.fold_table(tick, sec.values, FO.random_kfold(n, 5, s), "random", s) for s in a.seeds]
+                                        + [FO.fold_table(tick, sec.values, stable_group_kfold(sec.values), "sector"),
+                                           FO.fold_table(ep, ep, [(None, np.array([k])) for k in range(len(ep))], "loeo")])
     res["runtime_s"] = round(time.time() - t0, 1)
     json.dump(res, open(f"{a.out}/results.json", "w"), ensure_ascii=False, indent=1, default=str)
     print(json.dumps({k: res[k] for k in ["detection", "H2_noise", "graphs", "localization"]}, ensure_ascii=False, indent=1, default=str)[:6000])

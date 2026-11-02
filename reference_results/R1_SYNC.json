@@ -1,0 +1,37 @@
+{
+ "checked": "2026-11-02",
+ "r1": "dissertation-calculations",
+ "r1_commit": "6f75a4a + незакоммиченные изменения",
+ "rtol": 1e-06,
+ "atol": 1e-09,
+ "brain": {
+  "folds_md5": "f62a7bbbe9c3bf701d060aceea30172a",
+  "r1_keys": 412,
+  "equal": 412,
+  "allowed_differences": [],
+  "extra_files_equal": {}
+ },
+ "aviation": {
+  "folds_md5": "68807276cf65624687c5d9519898025b",
+  "r1_keys": 489,
+  "equal": 489,
+  "allowed_differences": [],
+  "extra_files_equal": {
+   "false_alarm_bootstrap.json": true
+  }
+ },
+ "finance": {
+  "folds_md5": "4ab36ce535becf9ab17200f4a396bafd",
+  "r1_keys": 484,
+  "equal": 484,
+  "allowed_differences": [],
+  "extra_files_equal": {}
+ },
+ "code_md5": {
+  "src/common.py": "ed80790f3c45db5e227209bb92bf1f75",
+  "src/folds.py": "64e258892da054b114c901348c9b3ad6",
+  "src/aviation_false_alarm_bootstrap.py": "79d7c74c1fe42aa08d96c5d6d3c237e5",
+  "tests/test_folds.py": "2ab4db3dae4dbf4356503f5571c92893",
+  "config/systems.json": "8ff17709637ee26a92859f47fcd2d365"
+ }
+}

@@ -32,12 +32,12 @@
    "LPT": 0.102
   },
   "GNN occlusion (all modules)": {
-   "Burner": 0.264,
+   "Burner": 0.445,
    "Fan": 1.0,
-   "HPC": 0.239,
-   "HPT": 0.075,
+   "HPC": 0.177,
+   "HPT": 0.249,
    "LPC": 0.0,
-   "LPT": 0.155
+   "LPT": 0.216
   }
  }
 }

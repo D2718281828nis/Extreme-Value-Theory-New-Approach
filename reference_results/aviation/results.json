@@ -1,6 +1,34 @@
 {
  "dataset": "NASA C-MAPSS (FD001, FD003)",
  "zenodo_doi": "10.5281/zenodo.15346912",
+ "detection_spec": {
+  "unit": "цикл",
+  "background": 60,
+  "gev": {
+   "method": "gev",
+   "gamma": 0.99,
+   "r": 2,
+   "block": 3
+  },
+  "pot": {
+   "method": "pot",
+   "u_q": 0.8,
+   "gamma": 0.999,
+   "r": 3
+  },
+  "healthy_check": {
+   "background": 30,
+   "test_until": 60,
+   "r_values": [
+    2,
+    3
+   ],
+   "primary_r": {
+    "gev": 2,
+    "pot": 3
+   }
+  }
+ },
  "md5": {
   "train_FD001.txt": "259f340bac32ce6fa8894815600fa757",
   "train_FD003.txt": "81298e81977a53aa268ad500ac42b2d7"
@@ -28,12 +56,12 @@
     0.9977
    ],
    "rm_corr": {
-    "r_rm": -0.05668985308395022,
+    "r_rm": -0.056689853083991874,
     "dof": 299,
-    "p": 0.32697337112550046,
+    "p": 0.3269733711251446,
     "ci95": [
-     -0.16866324789676848,
-     0.05672808271363928
+     -0.16866324789680906,
+     0.056728082713597625
     ]
    },
    "friedman_p": 0.4914047356942999
@@ -48,7 +76,7 @@
    "rm_corr": {
     "r_rm": 0.7830468796639737,
     "dof": 299,
-    "p": 1.272280997661288e-63,
+    "p": 1.2722809976612877e-63,
     "ci95": [
      0.7350655675795648,
      0.8232238180690972
@@ -64,12 +92,12 @@
     -0.1133
    ],
    "rm_corr": {
-    "r_rm": -0.03851578262610129,
+    "r_rm": -0.038515782626538424,
     "dof": 299,
-    "p": 0.5056088979770176,
+    "p": 0.505608897972184,
     "ci95": [
-     -0.15091301394076725,
-     0.07486456947038143
+     -0.15091301394119505,
+     0.07486456946994609
     ]
    },
    "friedman_p": 0.6333825076096626
@@ -101,20 +129,31 @@
   "lead_frac_life_median_gev": 0.47030538834238733,
   "spearman_gev_pot": 0.7991882794275231,
   "false_alarm_engines_healthy_31_60": {
-   "gev": 8,
-   "pot": 0
+   "gev": 35,
+   "pot": 7
   },
+  "false_alarm_engines_healthy_31_60_by_r": {
+   "r2": {
+    "gev": 35,
+    "pot": 36
+   },
+   "r3": {
+    "gev": 19,
+    "pot": 7
+   }
+  },
+  "false_alarm_healthy_setup": "индикатор, GEV (10 блочных максимумов по 3 цикла) и POT подогнаны по циклам 1-30, тревоги — на 31-60; основной ключ — GEV при r=2, POT при r=3, как в детекции",
   "xi_gev_median": -0.22760781031977462
  },
  "heavy_tail": {
   "baseline": {
    "gpd_xi_top5pct": -0.07525032623013722,
-   "kurtosis": 0.09950940664017738,
-   "q999": 2.08430024153942
+   "kurtosis": 0.09950940664017782,
+   "q999": 2.0843002415394203
   },
   "full_life": {
    "gpd_xi_top5pct": -0.19841575034214026,
-   "kurtosis": 13.687291069988344,
+   "kurtosis": 13.687291069988351,
    "q999": 24.668569653725406
   }
  },
@@ -601,35 +640,35 @@
    "split": "group",
    "model": "gat",
    "graph": "empty",
-   "auprc_mean": 0.9486,
-   "auprc_std": 0.0021,
-   "macro_f1_mean": 0.8998,
-   "macro_f1_std": 0.0039,
-   "auroc_mean": 0.9876,
-   "auroc_std": 0.0005
+   "auprc_mean": 0.9432,
+   "auprc_std": 0.0033,
+   "macro_f1_mean": 0.8934,
+   "macro_f1_std": 0.0033,
+   "auroc_mean": 0.9861,
+   "auroc_std": 0.0007
   },
   {
    "features": "normalized",
    "split": "group",
    "model": "gat",
    "graph": "functional",
-   "auprc_mean": 0.9412,
-   "auprc_std": 0.0055,
-   "macro_f1_mean": 0.8956,
-   "macro_f1_std": 0.0055,
-   "auroc_mean": 0.9861,
-   "auroc_std": 0.0012
+   "auprc_mean": 0.9389,
+   "auprc_std": 0.0034,
+   "macro_f1_mean": 0.8939,
+   "macro_f1_std": 0.0011,
+   "auroc_mean": 0.9856,
+   "auroc_std": 0.0009
   },
   {
    "features": "normalized",
    "split": "group",
    "model": "gat",
    "graph": "knn",
-   "auprc_mean": 0.9445,
-   "auprc_std": 0.0024,
-   "macro_f1_mean": 0.8997,
-   "macro_f1_std": 0.0077,
-   "auroc_mean": 0.9869,
+   "auprc_mean": 0.9383,
+   "auprc_std": 0.0015,
+   "macro_f1_mean": 0.8978,
+   "macro_f1_std": 0.0022,
+   "auroc_mean": 0.9852,
    "auroc_std": 0.0004
   },
   {
@@ -637,23 +676,23 @@
    "split": "group",
    "model": "gat",
    "graph": "physical",
-   "auprc_mean": 0.9418,
-   "auprc_std": 0.0019,
-   "macro_f1_mean": 0.9077,
-   "macro_f1_std": 0.0048,
-   "auroc_mean": 0.9866,
-   "auroc_std": 0.0003
+   "auprc_mean": 0.9394,
+   "auprc_std": 0.0089,
+   "macro_f1_mean": 0.9009,
+   "macro_f1_std": 0.0029,
+   "auroc_mean": 0.9857,
+   "auroc_std": 0.0017
   },
   {
    "features": "normalized",
    "split": "group",
    "model": "lr",
    "graph": "-",
-   "auprc_mean": 0.9368,
+   "auprc_mean": 0.9345,
    "auprc_std": 0.0,
    "macro_f1_mean": 0.9067,
    "macro_f1_std": 0.0,
-   "auroc_mean": 0.9852,
+   "auroc_mean": 0.9845,
    "auroc_std": 0.0
   },
   {
@@ -661,11 +700,11 @@
    "split": "group",
    "model": "mlp",
    "graph": "-",
-   "auprc_mean": 0.9155,
-   "auprc_std": 0.0034,
-   "macro_f1_mean": 0.8963,
-   "macro_f1_std": 0.0025,
-   "auroc_mean": 0.979,
+   "auprc_mean": 0.907,
+   "auprc_std": 0.0062,
+   "macro_f1_mean": 0.8936,
+   "macro_f1_std": 0.0038,
+   "auroc_mean": 0.9772,
    "auroc_std": 0.0008
   },
   {
@@ -673,12 +712,12 @@
    "split": "random",
    "model": "gat",
    "graph": "physical",
-   "auprc_mean": 0.9591,
-   "auprc_std": 0.004,
-   "macro_f1_mean": 0.9165,
-   "macro_f1_std": 0.0024,
+   "auprc_mean": 0.9595,
+   "auprc_std": 0.0036,
+   "macro_f1_mean": 0.9177,
+   "macro_f1_std": 0.0041,
    "auroc_mean": 0.9908,
-   "auroc_std": 0.0008
+   "auroc_std": 0.0007
   },
   {
    "features": "normalized",
@@ -697,10 +736,10 @@
    "split": "random",
    "model": "mlp",
    "graph": "-",
-   "auprc_mean": 0.9834,
+   "auprc_mean": 0.9835,
    "auprc_std": 0.0017,
-   "macro_f1_mean": 0.9603,
-   "macro_f1_std": 0.0012,
+   "macro_f1_mean": 0.9609,
+   "macro_f1_std": 0.0018,
    "auroc_mean": 0.9965,
    "auroc_std": 0.0003
   },
@@ -709,23 +748,23 @@
    "split": "group",
    "model": "gat",
    "graph": "physical",
-   "auprc_mean": 0.8549,
-   "auprc_std": 0.0086,
-   "macro_f1_mean": 0.83,
-   "macro_f1_std": 0.0017,
-   "auroc_mean": 0.9517,
-   "auroc_std": 0.004
+   "auprc_mean": 0.8476,
+   "auprc_std": 0.0098,
+   "macro_f1_mean": 0.834,
+   "macro_f1_std": 0.0061,
+   "auroc_mean": 0.9492,
+   "auroc_std": 0.0034
   },
   {
    "features": "raw",
    "split": "group",
    "model": "lr",
    "graph": "-",
-   "auprc_mean": 0.9115,
+   "auprc_mean": 0.9107,
    "auprc_std": 0.0,
-   "macro_f1_mean": 0.8831,
+   "macro_f1_mean": 0.8816,
    "macro_f1_std": 0.0,
-   "auroc_mean": 0.9753,
+   "auroc_mean": 0.9752,
    "auroc_std": 0.0
   },
   {
@@ -733,24 +772,24 @@
    "split": "group",
    "model": "mlp",
    "graph": "-",
-   "auprc_mean": 0.9133,
-   "auprc_std": 0.0022,
-   "macro_f1_mean": 0.873,
-   "macro_f1_std": 0.007,
-   "auroc_mean": 0.9765,
-   "auroc_std": 0.0005
+   "auprc_mean": 0.9131,
+   "auprc_std": 0.0002,
+   "macro_f1_mean": 0.8731,
+   "macro_f1_std": 0.0024,
+   "auroc_mean": 0.9761,
+   "auroc_std": 0.0003
   },
   {
    "features": "raw",
    "split": "random",
    "model": "gat",
    "graph": "physical",
-   "auprc_mean": 0.8636,
+   "auprc_mean": 0.8635,
    "auprc_std": 0.0057,
-   "macro_f1_mean": 0.84,
-   "macro_f1_std": 0.0024,
-   "auroc_mean": 0.9557,
-   "auroc_std": 0.003
+   "macro_f1_mean": 0.8397,
+   "macro_f1_std": 0.0032,
+   "auroc_mean": 0.9556,
+   "auroc_std": 0.0031
   },
   {
    "features": "raw",
@@ -759,8 +798,8 @@
    "graph": "-",
    "auprc_mean": 0.9175,
    "auprc_std": 0.0006,
-   "macro_f1_mean": 0.887,
-   "macro_f1_std": 0.0004,
+   "macro_f1_mean": 0.8869,
+   "macro_f1_std": 0.0005,
    "auroc_mean": 0.9777,
    "auroc_std": 0.0003
   },
@@ -771,10 +810,10 @@
    "graph": "-",
    "auprc_mean": 0.9204,
    "auprc_std": 0.0065,
-   "macro_f1_mean": 0.8694,
-   "macro_f1_std": 0.0158,
+   "macro_f1_mean": 0.8703,
+   "macro_f1_std": 0.0163,
    "auroc_mean": 0.9791,
-   "auroc_std": 0.0016
+   "auroc_std": 0.0017
   }
  ],
  "localization": {
@@ -787,8 +826,8 @@
    "1.0": 56
   },
   "cascade_vs_signature": 0.52,
-  "gnn_vs_signature": 0.95,
-  "gnn_vs_cascade": 0.51,
+  "gnn_vs_signature": 0.87,
+  "gnn_vs_cascade": 0.49,
   "median_by_source": {
    "z_Nf": {
     "Fan": 13.89,
@@ -811,7 +850,8 @@
     "HPC": 193.0
    }
   },
-  "mannwhitney_life_p": 2.746114896825285e-10
+  "mannwhitney_life_p": 2.746114896825284e-10
  },
- "runtime_s": 122.4
+ "folds_md5": "68807276cf65624687c5d9519898025b",
+ "runtime_s": 24.8
 }

@@ -1,0 +1,23 @@
+{
+ "_описание": "Спецификации EVT-детекторов трёх систем главы 7, заданные до расчёта. Их читает common.load_spec, применяет common.detect, и они записываются в results.json → detection_spec. method — pot (порог POT/GPD: квантиль хвоста u_q, уровень gamma) или gev (по блочным максимумам длины block, уровень gamma); r — превышений подряд; background и search_from — в отсчётах индикатора.",
+ "brain": {
+  "unit": "окно 1 с",
+  "background": 3600,
+  "blind_pot": {"method": "pot", "u_q": 0.8, "gamma": 0.999, "r": 3},
+  "blind_gev": {"method": "gev", "gamma": 0.99, "r": 2, "block": 10},
+  "targeted_local": {"method": "pot", "u_q": 0.8, "gamma": 0.999, "r": 3, "background": [10096, 10386], "band_hz": [13, 67]}
+ },
+ "aviation": {
+  "unit": "цикл",
+  "background": 60,
+  "gev": {"method": "gev", "gamma": 0.99, "r": 2, "block": 3},
+  "pot": {"method": "pot", "u_q": 0.8, "gamma": 0.999, "r": 3},
+  "healthy_check": {"background": 30, "test_until": 60, "r_values": [2, 3], "primary_r": {"gev": 2, "pot": 3}}
+ },
+ "finance": {
+  "unit": "торговый день",
+  "background": 500,
+  "pot": {"method": "pot", "u_q": 0.9, "gamma": 0.998, "r": 1},
+  "gev_weekly": {"method": "gev", "gamma": 0.99, "r": 1, "block": 5}
+ }
+}

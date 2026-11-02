@@ -1,0 +1,97 @@
+{
+ "dataset": "NASA C-MAPSS FD001",
+ "md5": "259f340bac32ce6fa8894815600fa757",
+ "reps_per_engine": 20,
+ "seed": 0,
+ "setup": "фон датчиков циклов 1-60 каждого двигателя заменён гауссовым рядом (среднее и ковариация Ледуа–Вульфа этого двигателя); проверка — aviation_cmapss_pipeline.healthy_false_alarms; числа — двигателей из 100",
+ "observed": {
+  "fa_gev_healthy_r2": 35,
+  "fa_gev_healthy_r3": 19,
+  "fa_pot_healthy_r2": 36,
+  "fa_pot_healthy_r3": 7
+ },
+ "null_A_threshold_error_only": {
+  "fa_gev_healthy_r2": 5.9,
+  "fa_gev_healthy_r3": 1.1,
+  "fa_pot_healthy_r2": 4.5,
+  "fa_pot_healthy_r3": 0.5
+ },
+ "null_B_plus_indicator_fit": {
+  "fa_gev_healthy_r2": 57.3,
+  "fa_gev_healthy_r3": 35.4,
+  "fa_pot_healthy_r2": 51.6,
+  "fa_pot_healthy_r3": 20.6
+ },
+ "null_C_plus_ar1_dependence": {
+  "fa_gev_healthy_r2": 57.0,
+  "fa_gev_healthy_r3": 35.5,
+  "fa_pot_healthy_r2": 54.1,
+  "fa_pot_healthy_r3": 22.1
+ },
+ "ci95": {
+  "A": {
+   "fa_gev_healthy_r2": [
+    5.0,
+    7.1
+   ],
+   "fa_gev_healthy_r3": [
+    0.7,
+    1.7
+   ],
+   "fa_pot_healthy_r2": [
+    3.6,
+    5.5
+   ],
+   "fa_pot_healthy_r3": [
+    0.2,
+    0.9
+   ]
+  },
+  "B": {
+   "fa_gev_healthy_r2": [
+    55.1,
+    59.5
+   ],
+   "fa_gev_healthy_r3": [
+    33.3,
+    37.5
+   ],
+   "fa_pot_healthy_r2": [
+    49.4,
+    53.8
+   ],
+   "fa_pot_healthy_r3": [
+    18.8,
+    22.4
+   ]
+  },
+  "C": {
+   "fa_gev_healthy_r2": [
+    54.7,
+    59.1
+   ],
+   "fa_gev_healthy_r3": [
+    33.4,
+    37.7
+   ],
+   "fa_pot_healthy_r2": [
+    51.9,
+    56.3
+   ],
+   "fa_pot_healthy_r3": [
+    20.3,
+    24.0
+   ]
+  }
+ },
+ "ar1_phi_median": 0.0,
+ "ar1_phi_iqr": [
+  0.0,
+  0.0
+ ],
+ "trend_1_60": {
+  "frac_engines_spearman_p_lt_0_05": 0.28,
+  "expected_under_no_trend": 0.05
+ },
+ "runtime_s": 421.5
+}

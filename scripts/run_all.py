@@ -40,7 +40,7 @@ ENV = os.environ.copy()   # окружение дочерних процессо
 # прогресса. Сам расчёт идёт как раньше; если шаг длится дольше оценки, бар останавливается на 98%
 # заполнения своей доли и не выходит за неё, пока шаг не завершится по-настоящему.
 FULL_ESTIMATE = {"brain": 110, "aviation_gnn": 1440, "aviation_loc": 600, "aviation_final": 60,
-                 "aviation_serial": 2700, "finance": 900, "figures": 20, "compare": 5}
+                 "aviation_serial": 2700, "aviation_bootstrap": 450, "finance": 900, "figures": 20, "compare": 5}
 QUICK_ESTIMATE = {"brain": 60, "aviation_serial": 300, "finance": 120}
 
 
@@ -57,6 +57,7 @@ def estimate_total(steps: list[str], quick: bool, jobs: int) -> float:
             total += e["brain"]
         elif s == "aviation":
             total += e["aviation_serial"] if (quick or jobs < 2) else e["aviation_gnn"] + e["aviation_loc"] + e["aviation_final"]
+            total += 0 if quick else e["aviation_bootstrap"]
         elif s == "finance":
             total += e["finance"]
         elif s == "figures":
@@ -213,6 +214,10 @@ def main() -> int:
                     run([*base, "--stage", "loc"], logs / "aviation_loc.log")
                 with pb.step("пример 2: двигатель — сборка результатов", e["aviation_final"]):
                     run([*base, "--stage", "final"], logs / "aviation_final.log")
+            if not a.quick:
+                with pb.step("пример 2: двигатель — бутстреп ложных тревог на исправном участке", e["aviation_bootstrap"]):
+                    run(["aviation_false_alarm_bootstrap.py", "--data", str(P.cmapss_dir()), "--out", str(out_root / "aviation")],
+                        logs / "aviation_bootstrap.log")
         elif s == "finance":
             with pb.step("Graph-EVT пример 3: финансы", e["finance"]):
                 run(["finance_sp500_pipeline.py", "--data", str(P.sp500_dir()), "--out", str(out_root / "finance"), *q["finance"]],

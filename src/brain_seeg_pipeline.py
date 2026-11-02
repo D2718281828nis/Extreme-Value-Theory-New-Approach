@@ -14,7 +14,9 @@ import numpy as np, pandas as pd
 from scipy import signal, stats
 from sklearn.covariance import LedoitWolf
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import KFold, GroupKFold
+from sklearn.model_selection import KFold
+from folds import stable_group_kfold
+import folds as FO
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import roc_auc_score, average_precision_score
 import common as C
@@ -28,6 +30,8 @@ SEIZ = (10396, 10452)                                  # интервал при
 BLOCK = 10                                             # длина блока для блочных максимумов, с
 WH = 30                                                # окна T1..T4 по 30 с, как в работе Karpov et al. (2021)
 MAD_THR = 6.0                                          # порог вовлечения, как RECRUITMENT_THRESHOLD_MAD в extreme_event_agent
+SPEC = C.load_spec("brain")                            # спецификации детекторов (config/systems.json), общий детектор — common.detect
+assert SPEC["background"] == B and SPEC["blind_gev"]["block"] == BLOCK and tuple(SPEC["targeted_local"]["background"]) == PRE
 
 
 def load(path):
@@ -102,22 +106,11 @@ def episodes(starts, gap=60):
     return [e[0] for e in ep]
 
 
-def all_runs(mask, start, k):
-    out, run = [], 0
-    for i in range(start, len(mask)):
-        run = run + 1 if mask[i] else 0
-        if run == k: out.append(i - k + 1)
-    return out
-
-
 def detection(d):
-    bb = band_logpower(d, 1, 68); T = bb.shape[0]
+    bb = band_logpower(d, 1, 68)
     hi = indicator(bb, 0, B)
-    thr_pot, xi_pot = C.pot_threshold(hi[:B], 0.8, 0.999)
-    pot_eps = episodes(all_runs(hi > thr_pot, B, 3))
-    bm = hi[: T // BLOCK * BLOCK].reshape(-1, BLOCK).max(1)
-    thr_gev, xi_gev = C.gev_threshold(bm[: B // BLOCK], 0.99)
-    gev_eps = episodes([k * BLOCK for k in all_runs(bm > thr_gev, B // BLOCK, 2)])
+    dp = C.detect(hi, SPEC["blind_pot"], B); thr_pot, xi_pot = dp["thr"], dp["xi"]; pot_eps = episodes(dp["alarms"])
+    dg = C.detect(hi, SPEC["blind_gev"], B); thr_gev, xi_gev = dg["thr"], dg["xi"]; gev_eps = episodes(dg["alarms"])
     def classify(eps):
         ev = [e for e in eps if SEIZ[0] - 60 <= e <= SEIZ[1]]
         fa = [e for e in eps if e not in ev]
@@ -125,7 +118,7 @@ def detection(d):
                 "false_alarms": fa, "false_alarms_per_hour": len(fa) / ((SEIZ[0] - 60 - B) / 3600)}
     # целевой вариант (Положение 2): полоса 13–67 Гц, фон — локальная база перед событием
     hg = band_logpower(d, 13, 68); hl = indicator(hg, *PRE)
-    thr_l, _ = C.pot_threshold(hl[PRE[0]:PRE[1]], 0.8, 0.999); kl = C.first_persistent(hl > thr_l, PRE[1], 3)
+    dl = C.detect(hl, SPEC["targeted_local"], PRE); thr_l, kl = dl["thr"], dl["first"]
     base = hi[:B] / np.median(hi[:B]); full = hi / np.median(hi[:B])
     res = {"blind_pot": {"thr": thr_pot, "xi": xi_pot, **classify(pot_eps)},
            "blind_gev": {"thr": thr_gev, "xi": xi_gev, "block_s": BLOCK, **classify(gev_eps)},
@@ -145,9 +138,8 @@ def sensitivity_dropout(d, names):
     out = {"rule": "z(лог-мощность 1–67 Гц) < −6 относительно медианы и 1,4826·MAD первого часа, секунды 3600–10336", "channels": cnt}
     def run(excl):
         keep = [i for i, n in enumerate(names) if n not in excl]; hi = indicator(bb[:, keep], 0, B)
-        tp, _ = C.pot_threshold(hi[:B], 0.8, 0.999); T = len(hi)
-        bm = hi[: T // BLOCK * BLOCK].reshape(-1, BLOCK).max(1); tg, _ = C.gev_threshold(bm[: B // BLOCK], 0.99)
-        pot = episodes(all_runs(hi > tp, B, 3)); gev = episodes([k * BLOCK for k in all_runs(bm > tg, B // BLOCK, 2)])
+        dp, dg = C.detect(hi, SPEC["blind_pot"], B), C.detect(hi, SPEC["blind_gev"], B); tp = dp["thr"]
+        pot = episodes(dp["alarms"]); gev = episodes(dg["alarms"])
         ev = lambda e: SEIZ[0] - 60 <= e <= SEIZ[1]
         return {"pot_event": [float(e - ONSET) for e in pot if ev(e)], "pot_false": [e for e in pot if not ev(e)],
                 "gev_event": [float(e - ONSET) for e in gev if ev(e)], "gev_false": [e for e in gev if not ev(e)],
@@ -198,6 +190,18 @@ def structural_edges(shaft, num):
     return sorted(E)
 
 
+def univariate_oof(F, y, fnames, groups):
+    """Однопризнаковый AUROC вне фолда при той же группировке по стволу, что у ГНС: знак признака выбирается по
+    обучающим фолдам (AUROC >= 0,5), балл тестового фолда — признак с этим знаком; AUROC — по объединённым баллам."""
+    folds = stable_group_kfold(groups); out = {}
+    for k, n in enumerate(fnames):
+        x = F[:, k].astype(float); score = np.zeros(len(y)); signs = []
+        for tr, te in folds:
+            s = 1 if roc_auc_score(y[tr], x[tr]) >= 0.5 else -1; signs.append(s); score[te] = s * x[te]
+        out[n] = {"auroc": float(roc_auc_score(y, score)), "sign_by_fold": signs}
+    return out
+
+
 # ------------------------------------------------------------------ 5. ГНС и протокол без утечки
 def run_protocols(F, y, E, groups, seeds, epochs):
     import torch
@@ -205,7 +209,7 @@ def run_protocols(F, y, E, groups, seeds, epochs):
     rows = []; OOF = {}
     for seed in seeds:
         for split in ["random", "shaft"]:
-            folds = list(KFold(5, shuffle=True, random_state=seed).split(F)) if split == "random" else list(GroupKFold(5).split(F, groups=groups))
+            folds = list(KFold(5, shuffle=True, random_state=seed).split(F)) if split == "random" else list(stable_group_kfold(groups))
             for model, gname in [("gat", "structural"), ("gat", "functional"), ("gat", "knn"), ("gat", "empty"), ("mlp", "-"), ("lr", "-")]:
                 P = np.zeros(len(y))
                 for tr, te in folds:
@@ -295,6 +299,7 @@ def main():
     ll = d["linelen"]; flat = np.argwhere(ll <= 1e-6)
     R["data_quality"] = {"flat_seconds": sorted({int(t) for t, _ in flat}), "flat_channels": sorted({names[c] for _, c in flat}),
                          "flat_second_channel": [[int(t), names[c]] for t, c in flat]}
+    R["detection_spec"] = SPEC
     R["H0_noise"], I, V = hypothesis(d)
     R["detection"], hi, hl, tp, tg, tl = detection(d)
     np.savez(f"{a.out}/indicators.npz", hi=hi, hl=hl, thr_pot=tp, thr_gev=tg, thr_local=tl, I=I, V=V)
@@ -323,10 +328,12 @@ def main():
                    "jaccard": {"structural-functional": C.jaccard(Es, Ef), "structural-knn": C.jaccard(Es, Ek), "functional-knn": C.jaccard(Ef, Ek)},
                    "within_shaft_frac": {"functional": float(np.mean([shaft[i] == shaft[j] for i, j in Ef])),
                                          "knn": float(np.mean([shaft[i] == shaft[j] for i, j in Ek]))},
-                   "within_shaft_random": float((shares ** 2).sum() - 1 / len(shaft)) ,
+                   # sum n_g (n_g - 1) / (n (n - 1)), как graph_hypotheses.random_within_group_expectation (до 02.11.2026 — делитель n^2)
+                   "within_shaft_random": float((shares * (shares * len(shaft) - 1)).sum() / (len(shaft) - 1)),
                    "label_homophily": {g: float(np.mean([y[i] == y[j] for i, j in E[g]])) for g in ["structural", "functional", "knn"]}}
     R["labels"] = {"involved": int(y.sum()), "n": int(len(y)), "latency_quantiles": np.nanpercentile(lat, [0, 10, 50, 90, 100]).round(2).tolist(),
                    "univariate_auroc": {n: float(roc_auc_score(y, F[:, k])) for k, n in enumerate(fnames)},
+                   "univariate_auroc_oof": univariate_oof(F, y, fnames, shaft),
                    "involved_by_shaft": {str(sh): [int(y[shaft == sh].sum()), int((shaft == sh).sum())] for sh in np.unique(shaft)}}
     RUNS, OOF = run_protocols(F, y, E, shaft, a.seeds, a.epochs); RUNS.to_csv(f"{a.out}/gnn_runs.csv", index=False)
     G = RUNS.groupby(["split", "model", "graph"])[["auroc", "auprc"]].agg(["mean", "std"]).round(4)
@@ -339,6 +346,8 @@ def main():
     LOC.to_csv(f"{a.out}/localization_contacts.csv", index=False); BY.to_csv(f"{a.out}/localization_shafts.csv")
     pd.DataFrame(F, columns=fnames).assign(name=names, shaft=shaft, involved=y).to_csv(f"{a.out}/node_features.csv", index=False)
     np.savez(f"{a.out}/cascade.npz", z=z.astype(np.float32), tw=tw, lat=lat)
+    R["folds_md5"] = FO.save_fold_map(f"{a.out}/folds.csv", [FO.fold_table(names, shaft, FO.random_kfold(len(y), 5, s), "random", s) for s in a.seeds]
+                                      + [FO.fold_table(names, shaft, stable_group_kfold(shaft), "shaft")])
     R["runtime_s"] = round(time.time() - t0, 1)
     json.dump(R, open(f"{a.out}/results.json", "w"), ensure_ascii=False, indent=1, default=str)
     print(json.dumps({k: R[k] for k in ["H0_noise", "detection", "graphs", "labels", "localization"]}, ensure_ascii=False, indent=1, default=str)[:7000])

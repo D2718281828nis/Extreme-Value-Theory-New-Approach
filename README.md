@@ -30,7 +30,7 @@ Steps: 1 task · 2 data · 3 Graph-EVT-agent application · 4 how the event poin
 > **Honest reading.** In all three cases EVT locates the event point without leakage and the evidence lines
 > mostly agree on the source group. Under leakage-safe splits, however, the graph neural network does *not*
 > beat graph-free baselines at node/window classification; the graph's value shown here is localization and
-> interpretation. Source "ground truth" is a proxy (A) or absent (B, C). A plain mean of the evidence lines picks the wrong module in A (Burner instead of Fan), the same shaft in B, and is nearly tied/unstable in C. Details are in each case document.
+> interpretation. Source "ground truth" is a proxy (A) or absent (B, C). A plain mean of the evidence lines picks the same module in A (Fan, with a small margin over Burner) and the same shaft in B, and is nearly tied/unstable in C, so an advantage of the graph score over a plain mean is not shown. Details are in each case document.
 
 ## The shared Graph-EVT-agent workflow
 
@@ -148,13 +148,17 @@ src/common.py                    shared Graph-EVT application primitives
 src/brain_seeg_pipeline.py       brain adapter and experiment
 src/aviation_cmapss_pipeline.py  aviation adapter and experiment
 src/finance_sp500_pipeline.py    finance adapter and experiment
+src/folds.py                     platform-independent fold composition
+src/aviation_false_alarm_bootstrap.py  aviation: where healthy-segment false alarms come from
 src/case_data.py                 one illustrative case per domain in a common structure
 src/case_figures.py              the six-step figures (same panel types for A, B, C)
 src/make_figures.py              per-example research figures
 src/make_generality_figures.py   cross-domain Graph-EVT figures
 scripts/fetch_data.py            download, provenance, and checksum checks
 scripts/run_all.py               one runner for the three applications
-scripts/compare_results.py       reference-output verification
+scripts/compare_results.py       reference-output verification (fold MD5 first)
+scripts/check_sync_with_r1.py    reference vs the dissertation core (dissertation-calculations)
+tests/                           fold composition; reference unchanged since the R1 sync (CI)
 examples/{A_aviation,B_brain,C_finance}/README.md   bilingual six-step case documents
 demo/quickstart.py               simplest end-to-end demo
 figures/                         generated step figures

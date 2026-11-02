@@ -15,7 +15,9 @@ import argparse, hashlib, json, os, time, warnings
 import numpy as np, pandas as pd
 from scipy import stats
 from sklearn.covariance import LedoitWolf
-from sklearn.model_selection import GroupKFold, KFold
+from sklearn.model_selection import KFold
+from folds import stable_group_kfold
+import folds as FO
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 import common as C
@@ -34,6 +36,8 @@ MOD_ADJ = [("Fan", "LPC"), ("LPC", "HPC"), ("HPC", "Burner"), ("Burner", "HPT"),
            ("LPT", "Fan"),  # вал низкого давления
            ("HPC", "HPT")]  # вал высокого давления
 B, BL = 60, 3          # фоновый участок (циклы) и длина блока для блочных максимумов
+SPEC = C.load_spec("aviation")   # спецификации детекторов (config/systems.json), общий детектор — common.detect
+assert SPEC["background"] == B and SPEC["gev"]["block"] == BL
 W, STRIDE, RUL_CRIT = 30, 3, 30
 
 
@@ -83,25 +87,27 @@ def health_indicator(X, b=B):
     return np.sqrt(np.einsum("ij,jk,ik->i", Z, P, Z))
 
 
+def healthy_false_alarms(hh):
+    """Ложные тревоги на циклах 31-60 по индикатору hh (первые B циклов), пороги GEV и POT — по циклам 1-30.
+    Возвращает {fa_{gev,pot}_healthy_r{2,3}: bool}; используется и в бутстрепе (aviation_false_alarm_bootstrap.py)."""
+    h = SPEC["healthy_check"]
+    return {f"fa_{m}_healthy_r{r}": C.detect(hh[: h["test_until"]], {**SPEC[m], "r": r}, h["background"])["first"] is not None
+            for m in ["gev", "pot"] for r in h["r_values"]}
+
+
 def detect_engine(g):
     X = g[S].values.astype(float); n = len(X)
     hi = health_indicator(X)
-    nb = n // BL
-    bmax = hi[: nb * BL].reshape(-1, BL).max(1)
-    thr_gev, xi_gev = C.gev_threshold(bmax[: B // BL], 0.99)
-    kb = C.first_persistent(bmax > thr_gev, B // BL, 2)
-    det_gev = None if kb is None else kb * BL
-    thr_pot, xi_pot = C.pot_threshold(hi[:B], 0.8, 0.999)
-    det_pot = C.first_persistent(hi > thr_pot, B, 3)
-    # специфичность на заведомо «здоровом» участке: подгонка по циклам 1-30, проверка на 31-60
-    thr_h, _ = C.gev_threshold(bmax[: 30 // BL], 0.99)
-    fa_gev = C.first_persistent(bmax[: B // BL] > thr_h, 30 // BL, 2) is not None
-    thr_hp, _ = C.pot_threshold(hi[:30], 0.8, 0.999)
-    fa_pot = C.first_persistent(hi[:B] > thr_hp, 30, 3) is not None
+    dg, dp = C.detect(hi, SPEC["gev"], B), C.detect(hi, SPEC["pot"], B)
+    det_gev, xi_gev, det_pot, xi_pot = dg["first"], dg["xi"], dp["first"], dp["xi"]
+    # специфичность на заведомо «здоровом» участке: индикатор и пороги — только по циклам 1-30, проверка на 31-60
+    # (индикатор основной детекции подогнан по циклам 1-60 и для этой проверки не годится: 31-60 были бы в подгонке)
+    fa = healthy_false_alarms(health_indicator(X, 30))
     return dict(life=n, det_gev=det_gev, det_pot=det_pot,
                 lead_gev=None if det_gev is None else n - det_gev,
                 lead_pot=None if det_pot is None else n - det_pot,
-                xi_gev=xi_gev, xi_pot=xi_pot, fa_gev_healthy=fa_gev, fa_pot_healthy=fa_pot), hi
+                xi_gev=xi_gev, xi_pot=xi_pot, fa_gev_healthy=fa[f"fa_gev_healthy_r{SPEC['healthy_check']['primary_r']['gev']}"],
+                fa_pot_healthy=fa[f"fa_pot_healthy_r{SPEC['healthy_check']['primary_r']['pot']}"], **fa), hi
 
 
 def heavy_tail(his):
@@ -165,7 +171,7 @@ def run_cv(F, y, groups, E, split, seed, model="gat", epochs=40):
     GraphGAT, _, MLP = C.make_models()
     rng = np.random.RandomState(seed)
     if split == "group":
-        folds = list(GroupKFold(5).split(F, y, groups))
+        folds = list(stable_group_kfold(groups))
     else:
         folds = list(KFold(5, shuffle=True, random_state=seed).split(F, y))
     P = np.zeros(len(y))
@@ -250,7 +256,7 @@ def run_gnn_occlusion(F, y, groups, E, seeds, epochs=40):
     midx = {m: [S.index(s) for s in S if MOD[s] == m] for m in mods}  # узлы-датчики каждого модуля
     acc = {}
     for seed in seeds:
-        for tr, te in GroupKFold(5).split(F, y, groups):
+        for tr, te in stable_group_kfold(groups):
             torch.manual_seed(seed)
             sc = StandardScaler().fit(F[tr].reshape(-1, F.shape[2]))
             Fs = sc.transform(F.reshape(-1, F.shape[2])).reshape(F.shape).astype(np.float32)
@@ -296,7 +302,7 @@ def main():
     ap.add_argument("--stage", default="all", choices=["all", "gnn", "loc", "final"],
                     help="gnn/loc — только прогоны ГНС (для заданных зёрен) или только локализация, для параллельного запуска; final — сборка results.json из CSV")
     a = ap.parse_args(); os.makedirs(a.out, exist_ok=True)
-    t0 = time.time(); R = {"dataset": "NASA C-MAPSS (FD001, FD003)", "zenodo_doi": "10.5281/zenodo.15346912"}
+    t0 = time.time(); R = {"dataset": "NASA C-MAPSS (FD001, FD003)", "zenodo_doi": "10.5281/zenodo.15346912", "detection_spec": SPEC}
     d1, m1 = load(a.data, "FD001"); d3, m3 = load(a.data, "FD003"); R["md5"] = {"train_FD001.txt": m1, "train_FD003.txt": m3}
     R["n_units"] = {"FD001": int(d1.unit.nunique()), "FD003": int(d3.unit.nunique())}
     R["life_FD001"] = d1.groupby("unit").cycle.max().describe().round(1).to_dict()
@@ -317,6 +323,9 @@ def main():
         "lead_frac_life_median_gev": float((D.lead_gev / D.life).median()),
         "spearman_gev_pot": float(stats.spearmanr(D.lead_gev, D.lead_pot, nan_policy="omit")[0]),
         "false_alarm_engines_healthy_31_60": {"gev": int(D.fa_gev_healthy.sum()), "pot": int(D.fa_pot_healthy.sum())},
+        "false_alarm_engines_healthy_31_60_by_r": {f"r{r}": {m: int(D[f"fa_{m}_healthy_r{r}"].sum()) for m in ["gev", "pot"]} for r in [2, 3]},
+        "false_alarm_healthy_setup": "индикатор, GEV (10 блочных максимумов по 3 цикла) и POT подогнаны по циклам 1-30, тревоги — на 31-60; "
+                                     "основной ключ — GEV при r=2, POT при r=3, как в детекции",
         "xi_gev_median": float(D.xi_gev.median())}
     R["heavy_tail"], base, full = heavy_tail(his)
     np.save(f"{a.out}/hi_pooled_base.npy", base); np.save(f"{a.out}/hi_pooled_full.npy", full)
@@ -379,6 +388,9 @@ def main():
         "gnn_vs_cascade": float((L.gnn_source == L.cascade_source).mean()),
         "median_by_source": L.groupby("source_sig")[["z_Nf", "z_NRf", "z_BPR", "z_P30", "life"]].median().round(2).to_dict(),
         "mannwhitney_life_p": float(stats.mannwhitneyu(L[L.source_sig == "HPC"].life, L[L.source_sig == "Fan"].life).pvalue)}
+    R["folds_md5"] = FO.save_fold_map(f"{a.out}/folds.csv", [FO.fold_table(np.arange(len(y1)), g1, FO.random_kfold(len(y1), 5, s), "random", s) for s in a.seeds]
+                                      + [FO.fold_table(np.arange(len(y1)), g1, stable_group_kfold(g1), "group"),
+                                         FO.fold_table(np.arange(len(y3)), g3, stable_group_kfold(g3), "group_FD003_occlusion")])
     R["runtime_s"] = round(time.time() - t0, 1)
     json.dump(R, open(f"{a.out}/results.json", "w"), ensure_ascii=False, indent=1, default=str)
     print(json.dumps({k: R[k] for k in ["H1_noise", "detection", "heavy_tail", "jaccard", "localization"]}, ensure_ascii=False, indent=1, default=str))

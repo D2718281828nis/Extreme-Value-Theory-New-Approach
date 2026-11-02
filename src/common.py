@@ -103,6 +103,42 @@ def first_persistent(mask, start, k):
     return None
 
 
+def load_spec(system, path=None):
+    """Спецификации детекторов системы из config/systems.json (заданы до расчёта; пишутся в results.json)."""
+    import json, os
+    path = path or os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "config", "systems.json")
+    return json.load(open(path, encoding="utf-8"))[system]
+
+
+def detect(indicator, spec, background=None, start=None):
+    """Единый детектор EVT для трёх систем: порог по фону, правило r превышений подряд.
+
+    spec: {"method": "pot" | "gev", "u_q" (только pot), "gamma", "r", "block" (по умолчанию 1)}; background — конец
+    фона (int) или (начало, конец) в отсчётах индикатора; start — откуда искать тревоги (по умолчанию — конец фона).
+    При block > 1 ряд заменяется максимумами блоков длины block (ряд обрезается до целого числа блоков), порог и серии
+    считаются по блокам, а моменты возвращаются в отсчётах исходного ряда (начало блока).
+    Возвращает thr, xi, alarms — начала всех серий из r превышений после start (по одному на серию), first — первое из них,
+    exceedances — все превышения после start (для r = 1: каждый экстремальный день, а не начало серии)."""
+    b0, b1 = (0, int(background)) if np.isscalar(background) else (int(background[0]), int(background[1]))
+    blk = int(spec.get("block", 1)); x = np.asarray(indicator, float)
+    s = x if blk == 1 else x[: len(x) // blk * blk].reshape(-1, blk).max(1)
+    base = s[b0 // blk: b1 // blk]
+    if spec["method"] == "pot":
+        thr, xi = pot_threshold(base, spec["u_q"], spec["gamma"])
+    elif spec["method"] == "gev":
+        thr, xi = gev_threshold(base, spec["gamma"])
+    else:
+        raise ValueError(spec["method"])
+    mask, r, alarms, run = s > thr, int(spec["r"]), [], 0
+    i0 = (b1 if start is None else int(start)) // blk
+    for i in range(i0, len(s)):
+        run = run + 1 if mask[i] else 0
+        if run == r:
+            alarms.append((i - r + 1) * blk)
+    return {"thr": float(thr), "xi": float(xi), "alarms": alarms, "first": alarms[0] if alarms else None,
+            "exceedances": [int(i) * blk for i in np.flatnonzero(mask[i0:]) + i0]}
+
+
 def jaccard(E1, E2):
     a = {tuple(sorted(e)) for e in E1}; b = {tuple(sorted(e)) for e in E2}
     return len(a & b) / max(1, len(a | b))

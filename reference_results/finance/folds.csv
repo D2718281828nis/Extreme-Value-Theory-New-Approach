@@ -1,0 +1,1885 @@
+split,seed,id,group,fold
+random,0,A,Health Care,3
+random,0,AAL,Industrials,0
+random,0,AAP,Consumer Discretionary,2
+random,0,AAPL,Information Technology,3
+random,0,ABBV,Health Care,1
+random,0,ABC,Health Care,1
+random,0,ABT,Health Care,0
+random,0,ACN,Information Technology,1
+random,0,ADBE,Information Technology,1
+random,0,ADI,Information Technology,4
+random,0,ADM,Consumer Staples,0
+random,0,ADP,Information Technology,3
+random,0,ADS,Information Technology,0
+random,0,ADSK,Information Technology,3
+random,0,AEE,Utilities,1
+random,0,AEP,Utilities,0
+random,0,AES,Utilities,3
+random,0,AET,Health Care,1
+random,0,AFL,Financials,1
+random,0,AGN,Health Care,3
+random,0,AIG,Financials,1
+random,0,AIV,Real Estate,0
+random,0,AIZ,Financials,1
+random,0,AJG,Financials,3
+random,0,AKAM,Information Technology,2
+random,0,ALB,Materials,4
+random,0,ALGN,Health Care,1
+random,0,ALK,Industrials,2
+random,0,ALL,Financials,4
+random,0,ALXN,Health Care,2
+random,0,AMAT,Information Technology,1
+random,0,AMD,Information Technology,4
+random,0,AME,Industrials,4
+random,0,AMG,Financials,2
+random,0,AMGN,Health Care,2
+random,0,AMP,Financials,2
+random,0,AMT,Real Estate,3
+random,0,AMZN,Consumer Discretionary,0
+random,0,ANDV,Energy,4
+random,0,ANSS,Information Technology,4
+random,0,ANTM,Health Care,2
+random,0,AON,Financials,3
+random,0,AOS,Industrials,4
+random,0,APA,Energy,3
+random,0,APC,Energy,2
+random,0,APD,Materials,1
+random,0,APH,Information Technology,2
+random,0,ARE,Real Estate,4
+random,0,ARNC,Industrials,3
+random,0,ATVI,Information Technology,1
+random,0,AVB,Real Estate,3
+random,0,AVGO,Information Technology,2
+random,0,AVY,Materials,1
+random,0,AWK,Utilities,4
+random,0,AXP,Financials,0
+random,0,AYI,Industrials,1
+random,0,AZO,Consumer Discretionary,0
+random,0,BA,Industrials,4
+random,0,BAC,Financials,3
+random,0,BAX,Health Care,0
+random,0,BBT,Financials,0
+random,0,BBY,Consumer Discretionary,2
+random,0,BDX,Health Care,3
+random,0,BEN,Financials,1
+random,0,BF.B,Consumer Staples,1
+random,0,BIIB,Health Care,0
+random,0,BK,Financials,1
+random,0,BLK,Financials,2
+random,0,BLL,Materials,1
+random,0,BRK.B,Financials,3
+random,0,BSX,Health Care,4
+random,0,BWA,Consumer Discretionary,0
+random,0,BXP,Real Estate,4
+random,0,C,Financials,2
+random,0,CA,Information Technology,1
+random,0,CAG,Consumer Staples,0
+random,0,CAH,Health Care,0
+random,0,CAT,Industrials,3
+random,0,CB,Financials,0
+random,0,CBG,Real Estate,3
+random,0,CBOE,Financials,3
+random,0,CBS,Consumer Discretionary,1
+random,0,CCI,Real Estate,4
+random,0,CCL,Consumer Discretionary,3
+random,0,CDNS,Information Technology,4
+random,0,CELG,Health Care,2
+random,0,CERN,Health Care,3
+random,0,CF,Materials,4
+random,0,CHD,Consumer Staples,4
+random,0,CHK,Energy,1
+random,0,CHRW,Industrials,0
+random,0,CHTR,Consumer Discretionary,4
+random,0,CI,Health Care,1
+random,0,CINF,Financials,1
+random,0,CL,Consumer Staples,3
+random,0,CLX,Consumer Staples,3
+random,0,CMA,Financials,0
+random,0,CMCSA,Consumer Discretionary,2
+random,0,CME,Financials,3
+random,0,CMG,Consumer Discretionary,4
+random,0,CMI,Industrials,0
+random,0,CMS,Utilities,1
+random,0,CNC,Health Care,1
+random,0,CNP,Utilities,2
+random,0,COF,Financials,2
+random,0,COG,Energy,4
+random,0,COL,Industrials,1
+random,0,COO,Health Care,0
+random,0,COP,Energy,2
+random,0,COST,Consumer Staples,3
+random,0,CPB,Consumer Staples,3
+random,0,CRM,Information Technology,2
+random,0,CSCO,Information Technology,2
+random,0,CSX,Industrials,0
+random,0,CTAS,Industrials,2
+random,0,CTL,Telecommunication Services,4
+random,0,CTSH,Information Technology,2
+random,0,CTXS,Information Technology,4
+random,0,CVS,Consumer Staples,0
+random,0,CVX,Energy,4
+random,0,CXO,Energy,2
+random,0,D,Utilities,4
+random,0,DAL,Industrials,1
+random,0,DE,Industrials,3
+random,0,DFS,Financials,0
+random,0,DG,Consumer Discretionary,3
+random,0,DGX,Health Care,2
+random,0,DHI,Consumer Discretionary,4
+random,0,DIS,Consumer Discretionary,4
+random,0,DISCA,Consumer Discretionary,2
+random,0,DISCK,Consumer Discretionary,3
+random,0,DISH,Consumer Discretionary,4
+random,0,DLR,Real Estate,0
+random,0,DLTR,Consumer Discretionary,2
+random,0,DOV,Industrials,0
+random,0,DPS,Consumer Staples,0
+random,0,DRE,Real Estate,2
+random,0,DRI,Consumer Discretionary,2
+random,0,DTE,Utilities,2
+random,0,DUK,Utilities,3
+random,0,DVA,Health Care,1
+random,0,DVN,Energy,0
+random,0,EA,Information Technology,1
+random,0,EBAY,Information Technology,3
+random,0,ECL,Materials,0
+random,0,ED,Utilities,1
+random,0,EFX,Industrials,1
+random,0,EIX,Utilities,4
+random,0,EL,Consumer Staples,3
+random,0,EMN,Materials,3
+random,0,EMR,Industrials,1
+random,0,EOG,Energy,4
+random,0,EQIX,Real Estate,3
+random,0,EQR,Real Estate,0
+random,0,EQT,Energy,0
+random,0,ESRX,Health Care,0
+random,0,ESS,Real Estate,2
+random,0,ETFC,Financials,1
+random,0,ETN,Industrials,1
+random,0,ETR,Utilities,0
+random,0,EW,Health Care,1
+random,0,EXC,Utilities,3
+random,0,EXPD,Industrials,2
+random,0,EXPE,Consumer Discretionary,4
+random,0,EXR,Real Estate,1
+random,0,F,Consumer Discretionary,4
+random,0,FAST,Industrials,2
+random,0,FB,Information Technology,2
+random,0,FBHS,Industrials,2
+random,0,FCX,Materials,3
+random,0,FDX,Industrials,1
+random,0,FE,Utilities,0
+random,0,FFIV,Information Technology,4
+random,0,FIS,Information Technology,2
+random,0,FISV,Information Technology,4
+random,0,FITB,Financials,0
+random,0,FL,Consumer Discretionary,2
+random,0,FLIR,Information Technology,4
+random,0,FLR,Industrials,3
+random,0,FLS,Industrials,0
+random,0,FMC,Materials,4
+random,0,FRT,Real Estate,2
+random,0,FTI,Energy,3
+random,0,GD,Industrials,4
+random,0,GE,Industrials,3
+random,0,GGP,Real Estate,4
+random,0,GILD,Health Care,0
+random,0,GIS,Consumer Staples,3
+random,0,GLW,Information Technology,0
+random,0,GM,Consumer Discretionary,2
+random,0,GOOGL,Information Technology,2
+random,0,GPC,Consumer Discretionary,0
+random,0,GPN,Information Technology,4
+random,0,GPS,Consumer Discretionary,4
+random,0,GRMN,Consumer Discretionary,0
+random,0,GS,Financials,4
+random,0,GT,Consumer Discretionary,0
+random,0,GWW,Industrials,4
+random,0,HAL,Energy,1
+random,0,HAS,Consumer Discretionary,2
+random,0,HBAN,Financials,0
+random,0,HBI,Consumer Discretionary,3
+random,0,HCA,Health Care,4
+random,0,HCN,Real Estate,4
+random,0,HCP,Real Estate,2
+random,0,HD,Consumer Discretionary,0
+random,0,HES,Energy,0
+random,0,HIG,Financials,3
+random,0,HII,Industrials,1
+random,0,HOG,Consumer Discretionary,3
+random,0,HOLX,Health Care,1
+random,0,HON,Industrials,4
+random,0,HP,Energy,2
+random,0,HRB,Financials,0
+random,0,HRL,Consumer Staples,2
+random,0,HRS,Information Technology,2
+random,0,HSIC,Health Care,2
+random,0,HST,Real Estate,2
+random,0,HSY,Consumer Staples,2
+random,0,HUM,Health Care,0
+random,0,IBM,Information Technology,1
+random,0,IDXX,Health Care,1
+random,0,IFF,Materials,3
+random,0,ILMN,Health Care,2
+random,0,INCY,Health Care,1
+random,0,INTC,Information Technology,0
+random,0,INTU,Information Technology,3
+random,0,IP,Materials,3
+random,0,IPG,Consumer Discretionary,3
+random,0,IR,Industrials,0
+random,0,IRM,Real Estate,0
+random,0,ISRG,Health Care,1
+random,0,IT,Information Technology,2
+random,0,ITW,Industrials,0
+random,0,IVZ,Financials,2
+random,0,JBHT,Industrials,0
+random,0,JCI,Industrials,1
+random,0,JEC,Industrials,3
+random,0,JNJ,Health Care,0
+random,0,JNPR,Information Technology,1
+random,0,JPM,Financials,2
+random,0,JWN,Consumer Discretionary,2
+random,0,K,Consumer Staples,4
+random,0,KEY,Financials,4
+random,0,KIM,Real Estate,4
+random,0,KLAC,Information Technology,0
+random,0,KMB,Consumer Staples,1
+random,0,KMI,Energy,1
+random,0,KMX,Consumer Discretionary,3
+random,0,KO,Consumer Staples,2
+random,0,KORS,Consumer Discretionary,1
+random,0,KR,Consumer Staples,4
+random,0,KSS,Consumer Discretionary,1
+random,0,KSU,Industrials,1
+random,0,L,Financials,1
+random,0,LB,Consumer Discretionary,0
+random,0,LEG,Consumer Discretionary,3
+random,0,LEN,Consumer Discretionary,4
+random,0,LH,Health Care,3
+random,0,LKQ,Consumer Discretionary,2
+random,0,LLL,Industrials,3
+random,0,LLY,Health Care,1
+random,0,LMT,Industrials,4
+random,0,LNC,Financials,1
+random,0,LNT,Utilities,0
+random,0,LOW,Consumer Discretionary,4
+random,0,LRCX,Information Technology,3
+random,0,LUK,Financials,4
+random,0,LUV,Industrials,0
+random,0,LYB,Materials,3
+random,0,M,Consumer Discretionary,3
+random,0,MA,Information Technology,2
+random,0,MAA,Real Estate,1
+random,0,MAC,Real Estate,4
+random,0,MAR,Consumer Discretionary,2
+random,0,MAS,Industrials,3
+random,0,MAT,Consumer Discretionary,2
+random,0,MCD,Consumer Discretionary,4
+random,0,MCHP,Information Technology,1
+random,0,MCK,Health Care,3
+random,0,MCO,Financials,3
+random,0,MDLZ,Consumer Staples,2
+random,0,MDT,Health Care,2
+random,0,MET,Financials,1
+random,0,MGM,Consumer Discretionary,0
+random,0,MHK,Consumer Discretionary,4
+random,0,MKC,Consumer Staples,3
+random,0,MLM,Materials,3
+random,0,MMC,Financials,4
+random,0,MMM,Industrials,2
+random,0,MNST,Consumer Staples,4
+random,0,MO,Consumer Staples,4
+random,0,MON,Materials,4
+random,0,MOS,Materials,1
+random,0,MPC,Energy,3
+random,0,MRK,Health Care,0
+random,0,MRO,Energy,3
+random,0,MS,Financials,3
+random,0,MSFT,Information Technology,1
+random,0,MSI,Information Technology,3
+random,0,MTB,Financials,0
+random,0,MTD,Health Care,0
+random,0,MU,Information Technology,1
+random,0,MYL,Health Care,1
+random,0,NBL,Energy,3
+random,0,NCLH,Consumer Discretionary,3
+random,0,NDAQ,Financials,0
+random,0,NEE,Utilities,3
+random,0,NEM,Materials,0
+random,0,NFLX,Information Technology,0
+random,0,NFX,Energy,1
+random,0,NI,Utilities,0
+random,0,NKE,Consumer Discretionary,0
+random,0,NLSN,Industrials,1
+random,0,NOC,Industrials,4
+random,0,NOV,Energy,2
+random,0,NRG,Utilities,2
+random,0,NSC,Industrials,0
+random,0,NTAP,Information Technology,1
+random,0,NTRS,Financials,0
+random,0,NUE,Materials,3
+random,0,NVDA,Information Technology,4
+random,0,NWL,Consumer Discretionary,2
+random,0,OKE,Energy,4
+random,0,OMC,Consumer Discretionary,4
+random,0,ORLY,Consumer Discretionary,1
+random,0,OXY,Energy,2
+random,0,PAYX,Information Technology,2
+random,0,PBCT,Financials,2
+random,0,PCAR,Industrials,2
+random,0,PCG,Utilities,3
+random,0,PCLN,Consumer Discretionary,2
+random,0,PDCO,Health Care,2
+random,0,PEG,Utilities,4
+random,0,PEP,Consumer Staples,4
+random,0,PFE,Health Care,4
+random,0,PFG,Financials,1
+random,0,PG,Consumer Staples,4
+random,0,PGR,Financials,4
+random,0,PH,Industrials,3
+random,0,PHM,Consumer Discretionary,0
+random,0,PKG,Materials,3
+random,0,PKI,Health Care,2
+random,0,PLD,Real Estate,0
+random,0,PM,Consumer Staples,0
+random,0,PNC,Financials,1
+random,0,PNR,Industrials,1
+random,0,PNW,Utilities,0
+random,0,PPG,Materials,0
+random,0,PPL,Utilities,3
+random,0,PRGO,Health Care,1
+random,0,PRU,Financials,0
+random,0,PSA,Real Estate,3
+random,0,PSX,Energy,2
+random,0,PVH,Consumer Discretionary,0
+random,0,PWR,Industrials,3
+random,0,PX,Materials,4
+random,0,PXD,Energy,0
+random,0,QCOM,Information Technology,4
+random,0,RCL,Consumer Discretionary,4
+random,0,RE,Financials,2
+random,0,REG,Real Estate,0
+random,0,REGN,Health Care,3
+random,0,RF,Financials,2
+random,0,RHI,Industrials,3
+random,0,RHT,Information Technology,1
+random,0,RJF,Financials,0
+random,0,RL,Consumer Discretionary,1
+random,0,RMD,Health Care,2
+random,0,ROK,Industrials,0
+random,0,ROP,Industrials,4
+random,0,ROST,Consumer Discretionary,2
+random,0,RRC,Energy,0
+random,0,RSG,Industrials,3
+random,0,RTN,Industrials,3
+random,0,SBAC,Real Estate,1
+random,0,SBUX,Consumer Discretionary,4
+random,0,SCG,Utilities,3
+random,0,SCHW,Financials,3
+random,0,SEE,Materials,2
+random,0,SHW,Materials,1
+random,0,SIG,Consumer Discretionary,0
+random,0,SJM,Consumer Staples,1
+random,0,SLB,Energy,2
+random,0,SLG,Real Estate,4
+random,0,SNA,Consumer Discretionary,1
+random,0,SNI,Consumer Discretionary,3
+random,0,SNPS,Information Technology,2
+random,0,SO,Utilities,4
+random,0,SPG,Real Estate,4
+random,0,SPGI,Financials,2
+random,0,SRCL,Industrials,3
+random,0,SRE,Utilities,2
+random,0,STI,Financials,0
+random,0,STT,Financials,1
+random,0,STX,Information Technology,1
+random,0,STZ,Consumer Staples,4
+random,0,SWK,Consumer Discretionary,0
+random,0,SWKS,Information Technology,4
+random,0,SYK,Health Care,2
+random,0,SYMC,Information Technology,2
+random,0,SYY,Consumer Staples,3
+random,0,T,Telecommunication Services,1
+random,0,TAP,Consumer Staples,1
+random,0,TDG,Industrials,4
+random,0,TEL,Information Technology,0
+random,0,TGT,Consumer Discretionary,1
+random,0,TIF,Consumer Discretionary,0
+random,0,TJX,Consumer Discretionary,2
+random,0,TMK,Financials,4
+random,0,TMO,Health Care,3
+random,0,TPR,Consumer Discretionary,4
+random,0,TRIP,Consumer Discretionary,0
+random,0,TROW,Financials,1
+random,0,TRV,Financials,0
+random,0,TSCO,Consumer Discretionary,1
+random,0,TSN,Consumer Staples,3
+random,0,TSS,Information Technology,2
+random,0,TWX,Consumer Discretionary,4
+random,0,TXN,Information Technology,0
+random,0,TXT,Industrials,4
+random,0,UAA,Consumer Discretionary,3
+random,0,UAL,Industrials,4
+random,0,UDR,Real Estate,4
+random,0,UHS,Health Care,2
+random,0,ULTA,Consumer Discretionary,0
+random,0,UNH,Health Care,0
+random,0,UNM,Financials,0
+random,0,UNP,Industrials,0
+random,0,UPS,Industrials,4
+random,0,URI,Industrials,1
+random,0,USB,Financials,4
+random,0,UTX,Industrials,0
+random,0,V,Information Technology,4
+random,0,VAR,Health Care,3
+random,0,VFC,Consumer Discretionary,2
+random,0,VIAB,Consumer Discretionary,4
+random,0,VLO,Energy,3
+random,0,VMC,Materials,4
+random,0,VNO,Real Estate,1
+random,0,VRSK,Industrials,2
+random,0,VRSN,Information Technology,4
+random,0,VRTX,Health Care,1
+random,0,VTR,Real Estate,3
+random,0,VZ,Telecommunication Services,3
+random,0,WAT,Health Care,1
+random,0,WBA,Consumer Staples,1
+random,0,WDC,Information Technology,2
+random,0,WEC,Utilities,3
+random,0,WFC,Financials,1
+random,0,WHR,Consumer Discretionary,2
+random,0,WM,Industrials,3
+random,0,WMB,Energy,2
+random,0,WMT,Consumer Staples,0
+random,0,WU,Information Technology,4
+random,0,WY,Real Estate,0
+random,0,WYN,Consumer Discretionary,4
+random,0,WYNN,Consumer Discretionary,3
+random,0,XEC,Energy,1
+random,0,XEL,Utilities,1
+random,0,XL,Financials,2
+random,0,XLNX,Information Technology,2
+random,0,XOM,Energy,1
+random,0,XRAY,Health Care,1
+random,0,XRX,Information Technology,3
+random,0,XYL,Industrials,2
+random,0,YUM,Consumer Discretionary,1
+random,0,ZBH,Health Care,3
+random,0,ZION,Financials,4
+random,0,ZTS,Health Care,0
+random,1,A,Health Care,2
+random,1,AAL,Industrials,4
+random,1,AAP,Consumer Discretionary,3
+random,1,AAPL,Information Technology,4
+random,1,ABBV,Health Care,0
+random,1,ABC,Health Care,0
+random,1,ABT,Health Care,0
+random,1,ACN,Information Technology,4
+random,1,ADBE,Information Technology,2
+random,1,ADI,Information Technology,2
+random,1,ADM,Consumer Staples,3
+random,1,ADP,Information Technology,0
+random,1,ADS,Information Technology,1
+random,1,ADSK,Information Technology,1
+random,1,AEE,Utilities,2
+random,1,AEP,Utilities,4
+random,1,AES,Utilities,2
+random,1,AET,Health Care,0
+random,1,AFL,Financials,1
+random,1,AGN,Health Care,2
+random,1,AIG,Financials,3
+random,1,AIV,Real Estate,3
+random,1,AIZ,Financials,4
+random,1,AJG,Financials,1
+random,1,AKAM,Information Technology,3
+random,1,ALB,Materials,4
+random,1,ALGN,Health Care,4
+random,1,ALK,Industrials,1
+random,1,ALL,Financials,2
+random,1,ALXN,Health Care,0
+random,1,AMAT,Information Technology,4
+random,1,AMD,Information Technology,0
+random,1,AME,Industrials,2
+random,1,AMG,Financials,3
+random,1,AMGN,Health Care,2
+random,1,AMP,Financials,3
+random,1,AMT,Real Estate,3
+random,1,AMZN,Consumer Discretionary,4
+random,1,ANDV,Energy,2
+random,1,ANSS,Information Technology,1
+random,1,ANTM,Health Care,1
+random,1,AON,Financials,1
+random,1,AOS,Industrials,2
+random,1,APA,Energy,4
+random,1,APC,Energy,2
+random,1,APD,Materials,3
+random,1,APH,Information Technology,1
+random,1,ARE,Real Estate,0
+random,1,ARNC,Industrials,3
+random,1,ATVI,Information Technology,4
+random,1,AVB,Real Estate,4
+random,1,AVGO,Information Technology,2
+random,1,AVY,Materials,3
+random,1,AWK,Utilities,2
+random,1,AXP,Financials,3
+random,1,AYI,Industrials,2
+random,1,AZO,Consumer Discretionary,3
+random,1,BA,Industrials,3
+random,1,BAC,Financials,0
+random,1,BAX,Health Care,1
+random,1,BBT,Financials,3
+random,1,BBY,Consumer Discretionary,1
+random,1,BDX,Health Care,0
+random,1,BEN,Financials,3
+random,1,BF.B,Consumer Staples,4
+random,1,BIIB,Health Care,0
+random,1,BK,Financials,0
+random,1,BLK,Financials,0
+random,1,BLL,Materials,4
+random,1,BRK.B,Financials,1
+random,1,BSX,Health Care,2
+random,1,BWA,Consumer Discretionary,4
+random,1,BXP,Real Estate,4
+random,1,C,Financials,1
+random,1,CA,Information Technology,3
+random,1,CAG,Consumer Staples,3
+random,1,CAH,Health Care,4
+random,1,CAT,Industrials,3
+random,1,CB,Financials,0
+random,1,CBG,Real Estate,2
+random,1,CBOE,Financials,1
+random,1,CBS,Consumer Discretionary,1
+random,1,CCI,Real Estate,1
+random,1,CCL,Consumer Discretionary,4
+random,1,CDNS,Information Technology,2
+random,1,CELG,Health Care,1
+random,1,CERN,Health Care,4
+random,1,CF,Materials,4
+random,1,CHD,Consumer Staples,1
+random,1,CHK,Energy,1
+random,1,CHRW,Industrials,0
+random,1,CHTR,Consumer Discretionary,1
+random,1,CI,Health Care,0
+random,1,CINF,Financials,1
+random,1,CL,Consumer Staples,3
+random,1,CLX,Consumer Staples,1
+random,1,CMA,Financials,3
+random,1,CMCSA,Consumer Discretionary,3
+random,1,CME,Financials,1
+random,1,CMG,Consumer Discretionary,2
+random,1,CMI,Industrials,2
+random,1,CMS,Utilities,0
+random,1,CNC,Health Care,0
+random,1,CNP,Utilities,3
+random,1,COF,Financials,4
+random,1,COG,Energy,2
+random,1,COL,Industrials,1
+random,1,COO,Health Care,0
+random,1,COP,Energy,2
+random,1,COST,Consumer Staples,4
+random,1,CPB,Consumer Staples,2
+random,1,CRM,Information Technology,2
+random,1,CSCO,Information Technology,2
+random,1,CSX,Industrials,2
+random,1,CTAS,Industrials,3
+random,1,CTL,Telecommunication Services,4
+random,1,CTSH,Information Technology,3
+random,1,CTXS,Information Technology,0
+random,1,CVS,Consumer Staples,3
+random,1,CVX,Energy,0
+random,1,CXO,Energy,1
+random,1,D,Utilities,4
+random,1,DAL,Industrials,1
+random,1,DE,Industrials,2
+random,1,DFS,Financials,1
+random,1,DG,Consumer Discretionary,1
+random,1,DGX,Health Care,4
+random,1,DHI,Consumer Discretionary,1
+random,1,DIS,Consumer Discretionary,0
+random,1,DISCA,Consumer Discretionary,4
+random,1,DISCK,Consumer Discretionary,3
+random,1,DISH,Consumer Discretionary,1
+random,1,DLR,Real Estate,0
+random,1,DLTR,Consumer Discretionary,4
+random,1,DOV,Industrials,3
+random,1,DPS,Consumer Staples,0
+random,1,DRE,Real Estate,4
+random,1,DRI,Consumer Discretionary,3
+random,1,DTE,Utilities,2
+random,1,DUK,Utilities,0
+random,1,DVA,Health Care,3
+random,1,DVN,Energy,4
+random,1,EA,Information Technology,0
+random,1,EBAY,Information Technology,4
+random,1,ECL,Materials,4
+random,1,ED,Utilities,2
+random,1,EFX,Industrials,0
+random,1,EIX,Utilities,2
+random,1,EL,Consumer Staples,3
+random,1,EMN,Materials,3
+random,1,EMR,Industrials,2
+random,1,EOG,Energy,3
+random,1,EQIX,Real Estate,3
+random,1,EQR,Real Estate,4
+random,1,EQT,Energy,2
+random,1,ESRX,Health Care,4
+random,1,ESS,Real Estate,4
+random,1,ETFC,Financials,1
+random,1,ETN,Industrials,2
+random,1,ETR,Utilities,0
+random,1,EW,Health Care,2
+random,1,EXC,Utilities,1
+random,1,EXPD,Industrials,0
+random,1,EXPE,Consumer Discretionary,2
+random,1,EXR,Real Estate,0
+random,1,F,Consumer Discretionary,1
+random,1,FAST,Industrials,4
+random,1,FB,Information Technology,2
+random,1,FBHS,Industrials,0
+random,1,FCX,Materials,2
+random,1,FDX,Industrials,3
+random,1,FE,Utilities,0
+random,1,FFIV,Information Technology,0
+random,1,FIS,Information Technology,0
+random,1,FISV,Information Technology,2
+random,1,FITB,Financials,2
+random,1,FL,Consumer Discretionary,3
+random,1,FLIR,Information Technology,3
+random,1,FLR,Industrials,4
+random,1,FLS,Industrials,1
+random,1,FMC,Materials,0
+random,1,FRT,Real Estate,3
+random,1,FTI,Energy,3
+random,1,GD,Industrials,3
+random,1,GE,Industrials,3
+random,1,GGP,Real Estate,1
+random,1,GILD,Health Care,1
+random,1,GIS,Consumer Staples,0
+random,1,GLW,Information Technology,2
+random,1,GM,Consumer Discretionary,0
+random,1,GOOGL,Information Technology,3
+random,1,GPC,Consumer Discretionary,1
+random,1,GPN,Information Technology,0
+random,1,GPS,Consumer Discretionary,3
+random,1,GRMN,Consumer Discretionary,3
+random,1,GS,Financials,4
+random,1,GT,Consumer Discretionary,4
+random,1,GWW,Industrials,1
+random,1,HAL,Energy,3
+random,1,HAS,Consumer Discretionary,3
+random,1,HBAN,Financials,3
+random,1,HBI,Consumer Discretionary,0
+random,1,HCA,Health Care,3
+random,1,HCN,Real Estate,4
+random,1,HCP,Real Estate,1
+random,1,HD,Consumer Discretionary,3
+random,1,HES,Energy,2
+random,1,HIG,Financials,0
+random,1,HII,Industrials,0
+random,1,HOG,Consumer Discretionary,4
+random,1,HOLX,Health Care,3
+random,1,HON,Industrials,2
+random,1,HP,Energy,3
+random,1,HRB,Financials,0
+random,1,HRL,Consumer Staples,1
+random,1,HRS,Information Technology,4
+random,1,HSIC,Health Care,4
+random,1,HST,Real Estate,3
+random,1,HSY,Consumer Staples,1
+random,1,HUM,Health Care,3
+random,1,IBM,Information Technology,3
+random,1,IDXX,Health Care,1
+random,1,IFF,Materials,2
+random,1,ILMN,Health Care,1
+random,1,INCY,Health Care,2
+random,1,INTC,Information Technology,2
+random,1,INTU,Information Technology,4
+random,1,IP,Materials,2
+random,1,IPG,Consumer Discretionary,2
+random,1,IR,Industrials,2
+random,1,IRM,Real Estate,2
+random,1,ISRG,Health Care,3
+random,1,IT,Information Technology,0
+random,1,ITW,Industrials,0
+random,1,IVZ,Financials,3
+random,1,JBHT,Industrials,4
+random,1,JCI,Industrials,0
+random,1,JEC,Industrials,4
+random,1,JNJ,Health Care,0
+random,1,JNPR,Information Technology,4
+random,1,JPM,Financials,3
+random,1,JWN,Consumer Discretionary,4
+random,1,K,Consumer Staples,0
+random,1,KEY,Financials,4
+random,1,KIM,Real Estate,0
+random,1,KLAC,Information Technology,1
+random,1,KMB,Consumer Staples,0
+random,1,KMI,Energy,0
+random,1,KMX,Consumer Discretionary,3
+random,1,KO,Consumer Staples,1
+random,1,KORS,Consumer Discretionary,0
+random,1,KR,Consumer Staples,2
+random,1,KSS,Consumer Discretionary,4
+random,1,KSU,Industrials,3
+random,1,L,Financials,4
+random,1,LB,Consumer Discretionary,4
+random,1,LEG,Consumer Discretionary,0
+random,1,LEN,Consumer Discretionary,2
+random,1,LH,Health Care,1
+random,1,LKQ,Consumer Discretionary,3
+random,1,LLL,Industrials,1
+random,1,LLY,Health Care,2
+random,1,LMT,Industrials,3
+random,1,LNC,Financials,3
+random,1,LNT,Utilities,4
+random,1,LOW,Consumer Discretionary,4
+random,1,LRCX,Information Technology,4
+random,1,LUK,Financials,2
+random,1,LUV,Industrials,2
+random,1,LYB,Materials,3
+random,1,M,Consumer Discretionary,1
+random,1,MA,Information Technology,0
+random,1,MAA,Real Estate,2
+random,1,MAC,Real Estate,1
+random,1,MAR,Consumer Discretionary,1
+random,1,MAS,Industrials,0
+random,1,MAT,Consumer Discretionary,4
+random,1,MCD,Consumer Discretionary,1
+random,1,MCHP,Information Technology,3
+random,1,MCK,Health Care,4
+random,1,MCO,Financials,4
+random,1,MDLZ,Consumer Staples,4
+random,1,MDT,Health Care,4
+random,1,MET,Financials,1
+random,1,MGM,Consumer Discretionary,0
+random,1,MHK,Consumer Discretionary,0
+random,1,MKC,Consumer Staples,1
+random,1,MLM,Materials,2
+random,1,MMC,Financials,4
+random,1,MMM,Industrials,1
+random,1,MNST,Consumer Staples,0
+random,1,MO,Consumer Staples,3
+random,1,MON,Materials,1
+random,1,MOS,Materials,1
+random,1,MPC,Energy,0
+random,1,MRK,Health Care,2
+random,1,MRO,Energy,1
+random,1,MS,Financials,4
+random,1,MSFT,Information Technology,1
+random,1,MSI,Information Technology,3
+random,1,MTB,Financials,1
+random,1,MTD,Health Care,3
+random,1,MU,Information Technology,3
+random,1,MYL,Health Care,2
+random,1,NBL,Energy,1
+random,1,NCLH,Consumer Discretionary,0
+random,1,NDAQ,Financials,0
+random,1,NEE,Utilities,0
+random,1,NEM,Materials,4
+random,1,NFLX,Information Technology,2
+random,1,NFX,Energy,1
+random,1,NI,Utilities,0
+random,1,NKE,Consumer Discretionary,0
+random,1,NLSN,Industrials,4
+random,1,NOC,Industrials,0
+random,1,NOV,Energy,0
+random,1,NRG,Utilities,4
+random,1,NSC,Industrials,4
+random,1,NTAP,Information Technology,1
+random,1,NTRS,Financials,4
+random,1,NUE,Materials,0
+random,1,NVDA,Information Technology,3
+random,1,NWL,Consumer Discretionary,0
+random,1,OKE,Energy,1
+random,1,OMC,Consumer Discretionary,1
+random,1,ORLY,Consumer Discretionary,2
+random,1,OXY,Energy,0
+random,1,PAYX,Information Technology,2
+random,1,PBCT,Financials,0
+random,1,PCAR,Industrials,1
+random,1,PCG,Utilities,0
+random,1,PCLN,Consumer Discretionary,3
+random,1,PDCO,Health Care,3
+random,1,PEG,Utilities,3
+random,1,PEP,Consumer Staples,2
+random,1,PFE,Health Care,4
+random,1,PFG,Financials,4
+random,1,PG,Consumer Staples,3
+random,1,PGR,Financials,2
+random,1,PH,Industrials,3
+random,1,PHM,Consumer Discretionary,1
+random,1,PKG,Materials,0
+random,1,PKI,Health Care,3
+random,1,PLD,Real Estate,0
+random,1,PM,Consumer Staples,3
+random,1,PNC,Financials,2
+random,1,PNR,Industrials,0
+random,1,PNW,Utilities,1
+random,1,PPG,Materials,3
+random,1,PPL,Utilities,2
+random,1,PRGO,Health Care,1
+random,1,PRU,Financials,1
+random,1,PSA,Real Estate,4
+random,1,PSX,Energy,1
+random,1,PVH,Consumer Discretionary,1
+random,1,PWR,Industrials,0
+random,1,PX,Materials,4
+random,1,PXD,Energy,4
+random,1,QCOM,Information Technology,3
+random,1,RCL,Consumer Discretionary,0
+random,1,RE,Financials,1
+random,1,REG,Real Estate,1
+random,1,REGN,Health Care,1
+random,1,RF,Financials,1
+random,1,RHI,Industrials,2
+random,1,RHT,Information Technology,2
+random,1,RJF,Financials,1
+random,1,RL,Consumer Discretionary,4
+random,1,RMD,Health Care,0
+random,1,ROK,Industrials,3
+random,1,ROP,Industrials,2
+random,1,ROST,Consumer Discretionary,4
+random,1,RRC,Energy,0
+random,1,RSG,Industrials,2
+random,1,RTN,Industrials,0
+random,1,SBAC,Real Estate,2
+random,1,SBUX,Consumer Discretionary,2
+random,1,SCG,Utilities,0
+random,1,SCHW,Financials,2
+random,1,SEE,Materials,1
+random,1,SHW,Materials,1
+random,1,SIG,Consumer Discretionary,4
+random,1,SJM,Consumer Staples,3
+random,1,SLB,Energy,0
+random,1,SLG,Real Estate,4
+random,1,SNA,Consumer Discretionary,2
+random,1,SNI,Consumer Discretionary,3
+random,1,SNPS,Information Technology,4
+random,1,SO,Utilities,1
+random,1,SPG,Real Estate,1
+random,1,SPGI,Financials,4
+random,1,SRCL,Industrials,4
+random,1,SRE,Utilities,0
+random,1,STI,Financials,4
+random,1,STT,Financials,2
+random,1,STX,Information Technology,4
+random,1,STZ,Consumer Staples,4
+random,1,SWK,Consumer Discretionary,2
+random,1,SWKS,Information Technology,4
+random,1,SYK,Health Care,4
+random,1,SYMC,Information Technology,2
+random,1,SYY,Consumer Staples,0
+random,1,T,Telecommunication Services,4
+random,1,TAP,Consumer Staples,0
+random,1,TDG,Industrials,2
+random,1,TEL,Information Technology,4
+random,1,TGT,Consumer Discretionary,0
+random,1,TIF,Consumer Discretionary,2
+random,1,TJX,Consumer Discretionary,2
+random,1,TMK,Financials,1
+random,1,TMO,Health Care,0
+random,1,TPR,Consumer Discretionary,0
+random,1,TRIP,Consumer Discretionary,3
+random,1,TROW,Financials,4
+random,1,TRV,Financials,2
+random,1,TSCO,Consumer Discretionary,0
+random,1,TSN,Consumer Staples,4
+random,1,TSS,Information Technology,0
+random,1,TWX,Consumer Discretionary,3
+random,1,TXN,Information Technology,3
+random,1,TXT,Industrials,1
+random,1,UAA,Consumer Discretionary,3
+random,1,UAL,Industrials,0
+random,1,UDR,Real Estate,1
+random,1,UHS,Health Care,3
+random,1,ULTA,Consumer Discretionary,3
+random,1,UNH,Health Care,2
+random,1,UNM,Financials,2
+random,1,UNP,Industrials,1
+random,1,UPS,Industrials,2
+random,1,URI,Industrials,1
+random,1,USB,Financials,4
+random,1,UTX,Industrials,4
+random,1,V,Information Technology,1
+random,1,VAR,Health Care,1
+random,1,VFC,Consumer Discretionary,0
+random,1,VIAB,Consumer Discretionary,2
+random,1,VLO,Energy,4
+random,1,VMC,Materials,2
+random,1,VNO,Real Estate,3
+random,1,VRSK,Industrials,1
+random,1,VRSN,Information Technology,1
+random,1,VRTX,Health Care,2
+random,1,VTR,Real Estate,2
+random,1,VZ,Telecommunication Services,2
+random,1,WAT,Health Care,3
+random,1,WBA,Consumer Staples,2
+random,1,WDC,Information Technology,2
+random,1,WEC,Utilities,4
+random,1,WFC,Financials,3
+random,1,WHR,Consumer Discretionary,3
+random,1,WM,Industrials,2
+random,1,WMB,Energy,1
+random,1,WMT,Consumer Staples,2
+random,1,WU,Information Technology,4
+random,1,WY,Real Estate,3
+random,1,WYN,Consumer Discretionary,0
+random,1,WYNN,Consumer Discretionary,4
+random,1,XEC,Energy,1
+random,1,XEL,Utilities,3
+random,1,XL,Financials,0
+random,1,XLNX,Information Technology,0
+random,1,XOM,Energy,2
+random,1,XRAY,Health Care,3
+random,1,XRX,Information Technology,4
+random,1,XYL,Industrials,1
+random,1,YUM,Consumer Discretionary,1
+random,1,ZBH,Health Care,0
+random,1,ZION,Financials,2
+random,1,ZTS,Health Care,1
+random,2,A,Health Care,3
+random,2,AAL,Industrials,2
+random,2,AAP,Consumer Discretionary,0
+random,2,AAPL,Information Technology,1
+random,2,ABBV,Health Care,2
+random,2,ABC,Health Care,2
+random,2,ABT,Health Care,1
+random,2,ACN,Information Technology,1
+random,2,ADBE,Information Technology,3
+random,2,ADI,Information Technology,3
+random,2,ADM,Consumer Staples,1
+random,2,ADP,Information Technology,2
+random,2,ADS,Information Technology,0
+random,2,ADSK,Information Technology,1
+random,2,AEE,Utilities,0
+random,2,AEP,Utilities,4
+random,2,AES,Utilities,3
+random,2,AET,Health Care,1
+random,2,AFL,Financials,0
+random,2,AGN,Health Care,4
+random,2,AIG,Financials,0
+random,2,AIV,Real Estate,3
+random,2,AIZ,Financials,4
+random,2,AJG,Financials,2
+random,2,AKAM,Information Technology,0
+random,2,ALB,Materials,0
+random,2,ALGN,Health Care,4
+random,2,ALK,Industrials,3
+random,2,ALL,Financials,1
+random,2,ALXN,Health Care,1
+random,2,AMAT,Information Technology,1
+random,2,AMD,Information Technology,4
+random,2,AME,Industrials,0
+random,2,AMG,Financials,4
+random,2,AMGN,Health Care,4
+random,2,AMP,Financials,1
+random,2,AMT,Real Estate,3
+random,2,AMZN,Consumer Discretionary,1
+random,2,ANDV,Energy,4
+random,2,ANSS,Information Technology,2
+random,2,ANTM,Health Care,0
+random,2,AON,Financials,0
+random,2,AOS,Industrials,1
+random,2,APA,Energy,4
+random,2,APC,Energy,2
+random,2,APD,Materials,3
+random,2,APH,Information Technology,3
+random,2,ARE,Real Estate,4
+random,2,ARNC,Industrials,3
+random,2,ATVI,Information Technology,4
+random,2,AVB,Real Estate,4
+random,2,AVGO,Information Technology,4
+random,2,AVY,Materials,4
+random,2,AWK,Utilities,0
+random,2,AXP,Financials,2
+random,2,AYI,Industrials,0
+random,2,AZO,Consumer Discretionary,4
+random,2,BA,Industrials,2
+random,2,BAC,Financials,4
+random,2,BAX,Health Care,3
+random,2,BBT,Financials,2
+random,2,BBY,Consumer Discretionary,4
+random,2,BDX,Health Care,3
+random,2,BEN,Financials,3
+random,2,BF.B,Consumer Staples,2
+random,2,BIIB,Health Care,0
+random,2,BK,Financials,0
+random,2,BLK,Financials,0
+random,2,BLL,Materials,1
+random,2,BRK.B,Financials,0
+random,2,BSX,Health Care,1
+random,2,BWA,Consumer Discretionary,2
+random,2,BXP,Real Estate,4
+random,2,C,Financials,4
+random,2,CA,Information Technology,2
+random,2,CAG,Consumer Staples,4
+random,2,CAH,Health Care,4
+random,2,CAT,Industrials,0
+random,2,CB,Financials,3
+random,2,CBG,Real Estate,3
+random,2,CBOE,Financials,4
+random,2,CBS,Consumer Discretionary,4
+random,2,CCI,Real Estate,2
+random,2,CCL,Consumer Discretionary,4
+random,2,CDNS,Information Technology,0
+random,2,CELG,Health Care,2
+random,2,CERN,Health Care,4
+random,2,CF,Materials,2
+random,2,CHD,Consumer Staples,4
+random,2,CHK,Energy,0
+random,2,CHRW,Industrials,1
+random,2,CHTR,Consumer Discretionary,2
+random,2,CI,Health Care,3
+random,2,CINF,Financials,2
+random,2,CL,Consumer Staples,1
+random,2,CLX,Consumer Staples,4
+random,2,CMA,Financials,4
+random,2,CMCSA,Consumer Discretionary,4
+random,2,CME,Financials,2
+random,2,CMG,Consumer Discretionary,1
+random,2,CMI,Industrials,0
+random,2,CMS,Utilities,2
+random,2,CNC,Health Care,4
+random,2,CNP,Utilities,0
+random,2,COF,Financials,2
+random,2,COG,Energy,2
+random,2,COL,Industrials,2
+random,2,COO,Health Care,3
+random,2,COP,Energy,1
+random,2,COST,Consumer Staples,0
+random,2,CPB,Consumer Staples,3
+random,2,CRM,Information Technology,2
+random,2,CSCO,Information Technology,1
+random,2,CSX,Industrials,2
+random,2,CTAS,Industrials,0
+random,2,CTL,Telecommunication Services,3
+random,2,CTSH,Information Technology,4
+random,2,CTXS,Information Technology,1
+random,2,CVS,Consumer Staples,2
+random,2,CVX,Energy,1
+random,2,CXO,Energy,1
+random,2,D,Utilities,4
+random,2,DAL,Industrials,3
+random,2,DE,Industrials,3
+random,2,DFS,Financials,4
+random,2,DG,Consumer Discretionary,4
+random,2,DGX,Health Care,2
+random,2,DHI,Consumer Discretionary,2
+random,2,DIS,Consumer Discretionary,2
+random,2,DISCA,Consumer Discretionary,0
+random,2,DISCK,Consumer Discretionary,2
+random,2,DISH,Consumer Discretionary,0
+random,2,DLR,Real Estate,4
+random,2,DLTR,Consumer Discretionary,3
+random,2,DOV,Industrials,1
+random,2,DPS,Consumer Staples,3
+random,2,DRE,Real Estate,4
+random,2,DRI,Consumer Discretionary,4
+random,2,DTE,Utilities,4
+random,2,DUK,Utilities,3
+random,2,DVA,Health Care,2
+random,2,DVN,Energy,0
+random,2,EA,Information Technology,1
+random,2,EBAY,Information Technology,3
+random,2,ECL,Materials,2
+random,2,ED,Utilities,3
+random,2,EFX,Industrials,0
+random,2,EIX,Utilities,2
+random,2,EL,Consumer Staples,3
+random,2,EMN,Materials,3
+random,2,EMR,Industrials,0
+random,2,EOG,Energy,2
+random,2,EQIX,Real Estate,0
+random,2,EQR,Real Estate,2
+random,2,EQT,Energy,0
+random,2,ESRX,Health Care,0
+random,2,ESS,Real Estate,2
+random,2,ETFC,Financials,1
+random,2,ETN,Industrials,3
+random,2,ETR,Utilities,1
+random,2,EW,Health Care,0
+random,2,EXC,Utilities,0
+random,2,EXPD,Industrials,4
+random,2,EXPE,Consumer Discretionary,1
+random,2,EXR,Real Estate,2
+random,2,F,Consumer Discretionary,1
+random,2,FAST,Industrials,2
+random,2,FB,Information Technology,4
+random,2,FBHS,Industrials,4
+random,2,FCX,Materials,2
+random,2,FDX,Industrials,1
+random,2,FE,Utilities,1
+random,2,FFIV,Information Technology,0
+random,2,FIS,Information Technology,0
+random,2,FISV,Information Technology,1
+random,2,FITB,Financials,0
+random,2,FL,Consumer Discretionary,1
+random,2,FLIR,Information Technology,3
+random,2,FLR,Industrials,0
+random,2,FLS,Industrials,2
+random,2,FMC,Materials,1
+random,2,FRT,Real Estate,2
+random,2,FTI,Energy,0
+random,2,GD,Industrials,0
+random,2,GE,Industrials,3
+random,2,GGP,Real Estate,4
+random,2,GILD,Health Care,2
+random,2,GIS,Consumer Staples,3
+random,2,GLW,Information Technology,1
+random,2,GM,Consumer Discretionary,2
+random,2,GOOGL,Information Technology,2
+random,2,GPC,Consumer Discretionary,3
+random,2,GPN,Information Technology,0
+random,2,GPS,Consumer Discretionary,1
+random,2,GRMN,Consumer Discretionary,0
+random,2,GS,Financials,4
+random,2,GT,Consumer Discretionary,4
+random,2,GWW,Industrials,3
+random,2,HAL,Energy,1
+random,2,HAS,Consumer Discretionary,1
+random,2,HBAN,Financials,0
+random,2,HBI,Consumer Discretionary,3
+random,2,HCA,Health Care,3
+random,2,HCN,Real Estate,1
+random,2,HCP,Real Estate,2
+random,2,HD,Consumer Discretionary,0
+random,2,HES,Energy,3
+random,2,HIG,Financials,4
+random,2,HII,Industrials,3
+random,2,HOG,Consumer Discretionary,2
+random,2,HOLX,Health Care,2
+random,2,HON,Industrials,4
+random,2,HP,Energy,2
+random,2,HRB,Financials,4
+random,2,HRL,Consumer Staples,0
+random,2,HRS,Information Technology,1
+random,2,HSIC,Health Care,0
+random,2,HST,Real Estate,0
+random,2,HSY,Consumer Staples,4
+random,2,HUM,Health Care,3
+random,2,IBM,Information Technology,2
+random,2,IDXX,Health Care,0
+random,2,IFF,Materials,1
+random,2,ILMN,Health Care,2
+random,2,INCY,Health Care,3
+random,2,INTC,Information Technology,0
+random,2,INTU,Information Technology,0
+random,2,IP,Materials,1
+random,2,IPG,Consumer Discretionary,0
+random,2,IR,Industrials,3
+random,2,IRM,Real Estate,1
+random,2,ISRG,Health Care,0
+random,2,IT,Information Technology,0
+random,2,ITW,Industrials,4
+random,2,IVZ,Financials,3
+random,2,JBHT,Industrials,0
+random,2,JCI,Industrials,2
+random,2,JEC,Industrials,0
+random,2,JNJ,Health Care,4
+random,2,JNPR,Information Technology,3
+random,2,JPM,Financials,0
+random,2,JWN,Consumer Discretionary,2
+random,2,K,Consumer Staples,3
+random,2,KEY,Financials,0
+random,2,KIM,Real Estate,2
+random,2,KLAC,Information Technology,3
+random,2,KMB,Consumer Staples,4
+random,2,KMI,Energy,4
+random,2,KMX,Consumer Discretionary,4
+random,2,KO,Consumer Staples,3
+random,2,KORS,Consumer Discretionary,3
+random,2,KR,Consumer Staples,2
+random,2,KSS,Consumer Discretionary,4
+random,2,KSU,Industrials,2
+random,2,L,Financials,4
+random,2,LB,Consumer Discretionary,4
+random,2,LEG,Consumer Discretionary,2
+random,2,LEN,Consumer Discretionary,3
+random,2,LH,Health Care,0
+random,2,LKQ,Consumer Discretionary,0
+random,2,LLL,Industrials,4
+random,2,LLY,Health Care,3
+random,2,LMT,Industrials,1
+random,2,LNC,Financials,4
+random,2,LNT,Utilities,0
+random,2,LOW,Consumer Discretionary,0
+random,2,LRCX,Information Technology,0
+random,2,LUK,Financials,1
+random,2,LUV,Industrials,1
+random,2,LYB,Materials,2
+random,2,M,Consumer Discretionary,0
+random,2,MA,Information Technology,4
+random,2,MAA,Real Estate,3
+random,2,MAC,Real Estate,3
+random,2,MAR,Consumer Discretionary,1
+random,2,MAS,Industrials,1
+random,2,MAT,Consumer Discretionary,0
+random,2,MCD,Consumer Discretionary,0
+random,2,MCHP,Information Technology,3
+random,2,MCK,Health Care,1
+random,2,MCO,Financials,1
+random,2,MDLZ,Consumer Staples,2
+random,2,MDT,Health Care,1
+random,2,MET,Financials,1
+random,2,MGM,Consumer Discretionary,0
+random,2,MHK,Consumer Discretionary,2
+random,2,MKC,Consumer Staples,1
+random,2,MLM,Materials,4
+random,2,MMC,Financials,4
+random,2,MMM,Industrials,1
+random,2,MNST,Consumer Staples,3
+random,2,MO,Consumer Staples,1
+random,2,MON,Materials,3
+random,2,MOS,Materials,4
+random,2,MPC,Energy,2
+random,2,MRK,Health Care,4
+random,2,MRO,Energy,4
+random,2,MS,Financials,2
+random,2,MSFT,Information Technology,3
+random,2,MSI,Information Technology,4
+random,2,MTB,Financials,3
+random,2,MTD,Health Care,1
+random,2,MU,Information Technology,4
+random,2,MYL,Health Care,1
+random,2,NBL,Energy,2
+random,2,NCLH,Consumer Discretionary,1
+random,2,NDAQ,Financials,1
+random,2,NEE,Utilities,2
+random,2,NEM,Materials,4
+random,2,NFLX,Information Technology,0
+random,2,NFX,Energy,2
+random,2,NI,Utilities,3
+random,2,NKE,Consumer Discretionary,2
+random,2,NLSN,Industrials,1
+random,2,NOC,Industrials,0
+random,2,NOV,Energy,1
+random,2,NRG,Utilities,4
+random,2,NSC,Industrials,2
+random,2,NTAP,Information Technology,2
+random,2,NTRS,Financials,4
+random,2,NUE,Materials,2
+random,2,NVDA,Information Technology,1
+random,2,NWL,Consumer Discretionary,2
+random,2,OKE,Energy,4
+random,2,OMC,Consumer Discretionary,4
+random,2,ORLY,Consumer Discretionary,4
+random,2,OXY,Energy,4
+random,2,PAYX,Information Technology,3
+random,2,PBCT,Financials,1
+random,2,PCAR,Industrials,3
+random,2,PCG,Utilities,0
+random,2,PCLN,Consumer Discretionary,1
+random,2,PDCO,Health Care,0
+random,2,PEG,Utilities,3
+random,2,PEP,Consumer Staples,0
+random,2,PFE,Health Care,0
+random,2,PFG,Financials,1
+random,2,PG,Consumer Staples,3
+random,2,PGR,Financials,3
+random,2,PH,Industrials,1
+random,2,PHM,Consumer Discretionary,3
+random,2,PKG,Materials,1
+random,2,PKI,Health Care,1
+random,2,PLD,Real Estate,4
+random,2,PM,Consumer Staples,0
+random,2,PNC,Financials,3
+random,2,PNR,Industrials,2
+random,2,PNW,Utilities,2
+random,2,PPG,Materials,1
+random,2,PPL,Utilities,1
+random,2,PRGO,Health Care,1
+random,2,PRU,Financials,4
+random,2,PSA,Real Estate,0
+random,2,PSX,Energy,1
+random,2,PVH,Consumer Discretionary,0
+random,2,PWR,Industrials,2
+random,2,PX,Materials,0
+random,2,PXD,Energy,1
+random,2,QCOM,Information Technology,3
+random,2,RCL,Consumer Discretionary,4
+random,2,RE,Financials,4
+random,2,REG,Real Estate,4
+random,2,REGN,Health Care,2
+random,2,RF,Financials,4
+random,2,RHI,Industrials,0
+random,2,RHT,Information Technology,0
+random,2,RJF,Financials,4
+random,2,RL,Consumer Discretionary,2
+random,2,RMD,Health Care,1
+random,2,ROK,Industrials,3
+random,2,ROP,Industrials,0
+random,2,ROST,Consumer Discretionary,2
+random,2,RRC,Energy,0
+random,2,RSG,Industrials,4
+random,2,RTN,Industrials,0
+random,2,SBAC,Real Estate,2
+random,2,SBUX,Consumer Discretionary,2
+random,2,SCG,Utilities,1
+random,2,SCHW,Financials,3
+random,2,SEE,Materials,3
+random,2,SHW,Materials,4
+random,2,SIG,Consumer Discretionary,0
+random,2,SJM,Consumer Staples,2
+random,2,SLB,Energy,1
+random,2,SLG,Real Estate,0
+random,2,SNA,Consumer Discretionary,1
+random,2,SNI,Consumer Discretionary,3
+random,2,SNPS,Information Technology,3
+random,2,SO,Utilities,3
+random,2,SPG,Real Estate,1
+random,2,SPGI,Financials,1
+random,2,SRCL,Industrials,1
+random,2,SRE,Utilities,4
+random,2,STI,Financials,3
+random,2,STT,Financials,1
+random,2,STX,Information Technology,1
+random,2,STZ,Consumer Staples,2
+random,2,SWK,Consumer Discretionary,1
+random,2,SWKS,Information Technology,3
+random,2,SYK,Health Care,3
+random,2,SYMC,Information Technology,3
+random,2,SYY,Consumer Staples,4
+random,2,T,Telecommunication Services,1
+random,2,TAP,Consumer Staples,1
+random,2,TDG,Industrials,4
+random,2,TEL,Information Technology,0
+random,2,TGT,Consumer Discretionary,4
+random,2,TIF,Consumer Discretionary,1
+random,2,TJX,Consumer Discretionary,3
+random,2,TMK,Financials,2
+random,2,TMO,Health Care,2
+random,2,TPR,Consumer Discretionary,2
+random,2,TRIP,Consumer Discretionary,2
+random,2,TROW,Financials,4
+random,2,TRV,Financials,2
+random,2,TSCO,Consumer Discretionary,0
+random,2,TSN,Consumer Staples,0
+random,2,TSS,Information Technology,3
+random,2,TWX,Consumer Discretionary,3
+random,2,TXN,Information Technology,3
+random,2,TXT,Industrials,3
+random,2,UAA,Consumer Discretionary,3
+random,2,UAL,Industrials,0
+random,2,UDR,Real Estate,3
+random,2,UHS,Health Care,3
+random,2,ULTA,Consumer Discretionary,0
+random,2,UNH,Health Care,4
+random,2,UNM,Financials,2
+random,2,UNP,Industrials,0
+random,2,UPS,Industrials,3
+random,2,URI,Industrials,2
+random,2,USB,Financials,3
+random,2,UTX,Industrials,1
+random,2,V,Information Technology,4
+random,2,VAR,Health Care,0
+random,2,VFC,Consumer Discretionary,1
+random,2,VIAB,Consumer Discretionary,3
+random,2,VLO,Energy,2
+random,2,VMC,Materials,3
+random,2,VNO,Real Estate,2
+random,2,VRSK,Industrials,0
+random,2,VRSN,Information Technology,0
+random,2,VRTX,Health Care,3
+random,2,VTR,Real Estate,1
+random,2,VZ,Telecommunication Services,1
+random,2,WAT,Health Care,1
+random,2,WBA,Consumer Staples,0
+random,2,WDC,Information Technology,3
+random,2,WEC,Utilities,1
+random,2,WFC,Financials,3
+random,2,WHR,Consumer Discretionary,1
+random,2,WM,Industrials,1
+random,2,WMB,Energy,1
+random,2,WMT,Consumer Staples,4
+random,2,WU,Information Technology,2
+random,2,WY,Real Estate,4
+random,2,WYN,Consumer Discretionary,2
+random,2,WYNN,Consumer Discretionary,2
+random,2,XEC,Energy,3
+random,2,XEL,Utilities,3
+random,2,XL,Financials,3
+random,2,XLNX,Information Technology,2
+random,2,XOM,Energy,2
+random,2,XRAY,Health Care,2
+random,2,XRX,Information Technology,4
+random,2,XYL,Industrials,4
+random,2,YUM,Consumer Discretionary,3
+random,2,ZBH,Health Care,0
+random,2,ZION,Financials,0
+random,2,ZTS,Health Care,4
+sector,,A,Health Care,4
+sector,,AAL,Industrials,1
+sector,,AAP,Consumer Discretionary,0
+sector,,AAPL,Information Technology,3
+sector,,ABBV,Health Care,4
+sector,,ABC,Health Care,4
+sector,,ABT,Health Care,4
+sector,,ACN,Information Technology,3
+sector,,ADBE,Information Technology,3
+sector,,ADI,Information Technology,3
+sector,,ADM,Consumer Staples,4
+sector,,ADP,Information Technology,3
+sector,,ADS,Information Technology,3
+sector,,ADSK,Information Technology,3
+sector,,AEE,Utilities,1
+sector,,AEP,Utilities,1
+sector,,AES,Utilities,1
+sector,,AET,Health Care,4
+sector,,AFL,Financials,2
+sector,,AGN,Health Care,4
+sector,,AIG,Financials,2
+sector,,AIV,Real Estate,2
+sector,,AIZ,Financials,2
+sector,,AJG,Financials,2
+sector,,AKAM,Information Technology,3
+sector,,ALB,Materials,0
+sector,,ALGN,Health Care,4
+sector,,ALK,Industrials,1
+sector,,ALL,Financials,2
+sector,,ALXN,Health Care,4
+sector,,AMAT,Information Technology,3
+sector,,AMD,Information Technology,3
+sector,,AME,Industrials,1
+sector,,AMG,Financials,2
+sector,,AMGN,Health Care,4
+sector,,AMP,Financials,2
+sector,,AMT,Real Estate,2
+sector,,AMZN,Consumer Discretionary,0
+sector,,ANDV,Energy,3
+sector,,ANSS,Information Technology,3
+sector,,ANTM,Health Care,4
+sector,,AON,Financials,2
+sector,,AOS,Industrials,1
+sector,,APA,Energy,3
+sector,,APC,Energy,3
+sector,,APD,Materials,0
+sector,,APH,Information Technology,3
+sector,,ARE,Real Estate,2
+sector,,ARNC,Industrials,1
+sector,,ATVI,Information Technology,3
+sector,,AVB,Real Estate,2
+sector,,AVGO,Information Technology,3
+sector,,AVY,Materials,0
+sector,,AWK,Utilities,1
+sector,,AXP,Financials,2
+sector,,AYI,Industrials,1
+sector,,AZO,Consumer Discretionary,0
+sector,,BA,Industrials,1
+sector,,BAC,Financials,2
+sector,,BAX,Health Care,4
+sector,,BBT,Financials,2
+sector,,BBY,Consumer Discretionary,0
+sector,,BDX,Health Care,4
+sector,,BEN,Financials,2
+sector,,BF.B,Consumer Staples,4
+sector,,BIIB,Health Care,4
+sector,,BK,Financials,2
+sector,,BLK,Financials,2
+sector,,BLL,Materials,0
+sector,,BRK.B,Financials,2
+sector,,BSX,Health Care,4
+sector,,BWA,Consumer Discretionary,0
+sector,,BXP,Real Estate,2
+sector,,C,Financials,2
+sector,,CA,Information Technology,3
+sector,,CAG,Consumer Staples,4
+sector,,CAH,Health Care,4
+sector,,CAT,Industrials,1
+sector,,CB,Financials,2
+sector,,CBG,Real Estate,2
+sector,,CBOE,Financials,2
+sector,,CBS,Consumer Discretionary,0
+sector,,CCI,Real Estate,2
+sector,,CCL,Consumer Discretionary,0
+sector,,CDNS,Information Technology,3
+sector,,CELG,Health Care,4
+sector,,CERN,Health Care,4
+sector,,CF,Materials,0
+sector,,CHD,Consumer Staples,4
+sector,,CHK,Energy,3
+sector,,CHRW,Industrials,1
+sector,,CHTR,Consumer Discretionary,0
+sector,,CI,Health Care,4
+sector,,CINF,Financials,2
+sector,,CL,Consumer Staples,4
+sector,,CLX,Consumer Staples,4
+sector,,CMA,Financials,2
+sector,,CMCSA,Consumer Discretionary,0
+sector,,CME,Financials,2
+sector,,CMG,Consumer Discretionary,0
+sector,,CMI,Industrials,1
+sector,,CMS,Utilities,1
+sector,,CNC,Health Care,4
+sector,,CNP,Utilities,1
+sector,,COF,Financials,2
+sector,,COG,Energy,3
+sector,,COL,Industrials,1
+sector,,COO,Health Care,4
+sector,,COP,Energy,3
+sector,,COST,Consumer Staples,4
+sector,,CPB,Consumer Staples,4
+sector,,CRM,Information Technology,3
+sector,,CSCO,Information Technology,3
+sector,,CSX,Industrials,1
+sector,,CTAS,Industrials,1
+sector,,CTL,Telecommunication Services,4
+sector,,CTSH,Information Technology,3
+sector,,CTXS,Information Technology,3
+sector,,CVS,Consumer Staples,4
+sector,,CVX,Energy,3
+sector,,CXO,Energy,3
+sector,,D,Utilities,1
+sector,,DAL,Industrials,1
+sector,,DE,Industrials,1
+sector,,DFS,Financials,2
+sector,,DG,Consumer Discretionary,0
+sector,,DGX,Health Care,4
+sector,,DHI,Consumer Discretionary,0
+sector,,DIS,Consumer Discretionary,0
+sector,,DISCA,Consumer Discretionary,0
+sector,,DISCK,Consumer Discretionary,0
+sector,,DISH,Consumer Discretionary,0
+sector,,DLR,Real Estate,2
+sector,,DLTR,Consumer Discretionary,0
+sector,,DOV,Industrials,1
+sector,,DPS,Consumer Staples,4
+sector,,DRE,Real Estate,2
+sector,,DRI,Consumer Discretionary,0
+sector,,DTE,Utilities,1
+sector,,DUK,Utilities,1
+sector,,DVA,Health Care,4
+sector,,DVN,Energy,3
+sector,,EA,Information Technology,3
+sector,,EBAY,Information Technology,3
+sector,,ECL,Materials,0
+sector,,ED,Utilities,1
+sector,,EFX,Industrials,1
+sector,,EIX,Utilities,1
+sector,,EL,Consumer Staples,4
+sector,,EMN,Materials,0
+sector,,EMR,Industrials,1
+sector,,EOG,Energy,3
+sector,,EQIX,Real Estate,2
+sector,,EQR,Real Estate,2
+sector,,EQT,Energy,3
+sector,,ESRX,Health Care,4
+sector,,ESS,Real Estate,2
+sector,,ETFC,Financials,2
+sector,,ETN,Industrials,1
+sector,,ETR,Utilities,1
+sector,,EW,Health Care,4
+sector,,EXC,Utilities,1
+sector,,EXPD,Industrials,1
+sector,,EXPE,Consumer Discretionary,0
+sector,,EXR,Real Estate,2
+sector,,F,Consumer Discretionary,0
+sector,,FAST,Industrials,1
+sector,,FB,Information Technology,3
+sector,,FBHS,Industrials,1
+sector,,FCX,Materials,0
+sector,,FDX,Industrials,1
+sector,,FE,Utilities,1
+sector,,FFIV,Information Technology,3
+sector,,FIS,Information Technology,3
+sector,,FISV,Information Technology,3
+sector,,FITB,Financials,2
+sector,,FL,Consumer Discretionary,0
+sector,,FLIR,Information Technology,3
+sector,,FLR,Industrials,1
+sector,,FLS,Industrials,1
+sector,,FMC,Materials,0
+sector,,FRT,Real Estate,2
+sector,,FTI,Energy,3
+sector,,GD,Industrials,1
+sector,,GE,Industrials,1
+sector,,GGP,Real Estate,2
+sector,,GILD,Health Care,4
+sector,,GIS,Consumer Staples,4
+sector,,GLW,Information Technology,3
+sector,,GM,Consumer Discretionary,0
+sector,,GOOGL,Information Technology,3
+sector,,GPC,Consumer Discretionary,0
+sector,,GPN,Information Technology,3
+sector,,GPS,Consumer Discretionary,0
+sector,,GRMN,Consumer Discretionary,0
+sector,,GS,Financials,2
+sector,,GT,Consumer Discretionary,0
+sector,,GWW,Industrials,1
+sector,,HAL,Energy,3
+sector,,HAS,Consumer Discretionary,0
+sector,,HBAN,Financials,2
+sector,,HBI,Consumer Discretionary,0
+sector,,HCA,Health Care,4
+sector,,HCN,Real Estate,2
+sector,,HCP,Real Estate,2
+sector,,HD,Consumer Discretionary,0
+sector,,HES,Energy,3
+sector,,HIG,Financials,2
+sector,,HII,Industrials,1
+sector,,HOG,Consumer Discretionary,0
+sector,,HOLX,Health Care,4
+sector,,HON,Industrials,1
+sector,,HP,Energy,3
+sector,,HRB,Financials,2
+sector,,HRL,Consumer Staples,4
+sector,,HRS,Information Technology,3
+sector,,HSIC,Health Care,4
+sector,,HST,Real Estate,2
+sector,,HSY,Consumer Staples,4
+sector,,HUM,Health Care,4
+sector,,IBM,Information Technology,3
+sector,,IDXX,Health Care,4
+sector,,IFF,Materials,0
+sector,,ILMN,Health Care,4
+sector,,INCY,Health Care,4
+sector,,INTC,Information Technology,3
+sector,,INTU,Information Technology,3
+sector,,IP,Materials,0
+sector,,IPG,Consumer Discretionary,0
+sector,,IR,Industrials,1
+sector,,IRM,Real Estate,2
+sector,,ISRG,Health Care,4
+sector,,IT,Information Technology,3
+sector,,ITW,Industrials,1
+sector,,IVZ,Financials,2
+sector,,JBHT,Industrials,1
+sector,,JCI,Industrials,1
+sector,,JEC,Industrials,1
+sector,,JNJ,Health Care,4
+sector,,JNPR,Information Technology,3
+sector,,JPM,Financials,2
+sector,,JWN,Consumer Discretionary,0
+sector,,K,Consumer Staples,4
+sector,,KEY,Financials,2
+sector,,KIM,Real Estate,2
+sector,,KLAC,Information Technology,3
+sector,,KMB,Consumer Staples,4
+sector,,KMI,Energy,3
+sector,,KMX,Consumer Discretionary,0
+sector,,KO,Consumer Staples,4
+sector,,KORS,Consumer Discretionary,0
+sector,,KR,Consumer Staples,4
+sector,,KSS,Consumer Discretionary,0
+sector,,KSU,Industrials,1
+sector,,L,Financials,2
+sector,,LB,Consumer Discretionary,0
+sector,,LEG,Consumer Discretionary,0
+sector,,LEN,Consumer Discretionary,0
+sector,,LH,Health Care,4
+sector,,LKQ,Consumer Discretionary,0
+sector,,LLL,Industrials,1
+sector,,LLY,Health Care,4
+sector,,LMT,Industrials,1
+sector,,LNC,Financials,2
+sector,,LNT,Utilities,1
+sector,,LOW,Consumer Discretionary,0
+sector,,LRCX,Information Technology,3
+sector,,LUK,Financials,2
+sector,,LUV,Industrials,1
+sector,,LYB,Materials,0
+sector,,M,Consumer Discretionary,0
+sector,,MA,Information Technology,3
+sector,,MAA,Real Estate,2
+sector,,MAC,Real Estate,2
+sector,,MAR,Consumer Discretionary,0
+sector,,MAS,Industrials,1
+sector,,MAT,Consumer Discretionary,0
+sector,,MCD,Consumer Discretionary,0
+sector,,MCHP,Information Technology,3
+sector,,MCK,Health Care,4
+sector,,MCO,Financials,2
+sector,,MDLZ,Consumer Staples,4
+sector,,MDT,Health Care,4
+sector,,MET,Financials,2
+sector,,MGM,Consumer Discretionary,0
+sector,,MHK,Consumer Discretionary,0
+sector,,MKC,Consumer Staples,4
+sector,,MLM,Materials,0
+sector,,MMC,Financials,2
+sector,,MMM,Industrials,1
+sector,,MNST,Consumer Staples,4
+sector,,MO,Consumer Staples,4
+sector,,MON,Materials,0
+sector,,MOS,Materials,0
+sector,,MPC,Energy,3
+sector,,MRK,Health Care,4
+sector,,MRO,Energy,3
+sector,,MS,Financials,2
+sector,,MSFT,Information Technology,3
+sector,,MSI,Information Technology,3
+sector,,MTB,Financials,2
+sector,,MTD,Health Care,4
+sector,,MU,Information Technology,3
+sector,,MYL,Health Care,4
+sector,,NBL,Energy,3
+sector,,NCLH,Consumer Discretionary,0
+sector,,NDAQ,Financials,2
+sector,,NEE,Utilities,1
+sector,,NEM,Materials,0
+sector,,NFLX,Information Technology,3
+sector,,NFX,Energy,3
+sector,,NI,Utilities,1
+sector,,NKE,Consumer Discretionary,0
+sector,,NLSN,Industrials,1
+sector,,NOC,Industrials,1
+sector,,NOV,Energy,3
+sector,,NRG,Utilities,1
+sector,,NSC,Industrials,1
+sector,,NTAP,Information Technology,3
+sector,,NTRS,Financials,2
+sector,,NUE,Materials,0
+sector,,NVDA,Information Technology,3
+sector,,NWL,Consumer Discretionary,0
+sector,,OKE,Energy,3
+sector,,OMC,Consumer Discretionary,0
+sector,,ORLY,Consumer Discretionary,0
+sector,,OXY,Energy,3
+sector,,PAYX,Information Technology,3
+sector,,PBCT,Financials,2
+sector,,PCAR,Industrials,1
+sector,,PCG,Utilities,1
+sector,,PCLN,Consumer Discretionary,0
+sector,,PDCO,Health Care,4
+sector,,PEG,Utilities,1
+sector,,PEP,Consumer Staples,4
+sector,,PFE,Health Care,4
+sector,,PFG,Financials,2
+sector,,PG,Consumer Staples,4
+sector,,PGR,Financials,2
+sector,,PH,Industrials,1
+sector,,PHM,Consumer Discretionary,0
+sector,,PKG,Materials,0
+sector,,PKI,Health Care,4
+sector,,PLD,Real Estate,2
+sector,,PM,Consumer Staples,4
+sector,,PNC,Financials,2
+sector,,PNR,Industrials,1
+sector,,PNW,Utilities,1
+sector,,PPG,Materials,0
+sector,,PPL,Utilities,1
+sector,,PRGO,Health Care,4
+sector,,PRU,Financials,2
+sector,,PSA,Real Estate,2
+sector,,PSX,Energy,3
+sector,,PVH,Consumer Discretionary,0
+sector,,PWR,Industrials,1
+sector,,PX,Materials,0
+sector,,PXD,Energy,3
+sector,,QCOM,Information Technology,3
+sector,,RCL,Consumer Discretionary,0
+sector,,RE,Financials,2
+sector,,REG,Real Estate,2
+sector,,REGN,Health Care,4
+sector,,RF,Financials,2
+sector,,RHI,Industrials,1
+sector,,RHT,Information Technology,3
+sector,,RJF,Financials,2
+sector,,RL,Consumer Discretionary,0
+sector,,RMD,Health Care,4
+sector,,ROK,Industrials,1
+sector,,ROP,Industrials,1
+sector,,ROST,Consumer Discretionary,0
+sector,,RRC,Energy,3
+sector,,RSG,Industrials,1
+sector,,RTN,Industrials,1
+sector,,SBAC,Real Estate,2
+sector,,SBUX,Consumer Discretionary,0
+sector,,SCG,Utilities,1
+sector,,SCHW,Financials,2
+sector,,SEE,Materials,0
+sector,,SHW,Materials,0
+sector,,SIG,Consumer Discretionary,0
+sector,,SJM,Consumer Staples,4
+sector,,SLB,Energy,3
+sector,,SLG,Real Estate,2
+sector,,SNA,Consumer Discretionary,0
+sector,,SNI,Consumer Discretionary,0
+sector,,SNPS,Information Technology,3
+sector,,SO,Utilities,1
+sector,,SPG,Real Estate,2
+sector,,SPGI,Financials,2
+sector,,SRCL,Industrials,1
+sector,,SRE,Utilities,1
+sector,,STI,Financials,2
+sector,,STT,Financials,2
+sector,,STX,Information Technology,3
+sector,,STZ,Consumer Staples,4
+sector,,SWK,Consumer Discretionary,0
+sector,,SWKS,Information Technology,3
+sector,,SYK,Health Care,4
+sector,,SYMC,Information Technology,3
+sector,,SYY,Consumer Staples,4
+sector,,T,Telecommunication Services,4
+sector,,TAP,Consumer Staples,4
+sector,,TDG,Industrials,1
+sector,,TEL,Information Technology,3
+sector,,TGT,Consumer Discretionary,0
+sector,,TIF,Consumer Discretionary,0
+sector,,TJX,Consumer Discretionary,0
+sector,,TMK,Financials,2
+sector,,TMO,Health Care,4
+sector,,TPR,Consumer Discretionary,0
+sector,,TRIP,Consumer Discretionary,0
+sector,,TROW,Financials,2
+sector,,TRV,Financials,2
+sector,,TSCO,Consumer Discretionary,0
+sector,,TSN,Consumer Staples,4
+sector,,TSS,Information Technology,3
+sector,,TWX,Consumer Discretionary,0
+sector,,TXN,Information Technology,3
+sector,,TXT,Industrials,1
+sector,,UAA,Consumer Discretionary,0
+sector,,UAL,Industrials,1
+sector,,UDR,Real Estate,2
+sector,,UHS,Health Care,4
+sector,,ULTA,Consumer Discretionary,0
+sector,,UNH,Health Care,4
+sector,,UNM,Financials,2
+sector,,UNP,Industrials,1
+sector,,UPS,Industrials,1
+sector,,URI,Industrials,1
+sector,,USB,Financials,2
+sector,,UTX,Industrials,1
+sector,,V,Information Technology,3
+sector,,VAR,Health Care,4
+sector,,VFC,Consumer Discretionary,0
+sector,,VIAB,Consumer Discretionary,0
+sector,,VLO,Energy,3
+sector,,VMC,Materials,0
+sector,,VNO,Real Estate,2
+sector,,VRSK,Industrials,1
+sector,,VRSN,Information Technology,3
+sector,,VRTX,Health Care,4
+sector,,VTR,Real Estate,2
+sector,,VZ,Telecommunication Services,4
+sector,,WAT,Health Care,4
+sector,,WBA,Consumer Staples,4
+sector,,WDC,Information Technology,3
+sector,,WEC,Utilities,1
+sector,,WFC,Financials,2
+sector,,WHR,Consumer Discretionary,0
+sector,,WM,Industrials,1
+sector,,WMB,Energy,3
+sector,,WMT,Consumer Staples,4
+sector,,WU,Information Technology,3
+sector,,WY,Real Estate,2
+sector,,WYN,Consumer Discretionary,0
+sector,,WYNN,Consumer Discretionary,0
+sector,,XEC,Energy,3
+sector,,XEL,Utilities,1
+sector,,XL,Financials,2
+sector,,XLNX,Information Technology,3
+sector,,XOM,Energy,3
+sector,,XRAY,Health Care,4
+sector,,XRX,Information Technology,3
+sector,,XYL,Industrials,1
+sector,,YUM,Consumer Discretionary,0
+sector,,ZBH,Health Care,4
+sector,,ZION,Financials,2
+sector,,ZTS,Health Care,4
+loeo,,2015-08,2015-08,0
+loeo,,2016-06,2016-06,1
+loeo,,2016-09,2016-09,2
+loeo,,2018-02,2018-02,3
