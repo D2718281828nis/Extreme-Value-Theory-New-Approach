@@ -1,7 +1,7 @@
 """One illustrative case per application, in a common structure.
 
-Every builder returns a `Case`: the same fields for aviation (A), brain (B) and finance (C), so that
-`case_figures.py` can draw exactly the same six panel types for each of them.
+Every builder returns a `Case`: the same fields for aviation (A), brain (B), finance (C) and ECG (D),
+so that `case_figures.py` can draw exactly the same six panel types for each of them.
 
     system   : system-level signal over the whole record (step 1, the task)
     heat     : node x time standardised response around the event (step 2, the data)
@@ -32,7 +32,7 @@ DATA = ROOT / "data"
 
 @dataclass
 class Case:
-    key: str                      # "A" | "B" | "C"
+    key: str                      # "A" | "B" | "C" | "D"
     title: str
     time_unit: str                # "cycle" | "s" | "trading day"
     # step 1
@@ -45,12 +45,15 @@ class Case:
     # step 2
     heat: np.ndarray = None       # nodes x time (display window)
     heat_t: np.ndarray = None
+    series: dict = None           # ECG: RR/ST/PR/P-quality time series for the result panel
     # step 3
     nodes: list = field(default_factory=list)
     groups: np.ndarray = None
     edges: list = field(default_factory=list)
     node_peak: np.ndarray = None  # peak standardised response per node (node size)
     graph_label: str = ""
+    graph_variants: dict = None  # ECG: structural / functional / kNN edge lists
+    graph_corr: np.ndarray = None  # ECG: absolute baseline correlation between leads
     # step 4
     ind_t: np.ndarray = None
     ind: np.ndarray = None
@@ -259,4 +262,60 @@ def finance(episode: str = "2015-08") -> Case:
     return c
 
 
-BUILDERS = {"A": aviation, "B": brain, "C": finance}
+# ============================================================================ D. ECG
+def ecg() -> Case:
+    import json
+    import ecg_incart_pipeline as E
+
+    R = json.loads((REF / "ecg" / "results.json").read_text(encoding="utf-8"))
+    event = R["event"]; onset = float(event["onset"]); det_t = float(R["detection"]["blind_pot"]["event_alarm"])
+    x, _, _, _ = E.load(str(DATA / "INCART"))
+    y = E.filtered(x)
+    _, _, _, _, peaks = E.rhythm_morphology(y)
+    seconds, _ = E.interval_features(y, peaks); st = seconds["st"]
+    ef = C.functional_edges(st[:E.B], k=3)
+    feat = pd.read_csv(REF / "ecg" / "node_features.csv")
+    cols = [c_ for c_ in feat.columns if c_ not in ("lead", "group", "involved")]
+    ek = C.knn_edges(feat[cols].values.astype(float), 3)
+    es = E.structural_edges()
+    corr = np.nan_to_num(np.abs(np.corrcoef(st[:E.B].T)))
+
+    ind = np.load(REF / "ecg" / "indicators.npz")
+    z, tw, lat = ind["z"], ind["tw"], ind["lat"]
+    groups = pd.read_csv(REF / "ecg" / "localization_groups.csv").set_index("group")
+    ev = pd.DataFrame(index=groups.index)
+    ev["EVT cascade (earliest onset)"] = _minmax(-groups.latency_min.fillna(groups.latency_min.max() + 5))
+    ev["Event footprint (share > EVT thr)"] = _minmax(groups.footprint)
+    ev["GAT node score (lead CV)"] = _minmax(groups.gnn)
+
+    lo, hi = 350, 580
+    sel = (tw >= lo) & (tw <= hi)
+    c = Case("D", "D · ECG — ventricular tachycardia (INCART I42, 12 leads)", "s")
+    c.sys_t, c.sys_y = np.arange(len(ind["hr"])), ind["hr"]
+    c.sys_label = "heart rate, bpm (signal-based R peaks)"
+    c.event_t, c.event_label = onset, "VT onset"
+    c.view = (lo, hi)
+    c.heat, c.heat_t = np.clip(z[sel].T, 0, 15), tw[sel]
+    c.series = {k: ind[k][sel] for k in ["st", "pr", "pq", "hr", "rr_cv"]}
+    c.nodes, c.groups = E.LEADS, E.GROUPS
+    c.edges = ef
+    c.graph_variants = {"structural": es, "functional": ef, "knn": ek}
+    c.graph_corr = corr
+    c.node_peak = np.nanmax(z, axis=0)
+    c.graph_label = "structural groups + top-3 functional + top-3 feature-kNN"
+    c.ind_t, c.ind = np.arange(len(ind["hi"])), ind["hi"]
+    c.thr, c.det_t = float(R["detection"]["blind_pot"]["thr"]), det_t
+    c.tail = "POT/GPD, q=0.999"
+    c.evidence, c.source, c.source_mean = ev, _consensus(ev), _mean_rule(ev)
+    c.onset = onset + lat - det_t
+    c.summary = {"record": "I42", "detected_s": det_t, "annotation_s": onset,
+                 "dt_detect_minus_annotation_s": det_t - onset, "pot_threshold": c.thr,
+                 "n_leads": len(E.LEADS), "n_involved": int(np.isfinite(lat).sum()),
+                 "graph_edges": {k: len(v) for k, v in c.graph_variants.items()}, "graph_jaccard": R["graphs"]["jaccard"],
+                 "agent_source": c.source, "mean_rule_source": c.source_mean,
+                 "earliest_leads": R["localization"]["earliest_leads"],
+                 "qrs_reference_coverage_80ms": R["signal_qrs"]["reference_position_coverage_80ms"]}
+    return c
+
+
+BUILDERS = {"A": aviation, "B": brain, "C": finance, "D": ecg}

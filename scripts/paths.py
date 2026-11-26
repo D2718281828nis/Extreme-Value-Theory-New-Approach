@@ -22,6 +22,11 @@ MD5 = {
     # версии NumPy MD5 может отличаться — расчёт проверяет не его, а записанный внутрь MD5 исходного EDF
     "sEEG-HFOs-8_cases_derived.npz": "6e768cf1cc3a664ac287fc836d19ed62",
 }
+SHA256 = {
+    "I42.dat": "1ed5c6039a2bbb6dd6932a6c45e05ecad2fedb054a479d2a0f444a9134429ede",
+    "I42.hea": "eb72e7ae6e2275f53f2b5e38c62374b8ab1a288e6e1758b40db5c26ac23d02bc",
+    "I42.atr": "7421ccbac2269f57a768633ee301929d48ed8eade5336d080c0f3aba376f9109",
+}
 
 
 def _load_dotenv() -> None:
@@ -63,6 +68,10 @@ def sp500_dir() -> Path:
     return config()["data_dir"]
 
 
+def incart_dir() -> Path:
+    return config()["data_dir"] / "INCART"
+
+
 def seeg_derived_target() -> Path:
     """Куда пишется производный набор, если его приходится строить заново."""
     return config()["data_dir"] / "sEEG" / "sEEG-HFOs-8_cases_derived.npz"
@@ -77,6 +86,14 @@ def find_seeg_derived() -> Path | None:
 
 def md5sum(path: Path, chunk: int = 1 << 22) -> str:
     h = hashlib.md5()
+    with open(path, "rb") as f:
+        for b in iter(lambda: f.read(chunk), b""):
+            h.update(b)
+    return h.hexdigest()
+
+
+def sha256sum(path: Path, chunk: int = 1 << 22) -> str:
+    h = hashlib.sha256()
     with open(path, "rb") as f:
         for b in iter(lambda: f.read(chunk), b""):
             h.update(b)

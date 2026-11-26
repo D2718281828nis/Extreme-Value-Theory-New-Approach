@@ -1,0 +1,570 @@
+{
+ "dataset": "St Petersburg INCART 12-lead Arrhythmia Database v1.0.0, PhysioNet DOI 10.13026/C2V88N",
+ "record": "I42",
+ "n_leads": 12,
+ "fs": 257,
+ "duration_s": 1800.0,
+ "sha256": {
+  "I42.dat": "1ed5c6039a2bbb6dd6932a6c45e05ecad2fedb054a479d2a0f444a9134429ede",
+  "I42.hea": "eb72e7ae6e2275f53f2b5e38c62374b8ab1a288e6e1758b40db5c26ac23d02bc",
+  "I42.atr": "7421ccbac2269f57a768633ee301929d48ed8eade5336d080c0f3aba376f9109"
+ },
+ "record_selection": {
+  "I30_rejected": "максимальная серия ЖТ 4.514 с",
+  "I42_selected": "одиночная ЖТ 59.471 с"
+ },
+ "event": {
+  "onset_sample": 120388,
+  "end_sample": 135672,
+  "onset": 468.43579766536965,
+  "end": 527.9066147859922,
+  "duration": 59.47081712062257,
+  "n_beats": 175,
+  "mean_hr": 175.54828578906046,
+  "min_rr": 0.3151750972762646,
+  "max_rr": 0.38910505836575876
+ },
+ "all_vt_episodes": [
+  {
+   "onset_sample": 120388,
+   "end_sample": 135672,
+   "onset": 468.43579766536965,
+   "end": 527.9066147859922,
+   "duration": 59.47081712062257,
+   "n_beats": 175,
+   "mean_hr": 175.54828578906046,
+   "min_rr": 0.3151750972762646,
+   "max_rr": 0.38910505836575876
+  }
+ ],
+ "detection_spec": {
+  "unit": "окно 1 с",
+  "background": 400,
+  "blind_pot": {
+   "method": "pot",
+   "u_q": 0.8,
+   "gamma": 0.999,
+   "r": 3
+  },
+  "blind_gev": {
+   "method": "gev",
+   "gamma": 0.99,
+   "r": 2,
+   "block": 10
+  },
+  "targeted_local": {
+   "method": "pot",
+   "u_q": 0.8,
+   "gamma": 0.999,
+   "r": 3
+  }
+ },
+ "signal_qrs": {
+  "lead": "II",
+  "min_distance_s": 0.28,
+  "prominence_mv": 1.0,
+  "n_detected": 3107,
+  "reference_position_coverage_80ms": 0.9993567063364426,
+  "note": "позиции и типы аннотаций не входят в индикатор; покрытие — последующая проверка"
+ },
+ "interval_features": {
+  "rr": "сигнальные R-пики на II; каузальные окна 4 с",
+  "st": "медиана ЭКГ 78–121 мс после R минус база 350–233 мс до R, мВ",
+  "pr_proxy": "задержка P-кандидата до R; не клинический PR и не входит в EVT-индикатор",
+  "p_quality": "амплитуда P-кандидата / MAD участка перед ним; низкое качество не равно PR=0"
+ },
+ "indicator_features": [
+  "heart_rate",
+  "negative_rr_cv",
+  "st_I",
+  "st_II",
+  "st_III",
+  "st_AVR",
+  "st_AVL",
+  "st_AVF",
+  "st_V1",
+  "st_V2",
+  "st_V3",
+  "st_V4",
+  "st_V5",
+  "st_V6"
+ ],
+ "detection": {
+  "blind_pot": {
+   "thr": 5.0179394439173866,
+   "xi": 0.3607851080154575,
+   "episodes": [
+    464,
+    484
+   ],
+   "event_alarm": 464,
+   "dt": -4.435797665369648,
+   "early": true,
+   "false_alarms": [],
+   "recovery_alarms": [],
+   "false_alarms_per_hour": 0.0,
+   "normal_test_seconds": 1220.5291828793775,
+   "block_s": 1
+  },
+  "blind_gev": {
+   "thr": 4.963649120689433,
+   "xi": 0.45221817220203653,
+   "episodes": [
+    440,
+    480
+   ],
+   "event_alarm": 440,
+   "dt": -28.43579766536965,
+   "early": true,
+   "false_alarms": [],
+   "recovery_alarms": [],
+   "false_alarms_per_hour": 0.0,
+   "normal_test_seconds": 1220.5291828793775,
+   "block_s": 10
+  },
+  "targeted_local": {
+   "baseline": [
+    168,
+    438
+   ],
+   "search_from": 438,
+   "thr": 6.825636154238682,
+   "xi": 0.5946476289461025,
+   "first_alarm": 489,
+   "dt": 20.56420233463035,
+   "early": false
+  },
+  "heavy_tail": {
+   "baseline": {
+    "kurtosis": 199.2179306492194,
+    "q999": 7.764149312613028
+   },
+   "full": {
+    "kurtosis": 31.073910494213372,
+    "q999": 12.90177924222469
+   }
+  }
+ },
+ "H0_noise": {
+  "window_s": 30,
+  "n_surrogate": 17,
+  "hr_median_by_window": [
+   131.79487179486713,
+   86.38655462184794,
+   105.25597269624971,
+   130.67796610168932
+  ],
+  "rmssd_by_window": [
+   0.6180372195307986,
+   0.621003133498172,
+   0.5433240405091199,
+   0.100839257895993
+  ],
+  "noise": {
+   "median_by_window": [
+    1.0,
+    1.1330024098693352,
+    1.2469844215879835,
+    2.842023066268525
+   ],
+   "frac_channels_increase_T1_T4": 1.0,
+   "rm_corr_channels": {
+    "r_rm": 0.8637590311166922,
+    "dof": 35,
+    "p": 5.8709156033582354e-12,
+    "ci95": [
+     0.749505416448108,
+     0.9280435520385185
+    ]
+   },
+   "slope_obs": 0.3229405502438863,
+   "slope_surrogate_mean": 0.008697653593400204,
+   "p_surrogate_greater": 0.0,
+   "p_surrogate_less": 1.0
+  },
+  "variance": {
+   "median_by_window": [
+    1.0,
+    1.0025067295989616,
+    1.0380949591855946,
+    1.142783817159132
+   ],
+   "frac_channels_increase_T1_T4": 0.9166666666666666,
+   "rm_corr_channels": {
+    "r_rm": 0.5633213450718995,
+    "dof": 35,
+    "p": 0.0002833084045684215,
+    "ci95": [
+     0.29272854508973556,
+     0.7503792030842048
+    ]
+   },
+   "slope_obs": 0.0435285362145451,
+   "slope_surrogate_mean": -0.008667533421562765,
+   "p_surrogate_greater": 0.11764705882352941,
+   "p_surrogate_less": 0.8823529411764706
+  }
+ },
+ "cascade": {
+  "feature": "absolute ST-shift deviation from baseline median",
+  "baseline": [
+   0,
+   400
+  ],
+  "search_from": 400,
+  "window_s": 1,
+  "threshold_mad": 6.0,
+  "persistent_windows": 3,
+  "latency_by_lead": {
+   "I": 52.564,
+   "II": NaN,
+   "III": NaN,
+   "AVR": NaN,
+   "AVL": NaN,
+   "AVF": NaN,
+   "V1": -18.436,
+   "V2": -21.436,
+   "V3": 23.564,
+   "V4": NaN,
+   "V5": NaN,
+   "V6": NaN
+  },
+  "recruited_leads": [
+   "I",
+   "V1",
+   "V2",
+   "V3"
+  ]
+ },
+ "st_median_by_lead": {
+  "background": {
+   "I": -0.0014,
+   "II": -0.2863,
+   "III": -0.2797,
+   "AVR": 0.1444,
+   "AVL": 0.138,
+   "AVF": -0.2816,
+   "V1": 0.207,
+   "V2": 0.2651,
+   "V3": 0.1575,
+   "V4": -0.0703,
+   "V5": -0.1451,
+   "V6": -0.1495
+  },
+  "pre_event": {
+   "I": -0.0089,
+   "II": -0.2173,
+   "III": -0.2026,
+   "AVR": 0.1195,
+   "AVL": 0.0968,
+   "AVF": -0.2288,
+   "V1": 0.1832,
+   "V2": 0.1958,
+   "V3": 0.0777,
+   "V4": -0.0666,
+   "V5": -0.0998,
+   "V6": -0.0976
+  },
+  "vt": {
+   "I": 0.0383,
+   "II": -0.4909,
+   "III": -0.6141,
+   "AVR": 0.2104,
+   "AVL": 0.3211,
+   "AVF": -0.5464,
+   "V1": 0.7139,
+   "V2": 1.2041,
+   "V3": 1.2098,
+   "V4": 0.0487,
+   "V5": -0.1471,
+   "V6": -0.3666
+  }
+ },
+ "pr_quality": [
+  {
+   "interval": "background",
+   "seconds": [
+    0,
+    400
+   ],
+   "n_beats": 540,
+   "pr_proxy_median_s": 0.13229571984435798,
+   "pr_proxy_iqr_s": [
+    0.10894941634241245,
+    0.19455252918287938
+   ],
+   "p_quality_median": 2.9804384909056942,
+   "p_quality_gt3_fraction": 0.49876543209876545
+  },
+  {
+   "interval": "pre_event",
+   "seconds": [
+    400,
+    468.43579766536965
+   ],
+   "n_beats": 116,
+   "pr_proxy_median_s": 0.13229571984435798,
+   "pr_proxy_iqr_s": [
+    0.10116731517509728,
+    0.1867704280155642
+   ],
+   "p_quality_median": 2.5065688105007258,
+   "p_quality_gt3_fraction": 0.41163793103448276
+  },
+  {
+   "interval": "vt",
+   "seconds": [
+    468.43579766536965,
+    527.9066147859922
+   ],
+   "n_beats": 174,
+   "pr_proxy_median_s": 0.1867704280155642,
+   "pr_proxy_iqr_s": [
+    0.17898832684824903,
+    0.19844357976653695
+   ],
+   "p_quality_median": 2.1922478059296093,
+   "p_quality_gt3_fraction": 0.1977969348659004
+  },
+  {
+   "interval": "post_recovery",
+   "seconds": [
+    587.9066147859922,
+    1800.0
+   ],
+   "n_beats": 2162,
+   "pr_proxy_median_s": 0.11673151750972763,
+   "pr_proxy_iqr_s": [
+    0.10116731517509728,
+    0.20622568093385213
+   ],
+   "p_quality_median": 3.3528365725528166,
+   "p_quality_gt3_fraction": 0.5553114400246685
+  }
+ ],
+ "graphs": {
+  "n_edges": {
+   "structural": 30,
+   "functional": 28,
+   "knn": 25
+  },
+  "jaccard": {
+   "structural-functional": 0.48717948717948717,
+   "structural-knn": 0.30952380952380953,
+   "functional-knn": 0.358974358974359
+  }
+ },
+ "labels": {
+  "involved": 4,
+  "n": 12,
+  "by_lead": {
+   "I": 1,
+   "II": 0,
+   "III": 0,
+   "AVR": 0,
+   "AVL": 0,
+   "AVF": 0,
+   "V1": 1,
+   "V2": 1,
+   "V3": 1,
+   "V4": 0,
+   "V5": 0,
+   "V6": 0
+  }
+ },
+ "gnn_summary": [
+  {
+   "split": "lead",
+   "model": "gat",
+   "graph": "empty",
+   "auroc_mean": 0.9375,
+   "auroc_std": 0.0312,
+   "auprc_mean": 0.9198,
+   "auprc_std": 0.0287
+  },
+  {
+   "split": "lead",
+   "model": "gat",
+   "graph": "functional",
+   "auroc_mean": 0.5625,
+   "auroc_std": 0.0625,
+   "auprc_mean": 0.5103,
+   "auprc_std": 0.0244
+  },
+  {
+   "split": "lead",
+   "model": "gat",
+   "graph": "knn",
+   "auroc_mean": 0.7083,
+   "auroc_std": 0.0477,
+   "auprc_mean": 0.7039,
+   "auprc_std": 0.1225
+  },
+  {
+   "split": "lead",
+   "model": "gat",
+   "graph": "structural",
+   "auroc_mean": 0.75,
+   "auroc_std": 0.0,
+   "auprc_mean": 0.8333,
+   "auprc_std": 0.0
+  },
+  {
+   "split": "lead",
+   "model": "lr",
+   "graph": "-",
+   "auroc_mean": 0.9375,
+   "auroc_std": 0.0,
+   "auprc_mean": 0.9167,
+   "auprc_std": 0.0
+  },
+  {
+   "split": "lead",
+   "model": "mlp",
+   "graph": "-",
+   "auroc_mean": 0.75,
+   "auroc_std": 0.0,
+   "auprc_mean": 0.8333,
+   "auprc_std": 0.0
+  },
+  {
+   "split": "random",
+   "model": "gat",
+   "graph": "empty",
+   "auroc_mean": 0.9375,
+   "auroc_std": 0.0541,
+   "auprc_mean": 0.9157,
+   "auprc_std": 0.0755
+  },
+  {
+   "split": "random",
+   "model": "gat",
+   "graph": "functional",
+   "auroc_mean": 0.5729,
+   "auroc_std": 0.0902,
+   "auprc_mean": 0.5222,
+   "auprc_std": 0.0048
+  },
+  {
+   "split": "random",
+   "model": "gat",
+   "graph": "knn",
+   "auroc_mean": 0.7292,
+   "auroc_std": 0.0361,
+   "auprc_mean": 0.719,
+   "auprc_std": 0.1222
+  },
+  {
+   "split": "random",
+   "model": "gat",
+   "graph": "structural",
+   "auroc_mean": 0.75,
+   "auroc_std": 0.0,
+   "auprc_mean": 0.8333,
+   "auprc_std": 0.0
+  },
+  {
+   "split": "random",
+   "model": "lr",
+   "graph": "-",
+   "auroc_mean": 0.9167,
+   "auroc_std": 0.0651,
+   "auprc_mean": 0.8667,
+   "auprc_std": 0.1167
+  },
+  {
+   "split": "random",
+   "model": "mlp",
+   "graph": "-",
+   "auroc_mean": 0.7396,
+   "auroc_std": 0.018,
+   "auprc_mean": 0.8125,
+   "auprc_std": 0.0361
+  }
+ ],
+ "folds_md5": "df3ab34d3b196886b7bcee2a9c7c3be1",
+ "localization": {
+  "interpretation": "информационный след на поверхностных отведениях, не анатомическая локализация очага ЖТ",
+  "leading_group": {
+   "footprint": "precordial",
+   "residual_z": "precordial",
+   "cascade_early10": "precordial",
+   "gnn_oof": "precordial"
+  },
+  "leading_group_agree": 4,
+  "earliest_leads": [
+   [
+    "V2",
+    -21.436
+   ],
+   [
+    "V1",
+    -18.436
+   ],
+   [
+    "V3",
+    23.564
+   ],
+   [
+    "I",
+    52.564
+   ]
+  ],
+  "n_involved": 4,
+  "n_early10": 1,
+  "footprint_by_lead": {
+   "I": 0.4915,
+   "II": 0.4237,
+   "III": 0.4746,
+   "AVR": 0.4576,
+   "AVL": 0.5424,
+   "AVF": 0.4915,
+   "V1": 0.7966,
+   "V2": 0.7966,
+   "V3": 0.7458,
+   "V4": 0.1356,
+   "V5": 0.2542,
+   "V6": 0.5085
+  },
+  "residual_z_by_lead": {
+   "I": 1.257,
+   "II": -6.333,
+   "III": -6.545,
+   "AVR": 5.975,
+   "AVL": 6.751,
+   "AVF": -6.444,
+   "V1": 6.112,
+   "V2": 7.065,
+   "V3": 7.592,
+   "V4": -3.948,
+   "V5": -6.752,
+   "V6": -7.81
+  },
+  "spearman": {
+   "latency_vs_footprint": -0.9486832980505139,
+   "latency_vs_residual": -0.4,
+   "footprint_vs_residual": 0.5929861064200157
+  },
+  "by_group": [
+   {
+    "group": "limb",
+    "footprint": 0.4802,
+    "residual_z": -0.8898,
+    "latency_min": 52.5642,
+    "gnn": 0.1546,
+    "n": 6,
+    "n_early": 0
+   },
+   {
+    "group": "precordial",
+    "footprint": 0.5395,
+    "residual_z": 0.3764,
+    "latency_min": -21.4358,
+    "gnn": 0.6608,
+    "n": 6,
+    "n_early": 1
+   }
+  ]
+ },
+ "runtime_s": 19.3
+}

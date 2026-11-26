@@ -1,7 +1,8 @@
 """Запуск трёх прикладных демонстраций Graph-EVT-agent и сверка с эталонными результатами.
 
     python scripts/run_all.py                      # проверка данных → мозг → двигатель → рынок → рисунки → сверка
-    python scripts/run_all.py --only brain         # один шаг: brain | aviation | finance | figures | compare
+    python scripts/run_all.py --only brain         # один шаг: brain | ecg | aviation | finance | figures | compare
+    python scripts/run_all.py --only ecg           # дополнительный пример ЭКГ INCART I42
     python scripts/run_all.py --only aviation --jobs 1   # пример 2 в одном процессе (по умолчанию — в двух)
     python scripts/run_all.py --quick              # быстрая проверка, что окружение работает (1 затравка, мало эпох)
 
@@ -39,9 +40,9 @@ ENV = os.environ.copy()   # окружение дочерних процессо
 # Ожидаемое время шагов, с (README, раздел «Время счёта», 2 ядра CPU) — только для масштаба индикатора
 # прогресса. Сам расчёт идёт как раньше; если шаг длится дольше оценки, бар останавливается на 98%
 # заполнения своей доли и не выходит за неё, пока шаг не завершится по-настоящему.
-FULL_ESTIMATE = {"brain": 110, "aviation_gnn": 1440, "aviation_loc": 600, "aviation_final": 60,
+FULL_ESTIMATE = {"brain": 110, "ecg": 30, "aviation_gnn": 1440, "aviation_loc": 600, "aviation_final": 60,
                  "aviation_serial": 2700, "aviation_bootstrap": 450, "finance": 900, "figures": 20, "compare": 5}
-QUICK_ESTIMATE = {"brain": 60, "aviation_serial": 300, "finance": 120}
+QUICK_ESTIMATE = {"brain": 60, "ecg": 30, "aviation_serial": 300, "finance": 120}
 
 
 def log(msg: str) -> None:
@@ -55,6 +56,8 @@ def estimate_total(steps: list[str], quick: bool, jobs: int) -> float:
     for s in steps:
         if s == "brain":
             total += e["brain"]
+        elif s == "ecg":
+            total += e["ecg"]
         elif s == "aviation":
             total += e["aviation_serial"] if (quick or jobs < 2) else e["aviation_gnn"] + e["aviation_loc"] + e["aviation_final"]
             total += 0 if quick else e["aviation_bootstrap"]
@@ -159,7 +162,7 @@ def environment() -> dict:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--only", choices=["brain", "aviation", "finance", "figures", "compare"], action="append",
+    ap.add_argument("--only", choices=["brain", "ecg", "aviation", "finance", "figures", "compare"], action="append",
                     help="выполнить только указанные шаги (можно несколько раз)")
     ap.add_argument("--jobs", type=int, default=2, help="процессов для ГНС примера 2 (1 или 2)")
     ap.add_argument("--quick", action="store_true", help="быстрая проверка окружения в results_quick/ (числа не сравниваются)")
@@ -174,11 +177,12 @@ def main() -> int:
     out_root = P.ROOT / ("results_quick" if a.quick else "results")
     out_root.mkdir(exist_ok=True)
     logs = out_root / "logs"
-    q = {"brain": ["--seeds", "0", "--epochs", "5"], "aviation": ["--seeds", "0", "--epochs", "1"],
-         "finance": ["--seeds", "0", "--epochs", "5"]} if a.quick else {"brain": [], "aviation": [], "finance": []}
+    q = {"brain": ["--seeds", "0", "--epochs", "5"], "ecg": ["--seeds", "0", "--epochs", "5"],
+         "aviation": ["--seeds", "0", "--epochs", "1"], "finance": ["--seeds", "0", "--epochs", "5"]} if a.quick \
+        else {"brain": [], "ecg": [], "aviation": [], "finance": []}
 
     # проверка данных (без скачивания)
-    need = {"brain": "seeg", "aviation": "cmapss", "finance": "sp500"}
+    need = {"brain": "seeg", "ecg": "incart", "aviation": "cmapss", "finance": "sp500"}
     for s in steps:
         if s in need:
             r = subprocess.run([sys.executable, str(P.ROOT / "scripts" / "fetch_data.py"), "--only", need[s], "--check"])
@@ -200,6 +204,10 @@ def main() -> int:
             with pb.step("Graph-EVT пример 1: мозг", e["brain"]):
                 run(["brain_seeg_pipeline.py", "--data", str(P.find_seeg_derived()), "--out", str(out_root / "brain"), *q["brain"]],
                     logs / "brain.log")
+        elif s == "ecg":
+            with pb.step("Graph-EVT дополнительный пример: ЭКГ INCART I42", e["ecg"]):
+                run(["ecg_incart_pipeline.py", "--data", str(P.incart_dir()), "--out", str(out_root / "ecg"), *q["ecg"]],
+                    logs / "ecg.log")
         elif s == "aviation":
             base = ["aviation_cmapss_pipeline.py", "--data", str(P.cmapss_dir()), "--out", str(out_root / "aviation")]
             if a.quick or a.jobs < 2:

@@ -1,0 +1,9 @@
+{
+ "ecg": {
+  "unit": "окно 1 с",
+  "background": 400,
+  "blind_pot": {"method": "pot", "u_q": 0.8, "gamma": 0.999, "r": 3},
+  "blind_gev": {"method": "gev", "gamma": 0.99, "r": 2, "block": 10},
+  "targeted_local": {"method": "pot", "u_q": 0.8, "gamma": 0.999, "r": 3}
+ }
+}

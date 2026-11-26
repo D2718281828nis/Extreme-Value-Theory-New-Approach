@@ -1,0 +1,54 @@
+{
+ "record": "I42",
+ "detected_s": 464.0,
+ "annotation_s": 468.43579766536965,
+ "dt_detect_minus_annotation_s": -4.435797665369648,
+ "pot_threshold": 5.0179394439173866,
+ "n_leads": 12,
+ "n_involved": 4,
+ "graph_edges": {
+  "structural": 30,
+  "functional": 28,
+  "knn": 25
+ },
+ "graph_jaccard": {
+  "structural-functional": 0.48717948717948717,
+  "structural-knn": 0.30952380952380953,
+  "functional-knn": 0.358974358974359
+ },
+ "agent_source": "precordial",
+ "mean_rule_source": "precordial",
+ "earliest_leads": [
+  [
+   "V2",
+   -21.436
+  ],
+  [
+   "V1",
+   -18.436
+  ],
+  [
+   "V3",
+   23.564
+  ],
+  [
+   "I",
+   52.564
+  ]
+ ],
+ "qrs_reference_coverage_80ms": 0.9993567063364426,
+ "evidence": {
+  "EVT cascade (earliest onset)": {
+   "limb": 0.0,
+   "precordial": 1.0
+  },
+  "Event footprint (share > EVT thr)": {
+   "limb": 0.0,
+   "precordial": 1.0
+  },
+  "GAT node score (lead CV)": {
+   "limb": 0.0,
+   "precordial": 1.0
+  }
+ }
+}

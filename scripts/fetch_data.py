@@ -4,6 +4,7 @@
     python scripts/fetch_data.py --only cmapss   # только авиационный двигатель
     python scripts/fetch_data.py --only sp500    # только фондовый рынок
     python scripts/fetch_data.py --only seeg     # только стерео-ЭЭГ (производный набор)
+    python scripts/fetch_data.py --only incart   # только дополнительный пример ЭКГ INCART I42
     python scripts/fetch_data.py --only seeg --download-edf   # скачать EDF 743 МБ с Zenodo, если его нет локально
     python scripts/fetch_data.py --check         # ничего не скачивать, только проверить наличие и MD5
 
@@ -17,6 +18,7 @@
 * Стерео-ЭЭГ. Первоисточник — Zenodo, DOI 10.5281/zenodo.21967993 (sEEG-HFOs-8.edf, CC BY 4.0).
   Расчёт идёт по компактному производному набору (.npz). Если он уже есть (config/paths.json), ничего не делается;
   иначе он строится из локального EDF скриптом src/brain_extract_edf.py; EDF можно скачать флагом --download-edf.
+* Дополнительная ЭКГ. PhysioNet INCART v1.0.0, DOI 10.13026/C2V88N; только I42.dat/.hea/.atr, SHA-256.
 Kaggle требует учётной записи, поэтому по умолчанию используются открытые зеркала; файл, скачанный с Kaggle вручную,
 тоже подойдёт — положите его в папку data/ (или data/CMAPSSData/), скрипт проверит MD5.
 """
@@ -56,6 +58,7 @@ MIRRORS = {
 # Прямая ссылка на файл записи Zenodo по стандартной схеме records/<id>/files/<имя>.
 # Если Zenodo изменит адрес, скачайте файл вручную со страницы https://doi.org/10.5281/zenodo.21967993
 ZENODO_EDF = "https://zenodo.org/records/21967993/files/sEEG-HFOs-8.edf?download=1"
+INCART_URL = "https://physionet.org/files/incartdb/1.0.0/"
 
 
 def _ssl_context():
@@ -114,6 +117,27 @@ def ensure(name: str, dest_dir: Path, check_only: bool) -> bool:
     return False
 
 
+def incart(check_only: bool) -> bool:
+    ok = True; root = P.incart_dir()
+    for name, want in P.SHA256.items():
+        dest = root / name
+        if dest.exists() and P.sha256sum(dest) == want:
+            print(f"  [ok]  {dest}  (SHA-256 совпадает)"); continue
+        if check_only:
+            print(f"  [нет или SHA-256 не совпал] {dest}"); ok = False; continue
+        root.mkdir(parents=True, exist_ok=True)
+        try:
+            print(f"  скачиваю {name} ← PhysioNet INCART")
+            download(INCART_URL + name, dest)
+        except Exception as e:
+            print(f"    не удалось: {e}")
+        if dest.exists() and P.sha256sum(dest) == want:
+            print(f"  [ok]  {dest}")
+        else:
+            print(f"  [!!]  {name}: SHA-256 не совпал"); ok = False
+    return ok
+
+
 def _edf_md5_inside(npz: Path) -> str | None:
     import numpy as np
     try:
@@ -163,7 +187,7 @@ def seeg(check_only: bool, download_edf: bool) -> bool:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--only", choices=["cmapss", "sp500", "seeg", "all"], default="all")
+    ap.add_argument("--only", choices=["cmapss", "sp500", "seeg", "incart", "all"], default="all")
     ap.add_argument("--check", action="store_true", help="только проверить, ничего не скачивать")
     ap.add_argument("--download-edf", action="store_true", help="скачать sEEG-HFOs-8.edf (743 МБ) с Zenodo, если его нет")
     a = ap.parse_args()
@@ -179,6 +203,9 @@ def main() -> int:
     if a.only in ("seeg", "all"):
         print("Пример 1 — головной мозг (стерео-ЭЭГ)")
         ok &= seeg(a.check, a.download_edf)
+    if a.only == "incart":
+        print("Дополнительный пример — 12-канальная ЭКГ (INCART I42)")
+        ok &= incart(a.check)
     print("\nГОТОВО: все данные на месте." if ok else "\nЕСТЬ ПРОБЛЕМЫ — см. сообщения выше.")
     return 0 if ok else 1
 
