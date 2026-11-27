@@ -45,15 +45,14 @@ class Case:
     # step 2
     heat: np.ndarray = None       # nodes x time (display window)
     heat_t: np.ndarray = None
-    series: dict = None           # ECG: RR/ST/PR/P-quality time series for the result panel
     # step 3
     nodes: list = field(default_factory=list)
     groups: np.ndarray = None
     edges: list = field(default_factory=list)
     node_peak: np.ndarray = None  # peak standardised response per node (node size)
     graph_label: str = ""
-    graph_variants: dict = None  # ECG: structural / functional / kNN edge lists
-    graph_corr: np.ndarray = None  # ECG: absolute baseline correlation between leads
+    graph_variants: dict = None  # ECG: physiological / functional / kNN edge lists
+    graph_corr: np.ndarray = None  # ECG: absolute baseline correlation between four derived series
     # step 4
     ind_t: np.ndarray = None
     ind: np.ndarray = None
@@ -65,7 +64,8 @@ class Case:
     source: str = ""            # Graph-EVT-agent: top of the model-based (graph) evidence line
     source_mean: str = ""       # ordinary-statistics baseline: top of the plain mean across all lines
     # step 6
-    onset: np.ndarray = None      # per node, relative to det_t, NaN = no onset
+    onset: np.ndarray = None      # per node or per episode-node point, relative to det_t
+    node_onset: np.ndarray = None  # ECG: representative-record onsets used only for graph rings
     summary: dict = field(default_factory=dict)
 
 
@@ -269,51 +269,59 @@ def ecg() -> Case:
 
     R = json.loads((REF / "ecg" / "results.json").read_text(encoding="utf-8"))
     event = R["event"]; onset = float(event["onset"]); det_t = float(R["detection"]["blind_pot"]["event_alarm"])
-    x, _, _, _ = E.load(str(DATA / "INCART"))
-    y = E.filtered(x)
-    _, _, _, _, peaks = E.rhythm_morphology(y)
-    seconds, _ = E.interval_features(y, peaks); st = seconds["st"]
-    ef = C.functional_edges(st[:E.B], k=3)
-    feat = pd.read_csv(REF / "ecg" / "node_features.csv")
-    cols = [c_ for c_ in feat.columns if c_ not in ("lead", "group", "involved")]
-    ek = C.knn_edges(feat[cols].values.astype(float), 3)
-    es = E.structural_edges()
-    corr = np.nan_to_num(np.abs(np.corrcoef(st[:E.B].T)))
-
     ind = np.load(REF / "ecg" / "indicators.npz")
     z, tw, lat = ind["z"], ind["tw"], ind["lat"]
-    groups = pd.read_csv(REF / "ecg" / "localization_groups.csv").set_index("group")
+    index = {name: i for i, name in enumerate(E.PARAMETERS)}
+    graphs = {name: [tuple(index[p] for p in edge) for edge in edges]
+              for name, edges in R["graphs"]["edges"].items()}
+    ef = graphs["functional"]
+    corr = ind["graph_corr"]
+
+    groups = pd.read_csv(REF / "ecg" / "localization_groups.csv").set_index("parameter")
     ev = pd.DataFrame(index=groups.index)
-    ev["EVT cascade (earliest onset)"] = _minmax(-groups.latency_min.fillna(groups.latency_min.max() + 5))
+    latency = groups.latency_median
+    fallback = latency.max() + 5 if latency.notna().any() else 5.0
+    ev["EVT cascade (median onset)"] = _minmax(-latency.fillna(fallback))
     ev["Event footprint (share > EVT thr)"] = _minmax(groups.footprint)
-    ev["GAT node score (lead CV)"] = _minmax(groups.gnn)
+    ev["GAT node score (record CV)"] = _minmax(groups.gnn)
+    points = pd.read_csv(REF / "ecg" / "episode_latencies.csv")
+    points = points[points.involved == 1]
 
     lo, hi = 350, 580
     sel = (tw >= lo) & (tw <= hi)
-    c = Case("D", "D · ECG — ventricular tachycardia (INCART I42, 12 leads)", "s")
-    c.sys_t, c.sys_y = np.arange(len(ind["hr"])), ind["hr"]
-    c.sys_label = "heart rate, bpm (signal-based R peaks)"
-    c.event_t, c.event_label = onset, "VT onset"
+    c = Case("D", f"D · ECG — {R['n_records']} INCART recordings, {R['n_vt_episodes']} VT episodes", "s")
+    series_t = np.arange(len(ind["rr"]), dtype=float)
+    c.sys_t, c.sys_y = series_t, ind["rr"]
+    c.sys_label = "RR interval, s (representative I42)"
+    c.event_t, c.event_label = onset, "VT onset in I42"
     c.view = (lo, hi)
     c.heat, c.heat_t = np.clip(z[sel].T, 0, 15), tw[sel]
-    c.series = {k: ind[k][sel] for k in ["st", "pr", "pq", "hr", "rr_cv"]}
-    c.nodes, c.groups = E.LEADS, E.GROUPS
+    c.nodes = E.PARAMETERS; c.groups = points.parameter.to_numpy()
     c.edges = ef
-    c.graph_variants = {"structural": es, "functional": ef, "knn": ek}
+    c.graph_variants = graphs
     c.graph_corr = corr
     c.node_peak = np.nanmax(z, axis=0)
-    c.graph_label = "structural groups + top-3 functional + top-3 feature-kNN"
-    c.ind_t, c.ind = np.arange(len(ind["hi"])), ind["hi"]
+    c.graph_label = "global physiological + functional + feature-kNN; episode graphs in model CV"
+    c.ind_t, c.ind = series_t, ind["hi"]
     c.thr, c.det_t = float(R["detection"]["blind_pot"]["thr"]), det_t
     c.tail = "POT/GPD, q=0.999"
-    c.evidence, c.source, c.source_mean = ev, _consensus(ev), _mean_rule(ev)
-    c.onset = onset + lat - det_t
+    c.evidence = ev
+    leading = R["localization"]["leading_parameter"]
+    gnn_auroc = [row["auroc_mean"] for row in R.get("gnn_summary", [])
+                 if row["split"] == "record" and row["model"] == "gat" and row["graph"] == "physiological"]
+    use_gnn = leading["gnn_oof"] is not None and gnn_auroc and gnn_auroc[0] > .5
+    c.source = leading["gnn_oof"] if use_gnn else (leading["cascade"] or leading["footprint"])
+    c.source_mean = _mean_rule(ev)
+    c.onset = points.latency.to_numpy()
+    c.node_onset = onset + lat - det_t
     c.summary = {"record": "I42", "detected_s": det_t, "annotation_s": onset,
                  "dt_detect_minus_annotation_s": det_t - onset, "pot_threshold": c.thr,
-                 "n_leads": len(E.LEADS), "n_involved": int(np.isfinite(lat).sum()),
+                 "n_records": R["n_records"], "n_records_with_vt": R["n_records_with_eligible_vt"],
+                 "n_vt_episodes": R["n_vt_episodes"], "n_result_points": len(points),
+                 "n_parameters": len(E.PARAMETERS), "n_involved": R["labels"]["involved"],
                  "graph_edges": {k: len(v) for k, v in c.graph_variants.items()}, "graph_jaccard": R["graphs"]["jaccard"],
                  "agent_source": c.source, "mean_rule_source": c.source_mean,
-                 "earliest_leads": R["localization"]["earliest_leads"],
+                 "involved_by_parameter": R["labels"]["by_parameter"],
                  "qrs_reference_coverage_80ms": R["signal_qrs"]["reference_position_coverage_80ms"]}
     return c
 

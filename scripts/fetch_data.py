@@ -4,7 +4,7 @@
     python scripts/fetch_data.py --only cmapss   # только авиационный двигатель
     python scripts/fetch_data.py --only sp500    # только фондовый рынок
     python scripts/fetch_data.py --only seeg     # только стерео-ЭЭГ (производный набор)
-    python scripts/fetch_data.py --only incart   # только дополнительный пример ЭКГ INCART I42
+    python scripts/fetch_data.py --only incart   # только дополнительный пример ЭКГ INCART I01–I75
     python scripts/fetch_data.py --only seeg --download-edf   # скачать EDF 743 МБ с Zenodo, если его нет локально
     python scripts/fetch_data.py --check         # ничего не скачивать, только проверить наличие и MD5
 
@@ -18,7 +18,8 @@
 * Стерео-ЭЭГ. Первоисточник — Zenodo, DOI 10.5281/zenodo.21967993 (sEEG-HFOs-8.edf, CC BY 4.0).
   Расчёт идёт по компактному производному набору (.npz). Если он уже есть (config/paths.json), ничего не делается;
   иначе он строится из локального EDF скриптом src/brain_extract_edf.py; EDF можно скачать флагом --download-edf.
-* Дополнительная ЭКГ. PhysioNet INCART v1.0.0, DOI 10.13026/C2V88N; только I42.dat/.hea/.atr, SHA-256.
+* Дополнительная ЭКГ. PhysioNet INCART v1.0.0, DOI 10.13026/C2V88N; все 75 записей I01–I75.dat/.hea/.atr,
+  официальный SHA256SUMS.txt и проверка SHA-256 каждого файла.
 Kaggle требует учётной записи, поэтому по умолчанию используются открытые зеркала; файл, скачанный с Kaggle вручную,
 тоже подойдёт — положите его в папку data/ (или data/CMAPSSData/), скрипт проверит MD5.
 """
@@ -118,23 +119,41 @@ def ensure(name: str, dest_dir: Path, check_only: bool) -> bool:
 
 
 def incart(check_only: bool) -> bool:
-    ok = True; root = P.incart_dir()
-    for name, want in P.SHA256.items():
-        dest = root / name
-        if dest.exists() and P.sha256sum(dest) == want:
-            print(f"  [ok]  {dest}  (SHA-256 совпадает)"); continue
+    """Все 75 записей I01–I75; эталонные SHA-256 берутся из официального SHA256SUMS.txt."""
+    ok = True; root = P.incart_dir(); checksums = root / "SHA256SUMS.txt"
+    if not checksums.exists():
         if check_only:
-            print(f"  [нет или SHA-256 не совпал] {dest}"); ok = False; continue
+            print(f"  [нет] {checksums}")
+            return False
         root.mkdir(parents=True, exist_ok=True)
-        try:
-            print(f"  скачиваю {name} ← PhysioNet INCART")
-            download(INCART_URL + name, dest)
-        except Exception as e:
-            print(f"    не удалось: {e}")
-        if dest.exists() and P.sha256sum(dest) == want:
-            print(f"  [ok]  {dest}")
-        else:
-            print(f"  [!!]  {name}: SHA-256 не совпал"); ok = False
+        print("  скачиваю официальный SHA256SUMS.txt ← PhysioNet INCART")
+        download(INCART_URL + "SHA256SUMS.txt", checksums)
+    expected = {}
+    for line in checksums.read_text().splitlines():
+        if line.strip():
+            digest, name = line.split(maxsplit=1)
+            expected[name.lstrip("*")] = digest
+    for number in range(1, 76):
+        record = f"I{number:02d}"
+        record_ok = True
+        for extension in ("dat", "hea", "atr"):
+            name = f"{record}.{extension}"; want = expected[name]; dest = root / name
+            file_ok = dest.exists() and P.sha256sum(dest) == want
+            if not file_ok:
+                if check_only:
+                    print(f"  [нет или SHA-256 не совпал] {dest}")
+                else:
+                    try:
+                        print(f"  {record}: скачиваю {extension} ← PhysioNet INCART", flush=True)
+                        download(INCART_URL + name, dest)
+                    except Exception as e:
+                        print(f"    не удалось: {e}")
+                    file_ok = dest.exists() and P.sha256sum(dest) == want
+                    if not file_ok:
+                        print(f"  [!!]  {name}: SHA-256 не совпал")
+            record_ok &= file_ok
+        print(f"  [{'ok' if record_ok else '!!'}]  {record}")
+        ok &= record_ok
     return ok
 
 
@@ -204,7 +223,7 @@ def main() -> int:
         print("Пример 1 — головной мозг (стерео-ЭЭГ)")
         ok &= seeg(a.check, a.download_edf)
     if a.only == "incart":
-        print("Дополнительный пример — 12-канальная ЭКГ (INCART I42)")
+        print("Дополнительный пример — 12-канальная ЭКГ (INCART I01–I75)")
         ok &= incart(a.check)
     print("\nГОТОВО: все данные на месте." if ok else "\nЕСТЬ ПРОБЛЕМЫ — см. сообщения выше.")
     return 0 if ok else 1

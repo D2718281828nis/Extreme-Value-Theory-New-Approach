@@ -1,18 +1,100 @@
 {
  "dataset": "St Petersburg INCART 12-lead Arrhythmia Database v1.0.0, PhysioNet DOI 10.13026/C2V88N",
- "record": "I42",
- "n_leads": 12,
+ "n_records_requested": 75,
+ "n_records": 75,
+ "records": [
+  "I01",
+  "I02",
+  "I03",
+  "I04",
+  "I05",
+  "I06",
+  "I07",
+  "I08",
+  "I09",
+  "I10",
+  "I11",
+  "I12",
+  "I13",
+  "I14",
+  "I15",
+  "I16",
+  "I17",
+  "I18",
+  "I19",
+  "I20",
+  "I21",
+  "I22",
+  "I23",
+  "I24",
+  "I25",
+  "I26",
+  "I27",
+  "I28",
+  "I29",
+  "I30",
+  "I31",
+  "I32",
+  "I33",
+  "I34",
+  "I35",
+  "I36",
+  "I37",
+  "I38",
+  "I39",
+  "I40",
+  "I41",
+  "I42",
+  "I43",
+  "I44",
+  "I45",
+  "I46",
+  "I47",
+  "I48",
+  "I49",
+  "I50",
+  "I51",
+  "I52",
+  "I53",
+  "I54",
+  "I55",
+  "I56",
+  "I57",
+  "I58",
+  "I59",
+  "I60",
+  "I61",
+  "I62",
+  "I63",
+  "I64",
+  "I65",
+  "I66",
+  "I67",
+  "I68",
+  "I69",
+  "I70",
+  "I71",
+  "I72",
+  "I73",
+  "I74",
+  "I75"
+ ],
+ "n_records_with_eligible_vt": 8,
+ "n_vt_episodes": 31,
+ "excluded_episodes": {
+  "no_annotated_vt": 67,
+  "onset_before_400s": 0,
+  "beyond_record": 0
+ },
+ "n_parameters": 4,
+ "parameters": [
+  "RR",
+  "PR",
+  "ST",
+  "QRS_axis"
+ ],
  "fs": 257,
- "duration_s": 1800.0,
- "sha256": {
-  "I42.dat": "1ed5c6039a2bbb6dd6932a6c45e05ecad2fedb054a479d2a0f444a9134429ede",
-  "I42.hea": "eb72e7ae6e2275f53f2b5e38c62374b8ab1a288e6e1758b40db5c26ac23d02bc",
-  "I42.atr": "7421ccbac2269f57a768633ee301929d48ed8eade5336d080c0f3aba376f9109"
- },
- "record_selection": {
-  "I30_rejected": "максимальная серия ЖТ 4.514 с",
-  "I42_selected": "одиночная ЖТ 59.471 с"
- },
+ "record": "I42",
  "event": {
   "onset_sample": 120388,
   "end_sample": 135672,
@@ -24,19 +106,108 @@
   "min_rr": 0.3151750972762646,
   "max_rr": 0.38910505836575876
  },
- "all_vt_episodes": [
-  {
-   "onset_sample": 120388,
-   "end_sample": 135672,
-   "onset": 468.43579766536965,
-   "end": 527.9066147859922,
-   "duration": 59.47081712062257,
-   "n_beats": 175,
-   "mean_hr": 175.54828578906046,
-   "min_rr": 0.3151750972762646,
-   "max_rr": 0.38910505836575876
+ "detection": {
+  "blind_pot": {
+   "thr": 6.165638905201908,
+   "xi": -0.1541634528013075,
+   "episodes": [
+    450,
+    464,
+    523,
+    537,
+    581,
+    597,
+    620,
+    686,
+    755,
+    1065,
+    1111,
+    1538
+   ],
+   "event_alarm": 450,
+   "dt": -18.43579766536965,
+   "early": true,
+   "false_alarms": [
+    597,
+    620,
+    686,
+    755,
+    1065,
+    1111,
+    1538
+   ],
+   "recovery_alarms": [
+    537,
+    581
+   ],
+   "false_alarms_per_hour": 20.64678202986521,
+   "normal_test_seconds": 1220.5291828793775,
+   "block_s": 1
+  },
+  "blind_gev": {
+   "thr": 6.753454918475073,
+   "xi": 0.06864305453182037,
+   "episodes": [
+    440,
+    520,
+    620,
+    710,
+    790,
+    920,
+    1040,
+    1200,
+    1260,
+    1290,
+    1420,
+    1600,
+    1710,
+    1780
+   ],
+   "event_alarm": 440,
+   "dt": -28.43579766536965,
+   "early": true,
+   "false_alarms": [
+    620,
+    710,
+    790,
+    920,
+    1040,
+    1200,
+    1260,
+    1290,
+    1420,
+    1600,
+    1710,
+    1780
+   ],
+   "recovery_alarms": [],
+   "false_alarms_per_hour": 35.39448347976894,
+   "normal_test_seconds": 1220.5291828793775,
+   "block_s": 10
+  },
+  "targeted_local": {
+   "baseline": [
+    168,
+    438
+   ],
+   "search_from": 438,
+   "thr": 21.54744882995672,
+   "xi": 0.5731219932995381,
+   "first_alarm": null,
+   "dt": null,
+   "early": false
+  },
+  "heavy_tail": {
+   "baseline": {
+    "kurtosis": 4.222762738669524,
+    "q999": 3.339857453786354
+   },
+   "full": {
+    "kurtosis": 49.3418371154556,
+    "q999": 15.310745879905935
+   }
   }
- ],
+ },
  "detection_spec": {
   "unit": "окно 1 с",
   "background": 400,
@@ -59,225 +230,84 @@
    "r": 3
   }
  },
+ "lead_choice": {
+  "selected": "II",
+  "reason": "стандартное ритмическое отведение с различимыми P и R",
+  "cross_lead_parameter": "atan2(чистая площадь QRS aVF, чистая площадь QRS I), градусы"
+ },
  "signal_qrs": {
-  "lead": "II",
-  "min_distance_s": 0.28,
-  "prominence_mv": 1.0,
-  "n_detected": 3107,
-  "reference_position_coverage_80ms": 0.9993567063364426,
-  "note": "позиции и типы аннотаций не входят в индикатор; покрытие — последующая проверка"
+  "reference_position_coverage_80ms": 0.9993567063364426
  },
- "interval_features": {
-  "rr": "сигнальные R-пики на II; каузальные окна 4 с",
-  "st": "медиана ЭКГ 78–121 мс после R минус база 350–233 мс до R, мВ",
-  "pr_proxy": "задержка P-кандидата до R; не клинический PR и не входит в EVT-индикатор",
-  "p_quality": "амплитуда P-кандидата / MAD участка перед ним; низкое качество не равно PR=0"
- },
- "indicator_features": [
-  "heart_rate",
-  "negative_rr_cv",
-  "st_I",
-  "st_II",
-  "st_III",
-  "st_AVR",
-  "st_AVL",
-  "st_AVF",
-  "st_V1",
-  "st_V2",
-  "st_V3",
-  "st_V4",
-  "st_V5",
-  "st_V6"
- ],
- "detection": {
-  "blind_pot": {
-   "thr": 5.0179394439173866,
-   "xi": 0.3607851080154575,
-   "episodes": [
-    464,
-    484
-   ],
-   "event_alarm": 464,
-   "dt": -4.435797665369648,
-   "early": true,
-   "false_alarms": [],
-   "recovery_alarms": [],
-   "false_alarms_per_hour": 0.0,
-   "normal_test_seconds": 1220.5291828793775,
-   "block_s": 1
-  },
-  "blind_gev": {
-   "thr": 4.963649120689433,
-   "xi": 0.45221817220203653,
-   "episodes": [
-    440,
-    480
-   ],
-   "event_alarm": 440,
-   "dt": -28.43579766536965,
-   "early": true,
-   "false_alarms": [],
-   "recovery_alarms": [],
-   "false_alarms_per_hour": 0.0,
-   "normal_test_seconds": 1220.5291828793775,
-   "block_s": 10
-  },
-  "targeted_local": {
-   "baseline": [
-    168,
-    438
-   ],
-   "search_from": 438,
-   "thr": 6.825636154238682,
-   "xi": 0.5946476289461025,
-   "first_alarm": 489,
-   "dt": 20.56420233463035,
-   "early": false
-  },
-  "heavy_tail": {
-   "baseline": {
-    "kurtosis": 199.2179306492194,
-    "q999": 7.764149312613028
-   },
-   "full": {
-    "kurtosis": 31.073910494213372,
-    "q999": 12.90177924222469
-   }
+ "cascade": {
+  "window_s": 0.25,
+  "threshold_mad": 6.0,
+  "persistent_windows": 2,
+  "context_before_event_s": 120,
+  "gap_after_previous_vt_s": 60,
+  "baseline_s": [
+   0,
+   400
+  ],
+  "representative_record": "I42",
+  "latency_by_parameter": {
+   "RR": -67.936,
+   "PR": -67.436,
+   "ST": -22.936,
+   "QRS_axis": NaN
   }
  },
  "H0_noise": {
   "window_s": 30,
   "n_surrogate": 17,
-  "hr_median_by_window": [
-   131.79487179486713,
-   86.38655462184794,
-   105.25597269624971,
-   130.67796610168932
-  ],
-  "rmssd_by_window": [
-   0.6180372195307986,
-   0.621003133498172,
-   0.5433240405091199,
-   0.100839257895993
+  "series": [
+   "RR",
+   "PR",
+   "ST",
+   "QRS_axis"
   ],
   "noise": {
    "median_by_window": [
-    1.0,
-    1.1330024098693352,
-    1.2469844215879835,
-    2.842023066268525
+    0.9999999999899565,
+    1.3067240747701254,
+    1.0762942864632365,
+    0.4360317250879093
    ],
-   "frac_channels_increase_T1_T4": 1.0,
-   "rm_corr_channels": {
-    "r_rm": 0.8637590311166922,
-    "dof": 35,
-    "p": 5.8709156033582354e-12,
+   "frac_parameters_increase_T1_T4": 0.25,
+   "rm_corr_parameters": {
+    "r_rm": -0.3827710510249088,
+    "dof": 11,
+    "p": 0.19674307366768914,
     "ci95": [
-     0.749505416448108,
-     0.9280435520385185
+     -0.7711297383998899,
+     0.21318348811446267
     ]
    },
-   "slope_obs": 0.3229405502438863,
-   "slope_surrogate_mean": 0.008697653593400204,
-   "p_surrogate_greater": 0.0,
-   "p_surrogate_less": 1.0
+   "slope_obs": -0.26841201955557387,
+   "slope_surrogate_mean": 0.04651634310456615,
+   "p_surrogate_greater": 0.8823529411764706,
+   "p_surrogate_less": 0.11764705882352941
   },
   "variance": {
    "median_by_window": [
-    1.0,
-    1.0025067295989616,
-    1.0380949591855946,
-    1.142783817159132
+    0.9999999999756543,
+    1.2297904302873315,
+    1.0954156194814932,
+    0.6712704400119924
    ],
-   "frac_channels_increase_T1_T4": 0.9166666666666666,
-   "rm_corr_channels": {
-    "r_rm": 0.5633213450718995,
-    "dof": 35,
-    "p": 0.0002833084045684215,
+   "frac_parameters_increase_T1_T4": 0.5,
+   "rm_corr_parameters": {
+    "r_rm": -0.2949604190290594,
+    "dof": 11,
+    "p": 0.3279073759005884,
     "ci95": [
-     0.29272854508973556,
-     0.7503792030842048
+     -0.727688799276698,
+     0.30571856025585065
     ]
    },
-   "slope_obs": 0.0435285362145451,
-   "slope_surrogate_mean": -0.008667533421562765,
-   "p_surrogate_greater": 0.11764705882352941,
-   "p_surrogate_less": 0.8823529411764706
-  }
- },
- "cascade": {
-  "feature": "absolute ST-shift deviation from baseline median",
-  "baseline": [
-   0,
-   400
-  ],
-  "search_from": 400,
-  "window_s": 1,
-  "threshold_mad": 6.0,
-  "persistent_windows": 3,
-  "latency_by_lead": {
-   "I": 52.564,
-   "II": NaN,
-   "III": NaN,
-   "AVR": NaN,
-   "AVL": NaN,
-   "AVF": NaN,
-   "V1": -18.436,
-   "V2": -21.436,
-   "V3": 23.564,
-   "V4": NaN,
-   "V5": NaN,
-   "V6": NaN
-  },
-  "recruited_leads": [
-   "I",
-   "V1",
-   "V2",
-   "V3"
-  ]
- },
- "st_median_by_lead": {
-  "background": {
-   "I": -0.0014,
-   "II": -0.2863,
-   "III": -0.2797,
-   "AVR": 0.1444,
-   "AVL": 0.138,
-   "AVF": -0.2816,
-   "V1": 0.207,
-   "V2": 0.2651,
-   "V3": 0.1575,
-   "V4": -0.0703,
-   "V5": -0.1451,
-   "V6": -0.1495
-  },
-  "pre_event": {
-   "I": -0.0089,
-   "II": -0.2173,
-   "III": -0.2026,
-   "AVR": 0.1195,
-   "AVL": 0.0968,
-   "AVF": -0.2288,
-   "V1": 0.1832,
-   "V2": 0.1958,
-   "V3": 0.0777,
-   "V4": -0.0666,
-   "V5": -0.0998,
-   "V6": -0.0976
-  },
-  "vt": {
-   "I": 0.0383,
-   "II": -0.4909,
-   "III": -0.6141,
-   "AVR": 0.2104,
-   "AVL": 0.3211,
-   "AVF": -0.5464,
-   "V1": 0.7139,
-   "V2": 1.2041,
-   "V3": 1.2098,
-   "V4": 0.0487,
-   "V5": -0.1471,
-   "V6": -0.3666
+   "slope_obs": -0.13114594646558284,
+   "slope_surrogate_mean": 0.036384621652206836,
+   "p_surrogate_greater": 0.7058823529411765,
+   "p_surrogate_less": 0.29411764705882354
   }
  },
  "pr_quality": [
@@ -287,14 +317,15 @@
     0,
     400
    ],
-   "n_beats": 540,
-   "pr_proxy_median_s": 0.13229571984435798,
-   "pr_proxy_iqr_s": [
-    0.10894941634241245,
-    0.19455252918287938
+   "n_beats": 537,
+   "pr_valid_fraction": 0.9199255121042831,
+   "pr_median_s": 0.12840466926070038,
+   "pr_iqr_s": [
+    0.1245136186770428,
+    0.1828793774319066
    ],
-   "p_quality_median": 2.9804384909056942,
-   "p_quality_gt3_fraction": 0.49876543209876545
+   "p_quality_median": 7.160608636679683,
+   "p_quality_gt3_fraction": 0.925512104283054
   },
   {
    "interval": "pre_event",
@@ -302,14 +333,15 @@
     400,
     468.43579766536965
    ],
-   "n_beats": 116,
-   "pr_proxy_median_s": 0.13229571984435798,
-   "pr_proxy_iqr_s": [
-    0.10116731517509728,
-    0.1867704280155642
+   "n_beats": 110,
+   "pr_valid_fraction": 0.7727272727272727,
+   "pr_median_s": 0.16342412451361868,
+   "pr_iqr_s": [
+    0.1245136186770428,
+    0.17898832684824903
    ],
-   "p_quality_median": 2.5065688105007258,
-   "p_quality_gt3_fraction": 0.41163793103448276
+   "p_quality_median": 5.463368713264675,
+   "p_quality_gt3_fraction": 0.8090909090909091
   },
   {
    "interval": "vt",
@@ -317,14 +349,15 @@
     468.43579766536965,
     527.9066147859922
    ],
-   "n_beats": 174,
-   "pr_proxy_median_s": 0.1867704280155642,
-   "pr_proxy_iqr_s": [
-    0.17898832684824903,
-    0.19844357976653695
+   "n_beats": 109,
+   "pr_valid_fraction": 0.3669724770642202,
+   "pr_median_s": 0.1556420233463035,
+   "pr_iqr_s": [
+    0.14785992217898833,
+    0.16828793774319065
    ],
-   "p_quality_median": 2.1922478059296093,
-   "p_quality_gt3_fraction": 0.1977969348659004
+   "p_quality_median": 2.358762001641827,
+   "p_quality_gt3_fraction": 0.3944954128440367
   },
   {
    "interval": "post_recovery",
@@ -332,239 +365,250 @@
     587.9066147859922,
     1800.0
    ],
-   "n_beats": 2162,
-   "pr_proxy_median_s": 0.11673151750972763,
-   "pr_proxy_iqr_s": [
-    0.10116731517509728,
-    0.20622568093385213
+   "n_beats": 2090,
+   "pr_valid_fraction": 0.7114832535885167,
+   "pr_median_s": 0.12062256809338522,
+   "pr_iqr_s": [
+    0.11673151750972763,
+    0.1867704280155642
    ],
-   "p_quality_median": 3.3528365725528166,
-   "p_quality_gt3_fraction": 0.5553114400246685
+   "p_quality_median": 7.013740303682805,
+   "p_quality_gt3_fraction": 0.7157894736842105
   }
  ],
  "graphs": {
+  "nodes": [
+   "RR",
+   "PR",
+   "ST",
+   "QRS_axis"
+  ],
   "n_edges": {
-   "structural": 30,
-   "functional": 28,
-   "knn": 25
+   "physiological": 2,
+   "functional": 3,
+   "knn": 3
+  },
+  "edges": {
+   "physiological": [
+    [
+     "RR",
+     "PR"
+    ],
+    [
+     "ST",
+     "QRS_axis"
+    ]
+   ],
+   "functional": [
+    [
+     "RR",
+     "QRS_axis"
+    ],
+    [
+     "PR",
+     "ST"
+    ],
+    [
+     "ST",
+     "QRS_axis"
+    ]
+   ],
+   "knn": [
+    [
+     "RR",
+     "PR"
+    ],
+    [
+     "PR",
+     "ST"
+    ],
+    [
+     "ST",
+     "QRS_axis"
+    ]
+   ]
+  },
+  "rules": {
+   "functional": "top-1 по средней |corr| фона всех записей",
+   "knn": "top-1 по средним признакам всех эпизодов",
+   "physiological": "RR–PR и ST–QRS_axis"
   },
   "jaccard": {
-   "structural-functional": 0.48717948717948717,
-   "structural-knn": 0.30952380952380953,
-   "functional-knn": 0.358974358974359
+   "physiological-functional": 0.25,
+   "physiological-knn": 0.6666666666666666,
+   "functional-knn": 0.5
   }
  },
  "labels": {
-  "involved": 4,
-  "n": 12,
-  "by_lead": {
-   "I": 1,
-   "II": 0,
-   "III": 0,
-   "AVR": 0,
-   "AVL": 0,
-   "AVF": 0,
-   "V1": 1,
-   "V2": 1,
-   "V3": 1,
-   "V4": 0,
-   "V5": 0,
-   "V6": 0
+  "n": 124,
+  "involved": 52,
+  "by_parameter": {
+   "RR": 13,
+   "PR": 14,
+   "ST": 13,
+   "QRS_axis": 12
   }
  },
  "gnn_summary": [
   {
-   "split": "lead",
-   "model": "gat",
-   "graph": "empty",
-   "auroc_mean": 0.9375,
-   "auroc_std": 0.0312,
-   "auprc_mean": 0.9198,
-   "auprc_std": 0.0287
-  },
-  {
-   "split": "lead",
-   "model": "gat",
-   "graph": "functional",
-   "auroc_mean": 0.5625,
-   "auroc_std": 0.0625,
-   "auprc_mean": 0.5103,
-   "auprc_std": 0.0244
-  },
-  {
-   "split": "lead",
-   "model": "gat",
-   "graph": "knn",
-   "auroc_mean": 0.7083,
-   "auroc_std": 0.0477,
-   "auprc_mean": 0.7039,
-   "auprc_std": 0.1225
-  },
-  {
-   "split": "lead",
-   "model": "gat",
-   "graph": "structural",
-   "auroc_mean": 0.75,
-   "auroc_std": 0.0,
-   "auprc_mean": 0.8333,
-   "auprc_std": 0.0
-  },
-  {
-   "split": "lead",
-   "model": "lr",
-   "graph": "-",
-   "auroc_mean": 0.9375,
-   "auroc_std": 0.0,
-   "auprc_mean": 0.9167,
-   "auprc_std": 0.0
-  },
-  {
-   "split": "lead",
-   "model": "mlp",
-   "graph": "-",
-   "auroc_mean": 0.75,
-   "auroc_std": 0.0,
-   "auprc_mean": 0.8333,
-   "auprc_std": 0.0
-  },
-  {
    "split": "random",
    "model": "gat",
    "graph": "empty",
-   "auroc_mean": 0.9375,
-   "auroc_std": 0.0541,
-   "auprc_mean": 0.9157,
-   "auprc_std": 0.0755
+   "auroc_mean": 0.5273,
+   "auroc_std": 0.1178,
+   "auprc_mean": 0.465,
+   "auprc_std": 0.0862
   },
   {
    "split": "random",
    "model": "gat",
    "graph": "functional",
-   "auroc_mean": 0.5729,
-   "auroc_std": 0.0902,
-   "auprc_mean": 0.5222,
-   "auprc_std": 0.0048
+   "auroc_mean": 0.4102,
+   "auroc_std": 0.14,
+   "auprc_mean": 0.4206,
+   "auprc_std": 0.0875
   },
   {
    "split": "random",
    "model": "gat",
    "graph": "knn",
-   "auroc_mean": 0.7292,
-   "auroc_std": 0.0361,
-   "auprc_mean": 0.719,
-   "auprc_std": 0.1222
+   "auroc_mean": 0.4351,
+   "auroc_std": 0.1227,
+   "auprc_mean": 0.4187,
+   "auprc_std": 0.0738
   },
   {
    "split": "random",
    "model": "gat",
-   "graph": "structural",
-   "auroc_mean": 0.75,
-   "auroc_std": 0.0,
-   "auprc_mean": 0.8333,
-   "auprc_std": 0.0
+   "graph": "physiological",
+   "auroc_mean": 0.4944,
+   "auroc_std": 0.1025,
+   "auprc_mean": 0.4668,
+   "auprc_std": 0.0867
   },
   {
    "split": "random",
    "model": "lr",
    "graph": "-",
-   "auroc_mean": 0.9167,
-   "auroc_std": 0.0651,
-   "auprc_mean": 0.8667,
-   "auprc_std": 0.1167
+   "auroc_mean": 0.3303,
+   "auroc_std": 0.0908,
+   "auprc_mean": 0.3558,
+   "auprc_std": 0.0406
   },
   {
    "split": "random",
    "model": "mlp",
    "graph": "-",
-   "auroc_mean": 0.7396,
-   "auroc_std": 0.018,
-   "auprc_mean": 0.8125,
-   "auprc_std": 0.0361
+   "auroc_mean": 0.557,
+   "auroc_std": 0.0392,
+   "auprc_mean": 0.5007,
+   "auprc_std": 0.0476
+  },
+  {
+   "split": "record",
+   "model": "gat",
+   "graph": "empty",
+   "auroc_mean": 0.458,
+   "auroc_std": 0.017,
+   "auprc_mean": 0.4061,
+   "auprc_std": 0.0111
+  },
+  {
+   "split": "record",
+   "model": "gat",
+   "graph": "functional",
+   "auroc_mean": 0.5121,
+   "auroc_std": 0.0632,
+   "auprc_mean": 0.4446,
+   "auprc_std": 0.0609
+  },
+  {
+   "split": "record",
+   "model": "gat",
+   "graph": "knn",
+   "auroc_mean": 0.4834,
+   "auroc_std": 0.0718,
+   "auprc_mean": 0.4188,
+   "auprc_std": 0.0542
+  },
+  {
+   "split": "record",
+   "model": "gat",
+   "graph": "physiological",
+   "auroc_mean": 0.4731,
+   "auroc_std": 0.0464,
+   "auprc_mean": 0.4164,
+   "auprc_std": 0.0549
+  },
+  {
+   "split": "record",
+   "model": "lr",
+   "graph": "-",
+   "auroc_mean": 0.2489,
+   "auroc_std": 0.0,
+   "auprc_mean": 0.3016,
+   "auprc_std": 0.0
+  },
+  {
+   "split": "record",
+   "model": "mlp",
+   "graph": "-",
+   "auroc_mean": 0.5459,
+   "auroc_std": 0.0087,
+   "auprc_mean": 0.4745,
+   "auprc_std": 0.0177
   }
  ],
- "folds_md5": "df3ab34d3b196886b7bcee2a9c7c3be1",
+ "folds_md5": "bdca103b341c45024f54f18012f9bc7b",
  "localization": {
-  "interpretation": "информационный след на поверхностных отведениях, не анатомическая локализация очага ЖТ",
-  "leading_group": {
-   "footprint": "precordial",
-   "residual_z": "precordial",
-   "cascade_early10": "precordial",
-   "gnn_oof": "precordial"
+  "interpretation": "усреднение по независимым эпизодам и записям, не анатомическая локализация очага ЖТ",
+  "leading_parameter": {
+   "footprint": "ST",
+   "residual_z": "ST",
+   "cascade": "RR",
+   "gnn_oof": "RR"
   },
-  "leading_group_agree": 4,
-  "earliest_leads": [
-   [
-    "V2",
-    -21.436
-   ],
-   [
-    "V1",
-    -18.436
-   ],
-   [
-    "V3",
-    23.564
-   ],
-   [
-    "I",
-    52.564
-   ]
-  ],
-  "n_involved": 4,
-  "n_early10": 1,
-  "footprint_by_lead": {
-   "I": 0.4915,
-   "II": 0.4237,
-   "III": 0.4746,
-   "AVR": 0.4576,
-   "AVL": 0.5424,
-   "AVF": 0.4915,
-   "V1": 0.7966,
-   "V2": 0.7966,
-   "V3": 0.7458,
-   "V4": 0.1356,
-   "V5": 0.2542,
-   "V6": 0.5085
-  },
-  "residual_z_by_lead": {
-   "I": 1.257,
-   "II": -6.333,
-   "III": -6.545,
-   "AVR": 5.975,
-   "AVL": 6.751,
-   "AVF": -6.444,
-   "V1": 6.112,
-   "V2": 7.065,
-   "V3": 7.592,
-   "V4": -3.948,
-   "V5": -6.752,
-   "V6": -7.81
-  },
-  "spearman": {
-   "latency_vs_footprint": -0.9486832980505139,
-   "latency_vs_residual": -0.4,
-   "footprint_vs_residual": 0.5929861064200157
-  },
-  "by_group": [
+  "leading_parameter_agree": 2,
+  "n_points": 124,
+  "n_involved": 52,
+  "by_parameter": [
    {
-    "group": "limb",
-    "footprint": 0.4802,
-    "residual_z": -0.8898,
-    "latency_min": 52.5642,
-    "gnn": 0.1546,
-    "n": 6,
-    "n_early": 0
+    "parameter": "RR",
+    "n_points": 31,
+    "n_involved": 13,
+    "latency_median": -118.4708,
+    "footprint": 0.0129,
+    "residual_z": -4.2026,
+    "gnn": 0.6379
    },
    {
-    "group": "precordial",
-    "footprint": 0.5395,
-    "residual_z": 0.3764,
-    "latency_min": -21.4358,
-    "gnn": 0.6608,
-    "n": 6,
-    "n_early": 1
+    "parameter": "PR",
+    "n_points": 31,
+    "n_involved": 14,
+    "latency_median": -90.1848,
+    "footprint": 0.0143,
+    "residual_z": 24.9866,
+    "gnn": 0.6379
+   },
+   {
+    "parameter": "ST",
+    "n_points": 31,
+    "n_involved": 13,
+    "latency_median": -118.4708,
+    "footprint": 0.2604,
+    "residual_z": 45.1365,
+    "gnn": 0.5972
+   },
+   {
+    "parameter": "QRS_axis",
+    "n_points": 31,
+    "n_involved": 12,
+    "latency_median": -113.1873,
+    "footprint": 0.1078,
+    "residual_z": -3.1492,
+    "gnn": 0.5972
    }
   ]
  },
- "runtime_s": 19.3
+ "runtime_s": 17.4
 }

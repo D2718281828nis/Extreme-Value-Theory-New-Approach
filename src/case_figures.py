@@ -7,7 +7,7 @@ Outputs (figures/):
     stepN_<name>.png          one step, four subplots A | B | C | D (visual comparison across domains)
     <case>_six_steps.png      one case, all six steps as 2x3 subplots
     all_steps_grid.png        6 rows (steps) x 4 columns (cases)
-    D_graph_construction.png  ECG features, lead correlation and three explicit edge sets
+    D_graph_construction.png  four ECG-derived series, correlations and three explicit edge sets
     <case>_summary.json       the numbers quoted in examples/<case>/README.md
 """
 from __future__ import annotations
@@ -90,19 +90,17 @@ def p_data(ax, c):
 
 
 def _ecg_graph(ax, c, edges, title, alpha=0.35):
-    pos = {}
-    for i in range(6):
-        pos[i] = (np.linspace(0.08, 0.92, 6)[i], 0.68)
-        pos[i + 6] = (np.linspace(0.08, 0.92, 6)[i], 0.32)
+    pos = {0: (.25, .68), 1: (.75, .68), 2: (.25, .32), 3: (.75, .32)}
     for i, j in edges:
-        ax.plot([pos[i][0], pos[j][0]], [pos[i][1], pos[j][1]], color=GREY, lw=.7, alpha=alpha, zorder=1)
+        ax.plot([pos[i][0], pos[j][0]], [pos[i][1], pos[j][1]], color=GREY, lw=.9, alpha=alpha, zorder=1)
+    colors = ["#4c78a8", "#59a14f", "#e08a00", "#b07aa1"]
     for i, name in enumerate(c.nodes):
-        color = "#4c78a8" if c.groups[i] == "limb" else "#59a14f"
-        ax.scatter(*pos[i], s=520, color=color, zorder=3, edgecolor="white", linewidth=.8)
-        ax.text(pos[i][0], pos[i][1], name, ha="center", va="center", fontsize=6.5,
+        ax.scatter(*pos[i], s=700, color=colors[i], zorder=3, edgecolor="white", linewidth=.8)
+        ax.text(pos[i][0], pos[i][1], name.replace("_", "\n"), ha="center", va="center", fontsize=6.5,
                 fontweight="bold", color="white", zorder=5)
-        if np.isfinite(c.onset[i]):
-            ax.scatter(*pos[i], s=800, facecolors="none", edgecolors=RED, linewidths=1.5, zorder=4)
+        node_onset = c.onset if c.node_onset is None else c.node_onset
+        if np.isfinite(node_onset[i]):
+            ax.scatter(*pos[i], s=980, facecolors="none", edgecolors=RED, linewidths=1.5, zorder=4)
     ax.text(.5, .99, title, ha="center", va="top", fontsize=8, fontweight="bold")
     ax.set_xlim(0, 1); ax.set_ylim(-.02, 1.08); ax.axis("off")
 
@@ -110,15 +108,15 @@ def _ecg_graph(ax, c, edges, title, alpha=0.35):
 def p_graph_ecg(ax, c):
     ax.set_xlim(0, 1); ax.set_ylim(0, 1); ax.axis("off")
     edges = c.graph_variants["functional"]
-    ax.text(.01, .99, "12 nodes = 12 ECG leads · functional graph from baseline signals",
+    ax.text(.01, .99, "4 nodes = RR · PR · ST · QRS axis · functional graph from baseline series",
             transform=ax.transAxes, fontsize=7.4, va="top", color=INK)
-    ax.text(.99, .92, "blue = limb · green = precordial · red ring = recruited",
+    ax.text(.99, .92, "RR/PR/ST from lead II · QRS axis from I + aVF · red ring = recruited",
             transform=ax.transAxes, fontsize=6.2, va="top", ha="right", color=GREY)
     sub = ax.inset_axes([.03, .20, .94, .66])
-    _ecg_graph(sub, c, edges, f"top-3 |corr| of ST shift · {len(edges)} edges", alpha=.5)
-    ax.text(.01, .12, "node = one lead (I, II, III, aVR, aVL, aVF, V1–V6); features are used only to build edges",
+    _ecg_graph(sub, c, edges, f"top-1 |corr| of four baseline series · {len(edges)} edges", alpha=.65)
+    ax.text(.01, .12, "physiological alternative: RR–PR and ST–QRS axis; kNN alternative uses five node features",
             transform=ax.transAxes, fontsize=6.5, color=INK)
-    ax.text(.01, .05, "alternatives: structural (30 edges) and feature-kNN (24 edges) — detailed in D_graph_construction.png",
+    ax.text(.01, .05, "the axis uses circular deviations; EVT uses sin/cos to avoid an artificial ±180° jump",
             transform=ax.transAxes, fontsize=6.5, color=INK)
 
 
@@ -184,7 +182,8 @@ def p_when(ax, c):
 def p_where(ax, c):
     ev = c.evidence.copy()
     cols = list(ev.columns)
-    agree = sum(ev[k].idxmax() == c.source for k in cols)
+    available = [k for k in cols if ev[k].notna().any()]
+    agree = sum(ev[k].idxmax() == c.source for k in available)
     ev["_m"] = ev[cols[-1]].fillna(-1) + 1e-3 * ev[cols[:-1]].mean(axis=1, skipna=True)
     ev = ev.sort_values("_m", ascending=False).head(7).iloc[::-1]
     h = 0.8 / len(cols)
@@ -212,60 +211,27 @@ def p_where(ax, c):
             lab.set_color(ORANGE)
             lab.set_fontweight("bold")
     ax.set_xlim(0, 1.05)
-    ax.set_xlabel(f"evidence (min-max over groups) · top-1 agreement {agree}/{len(cols)} lines")
+    ax.set_xlabel(f"evidence (min-max over groups) · top-1 agreement {agree}/{len(available)} available lines")
     ax.legend(fontsize=6, loc="upper center", bbox_to_anchor=(0.45, -0.2), handlelength=1, ncol=1)
 
 
-def p_result_ecg(ax, c):
-    """Event cascade as the measured RR/ST/PR parameters themselves; no artificial not-recruited labels."""
-    ax.axis("off"); t = c.heat_t - c.det_t
-    st, pr, pq = c.series["st"], c.series["pr"], c.series["pq"]
-    hr, cv = c.series["hr"], c.series["rr_cv"]
-    boxes = [[.02, .76, .93, .21], [.02, .51, .93, .21], [.02, .26, .93, .21], [.02, .01, .93, .21]]
-    a0, a1, a2, a3 = [ax.inset_axes(b) for b in boxes]
-    for a in [a0, a1, a2, a3]:
-        a.axvline(0, color=RED, lw=.9)
-        a.axvline(c.event_t - c.det_t, color=INK, ls="--", lw=.7)
-        a.set_xlim(t[0], t[-1]); a.tick_params(labelsize=5.5)
-    a0.plot(t, hr, color="#4c78a8", lw=.8, label="heart rate")
-    a0.plot(t, cv * 100, color=ORANGE, lw=.7, label="RR-CV × 100")
-    a0.set_ylabel("bpm / CV×100", fontsize=6); a0.legend(fontsize=5.5, ncol=2, loc="upper left")
-    colors = plt.cm.tab20(np.linspace(0, 1, 12))
-    for j in range(12):
-        a1.plot(t, st[:, j], color=colors[j], lw=.55, alpha=.85)
-    for j in range(12):
-        if np.isfinite(c.onset[j]):
-            a1.scatter(c.onset[j], st[np.argmin(np.abs(t - c.onset[j])), j], s=20,
-                       facecolors="white", edgecolors=RED, linewidths=1, zorder=4)
-    a1.set_ylabel("ST, mV", fontsize=6)
-    a1.text(.01, .93, "all 12 leads · circles = strict ST cascade", transform=a1.transAxes, fontsize=5.8, va="top")
-    reliable = np.where(pq > 3, pr, np.nan)
-    for j in range(12):
-        a2.plot(t, reliable[:, j], color=colors[j], lw=.5, alpha=.65)
-    a2.set_ylabel("P–R proxy, s", fontsize=6)
-    a2.text(.01, .93, "shown only where P quality > 3", transform=a2.transAxes, fontsize=5.8, va="top")
-    for j in range(12):
-        a3.plot(t, pq[:, j], color=colors[j], lw=.5, alpha=.65)
-    a3.axhline(3, color=ORANGE, ls="--", lw=.7)
-    a3.set_ylabel("P quality", fontsize=6); a3.set_xlabel("time from EVT detection, s", fontsize=6)
-    a3.set_ylim(0, 15)
-
-
 def p_result(ax, c):
-    if c.key == "D":
-        return p_result_ecg(ax, c)
     on = np.asarray(c.onset, float)
     grp = np.asarray(c.groups)
-    names = [g for g in dict.fromkeys(grp) if np.isfinite(on[grp == g]).any()]
-    med = {g: np.nanmedian(on[grp == g]) for g in names}
-    names = sorted(names, key=lambda g: np.nanmin(on[grp == g]))[:8][::-1]
+    groups = list(dict.fromkeys(grp))
+    if c.key == "D":
+        names = groups
+    else:
+        names = [g for g in groups if np.isfinite(on[grp == g]).any()]
+        names = sorted(names, key=lambda g: np.nanmin(on[grp == g]))[:8][::-1]
     rng = np.random.default_rng(0)
     for k, g in enumerate(names):
         v = on[grp == g]
         v = v[np.isfinite(v)]
         col = RED if g == c.source else "#4c78a8"
-        ax.scatter(v, k + rng.uniform(-0.22, 0.22, len(v)), s=10, color=col, alpha=0.75, lw=0)
-        ax.plot([v.min(), v.min()], [k - 0.35, k + 0.35], color=col, lw=2)
+        if len(v):
+            ax.scatter(v, k + rng.uniform(-0.22, 0.22, len(v)), s=10, color=col, alpha=0.75, lw=0)
+            ax.plot([v.min(), v.min()], [k - 0.35, k + 0.35], color=col, lw=2)
     ax.axvline(0, color=RED, lw=1.2)
     ax.set_yticks(range(len(names)))
     ax.set_yticklabels([f"{g} (n={int(np.isfinite(on[grp == g]).sum())})" for g in names], fontsize=7.5)
@@ -273,46 +239,55 @@ def p_result(ax, c):
         if lab.get_text().startswith(c.source + " ("):
             lab.set_color(RED)
             lab.set_fontweight("bold")
+    if c.key == "D":
+        if np.isfinite(on).any():
+            lo, hi = np.nanmin(on), np.nanmax(on); pad = max(2, .03 * (hi - lo))
+            ax.set_xlim(lo - pad, hi + pad)
+        else:
+            ax.set_xlim(-120, 10)
+            ax.text(.5, .5, "no parameter passes |z| > 6\nfor 2 consecutive 250 ms windows",
+                    transform=ax.transAxes, ha="center", va="center", fontsize=8, color=GREY)
     unit = {"cycle": "cycles", "s": "s", "trading day": "days"}[c.time_unit]
     verdict = "same" if c.source_mean == c.source else f"DIFFERENT («{c.source_mean}»)"
-    ax.set_xlabel(f"node onset − detected time, {unit}\nGraph-EVT-agent source: «{c.source}» · plain mean rule: {verdict}", color=INK)
+    origin = "annotated VT onset" if c.key == "D" else "detected time"
+    ax.set_xlabel(f"node onset − {origin}, {unit}\nGraph-EVT-agent source: «{c.source}» · plain mean rule: {verdict}", color=INK)
 
 
 PANELS = {"task": p_task, "data": p_data, "graph": p_graph, "when": p_when, "where": p_where, "result": p_result}
 
 
 def graph_construction(c):
-    """Detailed ECG graph provenance: features and baseline correlation become three explicit edge sets."""
+    """Detailed ECG graph provenance: four derived series and three explicit edge sets."""
     fig = plt.figure(figsize=(17, 9))
     gs = fig.add_gridspec(2, 3, height_ratios=[1.05, 1])
     ax = fig.add_subplot(gs[0, 0]); ax.axis("off")
     ax.text(.02, .98,
-            "12 ECG leads, 257 Hz\n"
+            "Raw 12-lead ECG, 257 Hz\n"
             "        ↓  0.5–45 Hz filter\n"
-            "R peaks on lead II (signal only)\n"
-            "        ↓  causal 4 s rhythm windows\n"
-            "heart rate + negative RR-CV\n"
-            "        +  per-second ST shift for each lead\n"
+            "R peaks and delineation on lead II\n"
             "        ↓\n"
-            "14 state-indicator features\n\n"
-            "Functional edges: ST shift, 0–400 s\n"
-            "kNN edges: 15 standardized pre-event node features\n"
-            "Structural edges: known lead groups",
+            "RR + PR + ST elevation (II)\n"
+            "QRS axis = atan2(net QRS area aVF, I)\n"
+            "        ↓  per-second beat medians\n"
+            "4 nodes = 4 physiological series\n\n"
+            "Functional edges: top-1 baseline |corr|\n"
+            "kNN edges: top-1 over 5 node features\n"
+            "Physiological edges: RR–PR, ST–QRS axis",
             transform=ax.transAxes, va="top", fontsize=10, color=INK, linespacing=1.45,
             bbox=dict(boxstyle="round,pad=.6", facecolor="#f5f6f7", edgecolor=GREY))
     ax = fig.add_subplot(gs[0, 1:])
     im = ax.imshow(c.graph_corr, vmin=0, vmax=1, cmap="viridis", interpolation="nearest")
-    ax.set_xticks(range(12), c.nodes, fontsize=8); ax.set_yticks(range(12), c.nodes, fontsize=8)
-    ax.set_title("Absolute correlation of baseline ST shift (0–400 s)")
+    ax.set_xticks(range(4), c.nodes, fontsize=8); ax.set_yticks(range(4), c.nodes, fontsize=8)
+    ax.set_title("Absolute correlation of four baseline series (0–400 s)")
     fig.colorbar(im, ax=ax, fraction=.025, pad=.02, label="|corr|")
     for i, (name, edges) in enumerate(c.graph_variants.items()):
         ax = fig.add_subplot(gs[1, i])
-        rule = {"structural": "complete within limb and precordial groups",
-                "functional": "each lead keeps top-3 |corr| neighbours",
-                "knn": "each lead keeps top-3 feature neighbours"}[name]
-        _ecg_graph(ax, c, edges, f"{name}: {len(edges)} edges\n{rule}", alpha=.18 if name == "structural" else .45)
-    fig.suptitle("D · ECG graph construction: from 12 leads and features to three graphs", fontsize=14, fontweight="bold")
-    fig.text(.5, .012, "blue = limb leads · green = precordial leads · red rings = recruited aVF and I",
+        rule = {"physiological": "RR–PR and ST–QRS axis",
+                "functional": "each node keeps top-1 |corr| neighbour",
+                "knn": "each node keeps top-1 feature neighbour"}[name]
+        _ecg_graph(ax, c, edges, f"{name}: {len(edges)} edges\n{rule}", alpha=.65)
+    fig.suptitle("D · ECG graph construction: four physiological time series", fontsize=14, fontweight="bold")
+    fig.text(.5, .012, "RR, PR and ST: lead II · QRS axis: I + aVF · circular axis processing",
              ha="center", fontsize=9, color=GREY)
     fig.tight_layout(rect=[0, .035, 1, .97])
     fig.savefig(OUT / "D_graph_construction.png", bbox_inches="tight")

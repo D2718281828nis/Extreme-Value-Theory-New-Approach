@@ -1,54 +1,52 @@
 {
  "record": "I42",
- "detected_s": 464.0,
+ "detected_s": 450.0,
  "annotation_s": 468.43579766536965,
- "dt_detect_minus_annotation_s": -4.435797665369648,
- "pot_threshold": 5.0179394439173866,
- "n_leads": 12,
- "n_involved": 4,
+ "dt_detect_minus_annotation_s": -18.43579766536965,
+ "pot_threshold": 6.165638905201908,
+ "n_records": 75,
+ "n_records_with_vt": 8,
+ "n_vt_episodes": 31,
+ "n_result_points": 52,
+ "n_parameters": 4,
+ "n_involved": 52,
  "graph_edges": {
-  "structural": 30,
-  "functional": 28,
-  "knn": 25
+  "physiological": 2,
+  "functional": 3,
+  "knn": 3
  },
  "graph_jaccard": {
-  "structural-functional": 0.48717948717948717,
-  "structural-knn": 0.30952380952380953,
-  "functional-knn": 0.358974358974359
+  "physiological-functional": 0.25,
+  "physiological-knn": 0.6666666666666666,
+  "functional-knn": 0.5
  },
- "agent_source": "precordial",
- "mean_rule_source": "precordial",
- "earliest_leads": [
-  [
-   "V2",
-   -21.436
-  ],
-  [
-   "V1",
-   -18.436
-  ],
-  [
-   "V3",
-   23.564
-  ],
-  [
-   "I",
-   52.564
-  ]
- ],
+ "agent_source": "RR",
+ "mean_rule_source": "RR",
+ "involved_by_parameter": {
+  "RR": 13,
+  "PR": 14,
+  "ST": 13,
+  "QRS_axis": 12
+ },
  "qrs_reference_coverage_80ms": 0.9993567063364426,
  "evidence": {
-  "EVT cascade (earliest onset)": {
-   "limb": 0.0,
-   "precordial": 1.0
+  "EVT cascade (median onset)": {
+   "RR": 1.0,
+   "PR": 0.0,
+   "ST": 1.0,
+   "QRS_axis": 0.813
   },
   "Event footprint (share > EVT thr)": {
-   "limb": 0.0,
-   "precordial": 1.0
+   "RR": 0.0,
+   "PR": 0.006,
+   "ST": 1.0,
+   "QRS_axis": 0.384
   },
-  "GAT node score (lead CV)": {
-   "limb": 0.0,
-   "precordial": 1.0
+  "GAT node score (record CV)": {
+   "RR": 1.0,
+   "PR": 1.0,
+   "ST": 0.0,
+   "QRS_axis": 0.001
   }
  }
 }

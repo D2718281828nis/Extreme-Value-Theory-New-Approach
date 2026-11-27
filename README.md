@@ -18,7 +18,7 @@ case has the same six-step structure and figure types, so the domains can be com
 | **A** Aviation — turbofan engine failure | [`examples/A_aviation`](examples/A_aviation/README.md) | [`figures/A_six_steps.png`](figures/A_six_steps.png) |
 | **B** Medicine — seizure in sEEG | [`examples/B_brain`](examples/B_brain/README.md) | [`figures/B_six_steps.png`](figures/B_six_steps.png) |
 | **C** Finance — S&P 500 stress | [`examples/C_finance`](examples/C_finance/README.md) | [`figures/C_six_steps.png`](figures/C_six_steps.png) |
-| **D** ECG — ventricular tachycardia in INCART I42 | [`examples/D_ecg`](examples/D_ecg/README.md) | [`D_six_steps.png`](figures/D_six_steps.png), [`D_graph_construction.png`](figures/D_graph_construction.png), [`D_parameter_cascade.png`](figures/D_parameter_cascade.png) |
+| **D** ECG — 31 VT episodes across 75 INCART recordings | [`examples/D_ecg`](examples/D_ecg/README.md) | [`D_six_steps.png`](figures/D_six_steps.png), [`D_graph_construction.png`](figures/D_graph_construction.png), [`D_parameter_cascade.png`](figures/D_parameter_cascade.png) |
 
 Steps: 1 task · 2 data · 3 Graph-EVT-agent application · 4 how the event point (WHEN) is found ·
 5 how the source (WHERE) is found · 6 demonstration. Cross-domain comparison per step:
@@ -155,9 +155,9 @@ python scripts/run_all.py --quick --only finance
 
 Entry point: [`src/finance_sp500_pipeline.py`](src/finance_sp500_pipeline.py).
 
-### 4. ECG: ventricular tachycardia in one 12-lead recording
+### 4. ECG: ventricular tachycardia across 75 INCART recordings
 
-The ECG adapter follows the single-record brain design. Raw ECG is transformed into heart rate, RR variability and per-lead ST shifts before graph construction and EVT analysis. POT alarms at 464 s and GEV at 440 s; the strict ST cascade starts in V2 and V1, then V3 and I. A P–R proxy is reported with an explicit quality warning because INCART has no P-wave delineation. These are exploratory single-record findings, not independently validated prediction performance.
+The ECG adapter uses all **75 INCART recordings**, downloaded and SHA-256-verified by the data script. Eight recordings contain 31 eligible VT episodes. Raw ECG becomes exactly four nodes per episode: RR, clinical PR and ST elevation from lead II, plus the frontal QRS axis from I and aVF. The 6-MAD/two-250-ms-window cascade yields **52 episode-parameter recruitment points**. Record-grouped validation keeps episodes from the same recording out of both train and test; physiological GAT does not beat the empty graph (AUROC 0.473 ± 0.046 versus 0.458 ± 0.017). I42 is retained only for representative signal figures.
 
 ```bash
 python scripts/fetch_data.py --only incart
@@ -171,9 +171,9 @@ Entry point: [`src/ecg_incart_pipeline.py`](src/ecg_incart_pipeline.py). Worked 
 ```text
 src/common.py                    shared Graph-EVT application primitives, incl. the shared detector common.detect
 config/systems.json              R1-protected detector specification for the three original systems
-config/ecg.json                  detector specification for the single-record ECG example
+config/ecg.json                  detector specification for the multi-record ECG example
 src/brain_seeg_pipeline.py       brain adapter and experiment
-src/ecg_incart_pipeline.py       single-record ECG: RR + ST transformation, graph and EVT experiment
+src/ecg_incart_pipeline.py       75-record ECG → four series per episode, graphs, EVT and recruitment points
 src/aviation_cmapss_pipeline.py  aviation adapter and experiment
 src/finance_sp500_pipeline.py    finance adapter and experiment
 src/folds.py                     platform-independent fold composition
@@ -202,7 +202,7 @@ Large datasets are not committed. `scripts/fetch_data.py` obtains public copies 
   dataset is already available).
 * **Aviation:** NASA C-MAPSS `FD001` and `FD003`.
 * **Finance:** the five-year S&P 500 dataset and a pinned 2018 GICS constituent table.
-* **Additional ECG case:** INCART v1.0.0, DOI `10.13026/C2V88N`; only `I42.dat/.hea/.atr`, downloaded separately with `--only incart`.
+* **Additional ECG case:** INCART v1.0.0, DOI `10.13026/C2V88N`; all 75 records `I01–I75.dat/.hea/.atr` plus the official SHA-256 manifest, downloaded separately with `--only incart`.
 
 Paths can be overridden in `.env`; see [`.env.example`](.env.example) and [`config/paths.json`](config/paths.json).
 Exact data hashes, expected runtimes, numerical reproducibility notes, and the research-result protocol are

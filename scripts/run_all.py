@@ -2,7 +2,7 @@
 
     python scripts/run_all.py                      # проверка данных → мозг → двигатель → рынок → рисунки → сверка
     python scripts/run_all.py --only brain         # один шаг: brain | ecg | aviation | finance | figures | compare
-    python scripts/run_all.py --only ecg           # дополнительный пример ЭКГ INCART I42
+    python scripts/run_all.py --only ecg           # дополнительный пример ЭКГ INCART I01–I75
     python scripts/run_all.py --only aviation --jobs 1   # пример 2 в одном процессе (по умолчанию — в двух)
     python scripts/run_all.py --quick              # быстрая проверка, что окружение работает (1 затравка, мало эпох)
 
@@ -205,7 +205,7 @@ def main() -> int:
                 run(["brain_seeg_pipeline.py", "--data", str(P.find_seeg_derived()), "--out", str(out_root / "brain"), *q["brain"]],
                     logs / "brain.log")
         elif s == "ecg":
-            with pb.step("Graph-EVT дополнительный пример: ЭКГ INCART I42", e["ecg"]):
+            with pb.step("Graph-EVT дополнительный пример: ЭКГ INCART I01–I75", e["ecg"]):
                 run(["ecg_incart_pipeline.py", "--data", str(P.incart_dir()), "--out", str(out_root / "ecg"), *q["ecg"]],
                     logs / "ecg.log")
         elif s == "aviation":

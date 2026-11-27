@@ -49,3 +49,7 @@ python src/brain_seeg_pipeline.py \
 Команды выполняются из корня репозитория. На Windows замените активацию окружения на `.venv\Scripts\Activate.ps1`. Результаты записываются в `results_quick/brain_toy/`.
 
 Наборы авиации и финансов не заменяются: их по-прежнему получает `scripts/fetch_data.py` из указанных в основном README источников.
+
+## ЭКГ INCART / ECG INCART
+
+`python scripts/fetch_data.py --only incart` скачивает в `data/INCART` все **75 записей** `I01–I75` (`.dat`, `.hea`, `.atr`) и официальный `SHA256SUMS.txt`. Всего 225 файлов, около 798 МБ; каждый файл проверяется по SHA-256. Производные четырёх рядов RR/PR/ST/QRS-axis кэшируются в `data/INCART/derived/`. Данные и кэш не коммитятся в git.
